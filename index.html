@@ -8,6 +8,14 @@
     </head>
 
     <body style="margin: 0; overflow: hidden;">
+
+        <a-assets>
+            <a-asset-item
+                id="immagine"
+                src="assets/asset.gltf"
+            ></a-asset-item>
+        </a-assets>
+
         <a-scene
             vr-mode-ui="enabled: false;"
             loading-screen="enabled: false;"
@@ -17,7 +25,6 @@
             gesture-detector
         >
             <a-marker
-                id="animated-marker"
                 type="pattern"
                 preset="custom"
                 url="assets/marker.patt"
@@ -26,14 +33,21 @@
                 cursor="fuse: false; rayOrigin: mouse;"
                 id="markerA"
             >
-            <a-asset-item id="scene" src="assets/asset.gltf"></a-asset-item>
-             <!--   <a-image
-                    src="assets/asset.png"
-                    scale="1 1 1"
+            
+                <a-entity
+                    id="entita"
+                    scale="0.1 0.1 0.1"
+                    gltf-model="#immagine"
                     class="clickable"
-                    rotation="-90 0 0"
                     gesture-handler
-                ></a-image>-->
+                ></a-entity>
+                <!--   <a-image
+                        src="assets/asset.png"
+                        scale="1 1 1"
+                        class="clickable"
+                        rotation="-90 0 0"
+                        gesture-handler
+                    ></a-image>-->
             </a-marker>
 
             <a-entity camera></a-entity>
