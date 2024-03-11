@@ -14,6 +14,10 @@
                 id="immagine"
                 src="assets/asset.gltf"
             ></a-asset-item>
+            <a-asset-item
+            id="depth"
+            src="assets/assetDepth.gltf"
+        ></a-asset-item>
         </a-assets>
 
         <a-scene
@@ -33,22 +37,36 @@
                 cursor="fuse: false; rayOrigin: mouse;"
                 id="markerA"
             >
-            
+
                 <a-entity
-                    id="entita"
-                    scale="0.1 0.1 0.1"
-                    gltf-model="#immagine"
+                    id="profondita"
+                    scale="0.2 0.2 0.2"
+                    gltf-model="#depth"
                     class="clickable"
                     gesture-handler
                 ></a-entity>
-                <!--   <a-image
-                        src="assets/asset.png"
-                        scale="1 1 1"
-                        class="clickable"
-                        rotation="-90 0 0"
-                        gesture-handler
-                    ></a-image>-->
+
             </a-marker>
+
+            <a-marker
+            type="pattern"
+            preset="custom"
+            url="assets/default-marker.patt"
+            raycaster="objects: .clickable"
+            emitevents="true"
+            cursor="fuse: false; rayOrigin: mouse;"
+            id="markerA"
+        >
+        
+            <a-entity
+                id="entita"
+                scale="0.1 0.1 0.1"
+                gltf-model="#immagine"
+                class="clickable"
+                gesture-handler
+            ></a-entity>
+
+        </a-marker>
 
             <a-entity camera></a-entity>
         </a-scene>
