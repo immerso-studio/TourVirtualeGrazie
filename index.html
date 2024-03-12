@@ -7,6 +7,47 @@
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
     </head>
 
+
+
+    <script>
+        // Function to store marker position in local storage
+        function storeMarkerPosition(markerId, position) {
+            localStorage.setItem(markerId + '-position', JSON.stringify(position));
+        }
+
+        // Function to retrieve marker position from local storage (if available)
+        function getStoredMarkerPosition(markerId) {
+            const storedPosition = localStorage.getItem(markerId + '-position');
+            if (storedPosition) {
+                return JSON.parse(storedPosition);
+            } else {
+                return null;
+            }
+        }
+
+        AFrame.registerComponent('marker', {
+            init: function () {
+                const marker = this.el;
+                const markerId = marker.getAttribute('markerId');
+
+                // Check for stored position on marker recognition
+                const storedPosition = getStoredMarkerPosition(markerId);
+                if (storedPosition) {
+                    marker.object3D.position.set(storedPosition.x, storedPosition.y, storedPosition.z);
+                } else {
+                    // If no stored position, use current position on first recognition
+                    const currentPosition = marker.object3D.position;
+                    storeMarkerPosition(markerId, currentPosition);
+                }
+            }
+        });
+    </script>
+
+
+
+
+
+
     <body style="margin: 0; overflow: hidden;">
 
         <a-assets>
