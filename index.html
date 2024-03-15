@@ -25,16 +25,16 @@
 
 
 
-        <a-assets>
-            <a-asset-item
+        <b-assets>
+            <b-asset-item
                 id="immagine"
                 src="assets/piece8/asset.glb"
-            ></a-asset-item>
-            <a-asset-item
+            ></b-asset-item>
+            <b-asset-item
             id="depth"
             src="assets/piece8/asset.glb"
-        ></a-asset-item>
-        </a-assets>
+        ></b-asset-item>
+        </b-assets>
 
 
         <a-scene
@@ -68,7 +68,22 @@
 
 
 
-            <a-marker
+            <a-entity camera></a-entity>
+        </a-scene>
+
+
+
+
+
+        <b-scene
+        vr-mode-ui="enabled: false;"
+        loading-screen="enabled: false;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+        id="scene"
+        embedded
+        gesture-detector
+    >
+        <b-marker
             type="pattern"
             preset="custom"
             url="assets/piece8/marker.patt"
@@ -79,21 +94,20 @@
         >
 
 
-            <a-entity
+            <b-entity
                 id="profondita"
                 scale="1 1 1"
                 gltf-model="#depth"
                 class="clickable"
                 gesture-handler
-            ></a-entity>
+            ></b-entity>
 
-        </a-marker>
+        </b-marker>
 
 
 
-            <a-entity camera></a-entity>
-        </a-scene>
-
+        <b-entity camera></b-entity>
+    </b-scene>
 
 
     </body>
