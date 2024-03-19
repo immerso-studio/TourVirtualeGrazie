@@ -17,8 +17,26 @@
               const model = document.getElementById(modelId);
               model.setAttribute('position', model.getAttribute('position'));
               model.setAttribute('rotation', model.getAttribute('rotation'));
+              
+              // Start the fade timer (new code)
+              startFadeTimer(modelId);
+            }
+          
+            function startFadeTimer(modelId) {
+              let fadeTime = 3000; // Adjust fade duration in milliseconds (3 seconds here)
+              let opacity = 1;
+              let fadeInterval = setInterval(() => {
+                opacity -= 0.05; // Adjust fade step (smaller for slower fade)
+                if (opacity <= 0) {
+                  document.getElementById(modelId).setAttribute('visible', false);
+                  clearInterval(fadeInterval);
+                } else {
+                  document.getElementById(modelId).setAttribute('material.opacity', opacity);
+                }
+              }, 50); // Adjust fade interval in milliseconds (50 here for smooth fade)
             }
           </script>
+          
           
 
         <a-assets>
@@ -59,6 +77,9 @@
                 emitevents="true"
                 cursor="fuse: false; rayOrigin: mouse;"
                 id="markerA"
+                markerfound="resetModelOpacity('profondita')"
+                markerlost="startFadeTimer('profondita')"
+  
             >
 
 
@@ -82,6 +103,8 @@
             emitevents="true"
             cursor="fuse: false; rayOrigin: mouse;"
             id="markerA"
+            markerfound="resetModelOpacity('profondita2')"
+            markerlost="startFadeTimer('profondita2')"
         >
 
 
