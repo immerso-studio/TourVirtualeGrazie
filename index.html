@@ -11,6 +11,16 @@
 
     <body style="margin: 0; overflow: hidden;">
 
+
+        <script>
+            function freezeModel(modelId) {
+              const model = document.getElementById(modelId);
+              model.setAttribute('position', model.getAttribute('position'));
+              model.setAttribute('rotation', model.getAttribute('rotation'));
+            }
+          </script>
+          
+
         <a-assets>
             <a-asset-item
                 id="immagine"
@@ -58,6 +68,7 @@
                     gltf-model="#depth"
                     class="clickable"
                     gesture-handler
+                    click="freezeModel('profondita')"
                 ></a-entity>
 
             </a-marker>
@@ -80,6 +91,7 @@
                 gltf-model="#depth2"
                 class="clickable"
                 gesture-handler
+                click="freezeModel('profondita2')"
             ></a-entity>
 
         </a-marker>
