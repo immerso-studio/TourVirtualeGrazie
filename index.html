@@ -23,7 +23,7 @@
             }
           
             function startFadeTimer(modelId) {
-              let fadeTime = 3000; // Adjust fade duration in milliseconds (3 seconds here)
+              let fadeTime = 30000; // Adjust fade duration in milliseconds (3 seconds here)
               let opacity = 1;
               let fadeInterval = setInterval(() => {
                 opacity -= 0.05; // Adjust fade step (smaller for slower fade)
@@ -85,7 +85,7 @@
 
                 <a-entity
                     id="profondita"
-                    scale="1 1 1"
+                    scale="10 10 10"
                     gltf-model="#depth"
                     class="clickable"
                     gesture-handler="0 0 0"
@@ -110,7 +110,7 @@
 
             <a-entity
                 id="profondita2"
-                scale="1 1 1"
+                scale="10 10 10"
                 gltf-model="#depth2"
                 class="clickable"
                 gesture-handler="0 0 0"
