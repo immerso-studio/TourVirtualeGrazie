@@ -3,6 +3,7 @@
     <head>
         <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+        <script src="https://rawcdn.githack.com/artoolkitx/js-aruco/master/dist/aruco.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
     </head>
@@ -12,30 +13,9 @@
     <body style="margin: 0; overflow: hidden;">
 
 
-        <script>
-            function freezeModel(modelId) {
-              const model = document.getElementById(modelId);
-              model.setAttribute('position', model.getAttribute('position'));
-              model.setAttribute('rotation', model.getAttribute('rotation'));
-              
-              // Start the fade timer (new code)
-              startFadeTimer(modelId);
-            }
-          
-            function startFadeTimer(modelId) {
-              let fadeTime = 30000; // Adjust fade duration in milliseconds (3 seconds here)
-              let opacity = 1;
-              let fadeInterval = setInterval(() => {
-                opacity -= 0.05; // Adjust fade step (smaller for slower fade)
-                if (opacity <= 0) {
-                  document.getElementById(modelId).setAttribute('visible', false);
-                  clearInterval(fadeInterval);
-                } else {
-                  document.getElementById(modelId).setAttribute('material.opacity', opacity);
-                }
-              }, 50); // Adjust fade interval in milliseconds (50 here for smooth fade)
-            }
-          </script>
+        <a-assets>
+            <a-asset-item id="arucoMarker" src="assets/piece24-aruco/4x4_1000-1.svg"></a-asset-item>
+          </a-assets>
           
           
 
@@ -72,7 +52,7 @@
             <a-marker
                 type="pattern"
                 preset="custom"
-                url="assets/piece22/marker.patt"
+                url="assets/piece24-aruco/4x4_1000-1.svg"
                 raycaster="objects: .clickable"
                 emitevents="true"
                 cursor="fuse: false; rayOrigin: mouse;"
