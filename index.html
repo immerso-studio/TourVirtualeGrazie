@@ -7,7 +7,8 @@
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
         <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
         <style>
-body {
+
+  body {
         height: 100%;
         margin: 0 !important;
         padding: 0;
@@ -104,10 +105,12 @@ body {
 
 
 #welcomeScreen {
-	max-height: 100vh;
-	z-index: 100 !important;
-	margin-top: -110px;
-	margin-left: 18px;
+    z-index: 100;
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: block; 
 }
 
 .fadeOut {
@@ -134,7 +137,7 @@ body {
 	max-width: 100vw;
 	justify-content: center;
 	color: #000000;
-	
+	margin-bottom: 60vh;
 }
 
 #welcome-header {
@@ -218,7 +221,7 @@ h4 {
 	
 	
 }
-	</style>
+</style>
     </head>
 
 
@@ -243,7 +246,6 @@ h4 {
 <div id="welcomeScreen">
     <video autoplay loop muted playsinline id="backgroundVideo">
         <source src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/lotus_bg.mp4" type="video/mp4">
-        Your browser does not support the video tag.
     </video>
     <div id="welcomeContent">
         <div id="welcome-header">
@@ -265,7 +267,7 @@ h4 {
     </div>
 </div>
 
-	
+
 
        <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -278,7 +280,7 @@ h4 {
         }, 5000);
     });
 </script>
-	
+
 	
 	
  <a-assets>
