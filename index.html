@@ -1,132 +1,96 @@
 <!doctype html>
 <html>
     <head>
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+        <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+        <link rel="stylesheet" href="florebit.css">
     </head>
 
 
 
-    <body style="margin: 0; overflow: hidden;">
+<body style="margin: 0; overflow: hidden;">
+    
+    <div id="header">
+        <div class="header-container">
+                <div class="left">
+                    <img src="/logos/grazie_logo.png" alt="Flore-Bit Logo" id="florebit">
+                </div>
+                <div class="right">
+                    <div class="logo-container">
+                        <img src="/logos/grazie_logo.png" alt="Logo Grazie" id="grazie_logo"></img>
+                        <img src="/logos/edizione_logo.svg" alt="Logo 50esima" id="edizione_logo"></img>
+                        <h1 class="h1head">FLORE-BIT</h1>
+                        <h2 class="h2head">Oltre il gessetto</h2>
+                    </div>
+                </div>
+        </div>        
+    </div>
 
+    
+    <div id="welcomeScreen">
+        <div id="welcomeContent">
+            <div id="welcome-header">
+                <div class="left">
+                    <img src="/logos/grazie_logo.png" alt="Logo Grazie" class="logo_grazie">
+                </div>
+                <div class="right">
+                    <img src="/logos/edizione_logo.svg" alt="Logo 50esima" class="logo_50esima">
+                </div>
+            </div>
 
+            <h1>FLORE-BIT</h1>
+            <h2>Oltre il gessetto</h2>
+            
+    <footer>
+        <h4>Developed by</h4>
+        <img src="path_to_logo.png" alt="Logo" class="logo">
+    </footer>
+
+        </div>
+    </div>
         
 
 
-        <script>
-            function freezeModel(modelId) {
-              const model = document.getElementById(modelId);
-              model.setAttribute('position', model.getAttribute('position'));
-              model.setAttribute('rotation', model.getAttribute('rotation'));
-              
-              // Start the fade timer (new code)
-              startFadeTimer(modelId);
-            }
-          
-            function startFadeTimer(modelId) {
-              let fadeTime = 30000; // Adjust fade duration in milliseconds (3 seconds here)
-              let opacity = 1;
-              let fadeInterval = setInterval(() => {
-                opacity -= 0.05; // Adjust fade step (smaller for slower fade)
-                if (opacity <= 0) {
-                  document.getElementById(modelId).setAttribute('visible', false);
-                  clearInterval(fadeInterval);
-                } else {
-                  document.getElementById(modelId).setAttribute('material.opacity', opacity);
-                }
-              }, 50); // Adjust fade interval in milliseconds (50 here for smooth fade)
-            }
-          </script>
-          
-          
+       <script>
 
-        <a-assets>
-            <a-asset-item
-                id="immagine"
-                src="assets/piece22/asset.glb"
-            ></a-asset-item>
-            <a-asset-item
-            id="depth"
-            src="assets/piece22/asset.glb"
-        ></a-asset-item>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                var welcomeScreen = document.getElementById('welcomeScreen');
+                welcomeScreen.classList.add('fadeOut');
+            }, 5000);
+        });
 
-            <a-asset-item
-                id="immagine2"
-                src="assets/piece23/asset.glb"
-            ></a-asset-item>
-            <a-asset-item
-            id="depth2"
-            src="assets/piece23/asset.glb"
-        ></a-asset-item>
-        </a-assets>
+    </script>
 
+ <a-assets>
+        <a-asset-item id="immagine" src="assets/piece22/asset.glb"></a-asset-item>
+        <a-asset-item id="depth" src="assets/piece22/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine2" src="assets/piece23/asset.glb"></a-asset-item>
+        <a-asset-item id="depth2" src="assets/piece23/asset.glb"></a-asset-item>
+    </a-assets>
 
-
-        <a-scene
-            vr-mode-ui="enabled: false;"
-            loading-screen="enabled: false;"
-            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-            id="scene"
-            embedded
-            gesture-detector
-        >
-            <a-marker
-                type="pattern"
-                preset="custom"
-                url="assets/piece22/marker.patt"
-                raycaster="objects: .clickable"
-                emitevents="true"
-                cursor="fuse: false; rayOrigin: mouse;"
-                id="markerA"
-                markerfound="resetModelOpacity('profondita')"
-                markerlost="startFadeTimer('profondita')"
   
-            >
 
-
-                <a-entity
-                    id="profondita"
-                    scale="4 4 4"
-                    gltf-model="#depth"
-                    class="clickable"
-                    gesture-handler="0 0 0"
-                    click="freezeModel('profondita')"
-                ></a-entity>
-
-            </a-marker>
-
-
-            <a-marker
-            type="pattern"
-            preset="custom"
-            url="assets/piece23/marker.patt"
-            raycaster="objects: .clickable"
-            emitevents="true"
-            cursor="fuse: false; rayOrigin: mouse;"
-            id="markerA"
-            markerfound="resetModelOpacity('profondita2')"
-            markerlost="startFadeTimer('profondita2')"
-        >
-
-
-
-            <a-entity
-                id="profondita2"
-                scale="4 4 4"
-                gltf-model="#depth2"
-                class="clickable"
-                gesture-handler="0 0 0"
-                click="freezeModel('profondita2')"
-            ></a-entity>
-
+     <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+        <a-marker type="pattern" preset="custom" url="assets/piece22/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
+            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita')"></a-entity>
         </a-marker>
-
-
-
-            <a-entity camera></a-entity>
-        </a-scene>
+         
+        <a-marker type="pattern" preset="custom" url="assets/piece23/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita2')" markerlost="startFadeTimer('profondita2')">
+            <a-entity id="profondita2" scale="5 5 5" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita2')"></a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
 
 
 
