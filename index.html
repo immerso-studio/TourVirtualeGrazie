@@ -6,7 +6,222 @@
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
         <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
-        <link rel="stylesheet" href="Florebit.css">
+        <style>
+		@charset "utf-8";
+/* CSS Document */
+
+  body {
+        height: 100%;
+        margin: 0 !important;
+        padding: 0;
+        overflow: hidden;
+	transform: none;
+    }
+
+@font-face {
+    font-family: 'Coaster';
+    src: url("https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/fonts/CoasterSans-Regular.otf") format('truetype');
+}
+
+@font-face {
+    font-family: 'Aber';
+    src: url(https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/fonts/Aber-Mono-Light.otf) format('truetype');
+}
+
+#header {
+    background-color: black; 
+	max-width: 100vw;
+    color: white;
+    min-height: 70px;
+    display: flex;
+    padding: 10px 20px 10px 20px;
+	visibility: hidden; 
+    animation: fadeInDown 0.5s ease-out 5.5s forwards;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px); /* Start slightly above its start position */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+}
+
+.left, .right {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+.left {
+    width: 30%;
+}
+
+#florebit {
+    width: auto; 
+    height: 100px;
+	margin-bottom: -17px;
+}
+
+.right {
+    width: 70%; 
+}
+
+.column {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%;
+	margin-left: -20px;
+}
+
+#grazie_logo, #edizione_logo {
+    width: 40px; 
+    height: auto;
+}
+
+.logo-row {
+    display: flex;
+    justify-content: center; 
+}
+
+.h1head {
+	font-family: Coaster;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 2em;
+}
+
+.h2head {
+	font-family: Aber;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 1em;
+}
+
+
+#welcomeScreen {
+	max-height: 100vh;
+	z-index: 100 !important;
+	margin-top: -110px;
+	margin-left: 18px;
+}
+
+.fadeOut {
+    animation: fadeOutEffect 1s forwards; /* Animation to fade out */
+}
+
+@keyframes fadeOutEffect {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
+}
+
+#backgroundVideo {
+    position: absolute; 
+    bottom: 0;
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: auto; 
+    height: 100vh; 
+    z-index: -100; 
+    background-size: cover; 
+}
+
+#welcomeContent{
+	max-width: 100vw;
+	justify-content: center;
+	color: #000000;
+	
+}
+
+#welcome-header {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+    align-items: center;
+	margin-top: 100px;
+	animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.w_left, .w_right {
+    width: calc(50% - 10px);
+    display: flex; 
+}
+
+.w_left {
+    justify-content: flex-end; 
+	margin-right: 20px;
+}
+
+.w_right {
+    justify-content: flex-start; 
+}
+
+.logo_grazie, .logo_50esima {
+	width: 50%;
+	height: auto;
+}
+
+.contenth1 {
+	font-family: Coaster;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 4em;
+	color: #ffffff;
+	margin-top: 40px;
+	animation: fadeIn 2s ease-out;
+}
+.contenth2 {
+	font-family: Aber;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 1.7em;
+	color: #ffffff;
+	margin-top: -10px !important;
+	animation: fadeIn 2s ease-out;
+}
+
+footer {
+	width: 40%;
+	position: absolute;
+	bottom: 5%;
+	right: 0;
+	animation: fadeIn 2s ease-out;
+}
+
+.logo_immerso {
+	width: 85%;
+	margin-top: 10px;
+}
+
+h4 {
+	font-family: Aber;
+    text-align: left; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 1em;
+	color: #ffffff;
+	
+	
+}
+	</style>
     </head>
 
 
