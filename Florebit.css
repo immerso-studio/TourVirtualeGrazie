@@ -6,17 +6,17 @@
         margin: 0 !important;
         padding: 0;
         overflow: hidden;
-	  transform: none;
+	transform: none;
     }
 
 @font-face {
     font-family: 'Coaster';
-    src: url("CoasterSans-Regular.otf") format('truetype');
+    src: url("https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/fonts/CoasterSans-Regular.otf") format('truetype');
 }
 
 @font-face {
     font-family: 'Aber';
-    src: url(Aber-Mono-Light.otf) format('truetype');
+    src: url(https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/fonts/Aber-Mono-Light.otf) format('truetype');
 }
 
 #header {
