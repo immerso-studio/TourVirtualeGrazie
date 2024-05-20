@@ -1,14 +1,231 @@
 <!doctype html>
 <html>
     <head>
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+         <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+        <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+	    
+<style>
+        
+body {
+    margin: 0;
+    overflow: hidden;
+}       
+
+@font-face {
+    font-family: 'Coaster';
+    src: url("https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/fonts/CoasterSans-Regular.otf") format('truetype');
+}
+
+@font-face {
+    font-family: 'Aber';
+    src: url(https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/fonts/Aber-Mono-Light.otf) format('truetype');
+}
+
+#header {
+    background-color: black; 
+	width: 100vw;
+    color: white;
+    min-height: 70px;
+    display: flex;
+    padding: 10px 20px 10px 20px;
+	visibility: hidden; 
+    animation: fadeInDown 0.5s ease-out 5.5s forwards;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+}
+
+.left, .right {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+.left {
+    width: 30%;
+}
+
+#florebit {
+    width: auto; 
+    height: 100px;
+	margin-bottom: -17px;
+}
+
+.right {
+    width: 70%; 
+}
+
+.column {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%;
+	margin-left: -20px;
+}
+
+#grazie_logo, #edizione_logo {
+    width: 40px; 
+    height: auto;
+}
+
+.logo-row {
+    display: flex;
+    justify-content: center; 
+}
+
+.h1head {
+	font-family: Coaster;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 2em;
+}
+
+.h2head {
+	font-family: Aber;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 1em;
+}
+
+
+#welcomeScreen {
+    z-index: 100;
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    display: block; 
+}
+
+.fadeOut {
+    animation: fadeOutEffect 1s forwards; 
+}
+
+@keyframes fadeOutEffect {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
+}
+
+#backgroundVideo {
+    position: absolute; 
+    bottom: 0;
+    width: 100vw; 
+    height: auto; 
+    z-index: -100; 
+    background-size: cover; 
+}
+
+#welcomeContent{
+	max-width: 100vw;
+	justify-content: center;
+	color: #000000;
+	margin-bottom: 60vh;
+}
+
+#welcome-header {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+    align-items: center;
+	margin-top: 100px;
+	animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.w_left, .w_right {
+    width: calc(50% - 10px);
+    display: flex; 
+}
+
+.w_left {
+    justify-content: flex-end; 
+	margin-right: 20px;
+}
+
+.w_right {
+    justify-content: flex-start; 
+}
+
+.logo_grazie, .logo_50esima {
+	width: 50%;
+	height: auto;
+}
+
+.contenth1 {
+	font-family: Coaster;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 4em;
+	color: #ffffff;
+	margin-top: 40px;
+	animation: fadeIn 2s ease-out;
+}
+.contenth2 {
+	font-family: Aber;
+    text-align: center; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 1.7em;
+	color: #ffffff;
+	margin-top: -10px !important;
+	animation: fadeIn 2s ease-out;
+}
+
+footer {
+	width: 40%;
+	position: absolute;
+	bottom: 5%;
+	right: 0;
+	animation: fadeIn 2s ease-out;
+}
+
+.logo_immerso {
+	width: 85%;
+	margin-top: 10px;
+}
+
+h4 {
+	font-family: Aber;
+    text-align: left; 
+	margin: 0 !important;
+	font-weight: 400;
+	font-size: 1em;
+	color: #ffffff;
+	
+	
+}
+</style>
     </head>
 
 
 
+<<<<<<< HEAD
     <body style="margin: 0; overflow: hidden;">
 
 
@@ -63,82 +280,149 @@
 
 
         <a-asset-item
-        id="immagine3"
-        src="assets/piece29/asset.jpeg"
-    ></a-asset-item>
-    <a-asset-item
-    id="depth3"
-    src="assets/piece29/asset.jpeg"
-    ></a-asset-item>
+            id="immagine3"
+            src="assets/piece29/asset.jpeg"
+        ></a-asset-item>
+        <a-asset-item
+            id="depth3"
+            src="assets/piece29/asset.jpeg"
+        ></a-asset-item>
 
 
 
 
         </a-assets>
+=======
+<body>
+ 
+      <div id="header">
+                <div class="left">
+                    <img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/lotus.webp" alt="Flore-Bit Logo" id="florebit">
+                </div>
+                <div class="right">
+                    <div class="column">
+						<div class="logo-row">
+                        	<img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/logos/grazie_logo.png" alt="Logo Grazie" id="grazie_logo">
+                        	<img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/logos/edizione_logo.svg" alt="Logo 50esima" id="edizione_logo">
+						</div>
+                        <h1 class="h1head">FLORE-BIT</h1>
+                        <h2 class="h2head">Oltre il gessetto</h2>
+                    </div>
+                </div>      
+    </div>
+    
+<div id="welcomeScreen">
+    <video autoplay loop muted playsinline id="backgroundVideo">
+        <source src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/lotus_bg.mp4" type="video/mp4">
+    </video>
+    <div id="welcomeContent">
+        <div id="welcome-header">
+            <div class="w_left">
+                <img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/logos/grazie_logo.png" alt="Logo Grazie" class="logo_grazie">
+            </div>
+            <div class="w_right">
+                <img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/logos/edizione_logo.svg" alt="Logo 50esima" class="logo_50esima">
+            </div>
+        </div>
+        <h1 class="contenth1">FLORE-BIT</h1>
+        <h2 class="contenth2">Oltre il gessetto</h2>
+		
+        <footer>
+            <h4>DEVELOPED BY</h4>
+            <img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/logos/immerso_logo.svg" alt="Logo Immerso" class="logo_immerso">
+        </footer>
+		
+    </div>
+</div>
+>>>>>>> d47d6967ed44976394eb936c61876463e27ff154
 
 
 
-        <a-scene
-            vr-mode-ui="enabled: false;"
-            loading-screen="enabled: false;"
-            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-            id="scene"
-            embedded
-            gesture-detector
-        >
-            <a-marker
-                type="pattern"
-                preset="custom"
-                url="assets/piece22/marker.patt"
-                raycaster="objects: .clickable"
-                emitevents="true"
-                cursor="fuse: false; rayOrigin: mouse;"
-                id="markerA"
-                markerfound="resetModelOpacity('profondita')"
-                markerlost="startFadeTimer('profondita')"
+       <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            var welcomeScreen = document.getElementById('welcomeScreen');
+            welcomeScreen.classList.add('fadeOut');
+            setTimeout(function () {
+                welcomeScreen.style.display = 'none'; 
+            }, 1000); 
+        }, 5000);
+    });
+</script>
+
+	
+	
+ <a-assets>
+     
+        <a-asset-item id="immagine" src="assets/27/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="depth" src="assets/27/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine2" src="assets/28/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="depth2" src="assets/28/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine3" src="assets/piece29/asset.jpeg"></a-asset-item>
+        <a-asset-item id="depth3" src="assets/piece29/asset.jpeg"></a-asset-item>
+        <!--
+        <a-asset-item id="immagine" src="assets/piece22/asset.glb"></a-asset-item>
+        <a-asset-item id="depth" src="assets/piece22/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine2" src="assets/piece23/asset.glb"></a-asset-item>
+        <a-asset-item id="depth2" src="assets/piece23/asset.glb"></a-asset-item>
+        -->
+    </a-assets>
+
   
-            >
+
+     <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+        <a-marker type="pattern" preset="custom" url="assets/27/assets/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
+            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita')"></a-entity>
+        </a-marker>
+         
+        <a-marker type="pattern" preset="custom" url="assets/28/assets/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita2')" markerlost="startFadeTimer('profondita2')">
+            <a-entity id="profondita2" scale="5 5 5" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita2')"></a-entity>
+        </a-marker>
+
+        <a-marker type="pattern" preset="custom" url="assets/piece29/market.patt" raycaster="objects: .clickable"
+        emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+        markerfound="resetModelOpacity('profondita3')" markerlost="startFadeTimer('profondita3')">
+        <a-entity id="profondita3" scale="5 5 5" gltf-model="#depth3" class="clickable" gesture-handler="0 0 0"
+            click="freezeModel('profondita3')"></a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+
+<!--
+ <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+        <a-marker type="pattern" preset="custom" url="assets/piece22/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
 
 
-                <a-entity
-                    id="profondita"
-                    scale="4 4 4"
-                    gltf-model="#depth"
-                    class="clickable"
-                    gesture-handler="0 0 0"
-                    click="freezeModel('profondita')"
-                ></a-entity>
+            <a-entity id="profondita" scale="4 4 4" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita')"></a-entity>
 
-            </a-marker>
+        </a-marker>
 
 
-            <a-marker
-            type="pattern"
-            preset="custom"
-            url="assets/piece23/marker.patt"
-            raycaster="objects: .clickable"
-            emitevents="true"
-            cursor="fuse: false; rayOrigin: mouse;"
-            id="markerA"
-            markerfound="resetModelOpacity('profondita2')"
-            markerlost="startFadeTimer('profondita2')"
-        >
+        <a-marker type="pattern" preset="custom" url="assets/piece23/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita2')" markerlost="startFadeTimer('profondita2')">
 
 
 
-            <a-entity
-                id="profondita2"
-                scale="4 4 4"
-                gltf-model="#depth2"
-                class="clickable"
-                gesture-handler="0 0 0"
-                click="freezeModel('profondita2')"
-            ></a-entity>
+            <a-entity id="profondita2" scale="4 4 4" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita2')"></a-entity>
 
         </a-marker>
 
 
 
+<<<<<<< HEAD
         <a-marker
         type="pattern"
         preset="custom"
@@ -170,6 +454,11 @@
         </a-scene>
 
 
+=======
+        <a-entity camera></a-entity>
+    </a-scene>
+-->
+>>>>>>> d47d6967ed44976394eb936c61876463e27ff154
 
     </body>
 </html>
