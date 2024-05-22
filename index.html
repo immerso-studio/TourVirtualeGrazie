@@ -290,6 +290,12 @@ h4 {
         <a-asset-item id="depth2" src="assets/28/assets/asset.glb"></a-asset-item>
         <a-asset-item id="immagine3" src="assets/31/asset.glb"></a-asset-item>
         <a-asset-item id="depth3" src="assets/31/asset.glb"></a-asset-item>
+        <audio id="audio1" src="assets/audio/PROVA-VOCE-1.mp3"></audio>
+        <audio id="audio2" src="assets/audio/PROVA-VOCE-2.mp3"></audio>
+        <audio id="audio3" src="assets/audio/PROVA-VOCE-3.mp3"></audio>
+
+
+
         <!--
         <a-asset-item id="immagine" src="assets/piece22/asset.glb"></a-asset-item>
         <a-asset-item id="depth" src="assets/piece22/asset.glb"></a-asset-item>
@@ -307,6 +313,7 @@ h4 {
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
             <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
                 click="freezeModel('profondita')"></a-entity>
+                <a-sound src="#audio1" autoplay="false" id="sound1"></a-sound>
         </a-marker>
          
         <a-marker type="pattern" preset="custom" url="assets/28/assets/marker.patt" raycaster="objects: .clickable"
@@ -314,6 +321,7 @@ h4 {
             markerfound="resetModelOpacity('profondita2')" markerlost="startFadeTimer('profondita2')">
             <a-entity id="profondita2" scale="5 5 5" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
                 click="freezeModel('profondita2')"></a-entity>
+                <a-sound src="#audio2" autoplay="false" id="sound2"></a-sound>
         </a-marker>
 
         <a-marker type="pattern" preset="custom" url="assets/31/marker.patt" raycaster="objects: .clickable"
@@ -321,6 +329,7 @@ h4 {
             markerfound="resetModelOpacity('profondita3')" markerlost="startFadeTimer('profondita3')">
             <a-entity id="profondita3" scale="5 5 5" gltf-model="#depth3" class="clickable" gesture-handler="0 0 0"
                 click="freezeModel('profondita3')"></a-entity>
+                <a-sound src="#audio3" autoplay="false" id="sound3"></a-sound>
         </a-marker>
 
 
@@ -357,6 +366,33 @@ h4 {
         <a-entity camera></a-entity>
     </a-scene>
 -->
+
+
+<script>
+    document.querySelector('#marker1').addEventListener('markerFound', function () {
+        document.querySelector('#sound1').components.sound.playSound();
+    });
+    document.querySelector('#marker1').addEventListener('markerLost', function () {
+        document.querySelector('#sound1').components.sound.stopSound();
+    });
+
+    document.querySelector('#marker2').addEventListener('markerFound', function () {
+        document.querySelector('#sound2').components.sound.playSound();
+    });
+    document.querySelector('#marker2').addEventListener('markerLost', function () {
+        document.querySelector('#sound2').components.sound.stopSound();
+    });
+
+    document.querySelector('#marker3').addEventListener('markerFound', function () {
+        document.querySelector('#sound3').components.sound.playSound();
+    });
+    document.querySelector('#marker3').addEventListener('markerLost', function () {
+        document.querySelector('#sound3').components.sound.stopSound();
+    });
+</script>
+
+
+
 
     </body>
 </html>
