@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-         <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+         <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
@@ -291,9 +291,7 @@ h4 {
         <a-asset-item id="immagine3" src="assets/31/asset.glb"></a-asset-item>
         <a-asset-item id="depth3" src="assets/31/asset.glb"></a-asset-item>
 
-        <a-asset-item id="audio1" src="assets/27/assets/PROVA-VOCE-1.mp3"></a-asset-item>
-        <a-asset-item id="audio2" src="assets/28/assets/PROVA-VOCE-2.mp3"></a-asset-item>
-        <a-asset-item id="audio3" src="assets/31/PROVA-VOCE-3.mp3"></a-asset-item>
+
 
 
 
@@ -308,34 +306,35 @@ h4 {
 
   
 
-    <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+     <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+        <a-marker type="pattern" preset="custom" url="assets/27/assets/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
+            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita')"></a-entity>
+                
+        </a-marker>
+         
+        <a-marker type="pattern" preset="custom" url="assets/28/assets/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita2')" markerlost="startFadeTimer('profondita2')">
+            <a-entity id="profondita2" scale="5 5 5" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita2')"></a-entity>
+                
+        </a-marker>
 
-<a-marker type="pattern" preset="custom" url="assets/27/assets/marker.patt" raycaster="objects: .clickable"
-      emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
-      markerfound="resetModelOpacity('profondita'); playSound('audio1')" markerlost="startFadeTimer('profondita')">
-<a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
-        click="freezeModel('profondita')"></a-entity>
-<a-sound autoplay="false" src="#audio1"></a-sound>  </a-marker>
+        <a-marker type="pattern" preset="custom" url="assets/31/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita3')" markerlost="startFadeTimer('profondita3')">
+            <a-entity id="profondita3" scale="5 5 5" gltf-model="#depth3" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita3')"></a-entity>
+                
+        </a-marker>
 
-<a-marker type="pattern" preset="custom" url="assets/28/assets/marker.patt" raycaster="objects: .clickable"
-      emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerB"
-      markerfound="resetModelOpacity('profondita2'); playSound('audio2')" markerlost="startFadeTimer('profondita2')">
-<a-entity id="profondita2" scale="5 5 5" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
-        click="freezeModel('profondita2')"></a-entity>
-<a-sound autoplay="false" src="#audio2"></a-sound>
-</a-marker>
 
-<a-marker type="pattern" preset="custom" url="assets/31/marker.patt" raycaster="objects: .clickable"
-      emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerC"
-      markerfound="resetModelOpacity('profondita3'); playSound('audio3')" markerlost="startFadeTimer('profondita3')">
-<a-entity id="profondita3" scale="5 5 5" gltf-model="#depth3" class="clickable" gesture-handler="0 0 0"
-        click="freezeModel('profondita3')"></a-entity>
-<a-sound autoplay="false" src="#audio3"></a-sound>
-</a-marker>
-
-<a-entity camera></a-entity>
-</a-scene>
+        <a-entity camera></a-entity>
+    </a-scene>
 
 <!--
  <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;"
