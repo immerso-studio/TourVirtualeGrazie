@@ -6,7 +6,13 @@
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
         <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+        <script src="https://github.com/gftruj/webzamples/tree/master/arjs/sound/index.html"></script>
         <style>
+
+
+
+
+
         
 body {
     margin: 0;
@@ -291,6 +297,8 @@ h4 {
         <a-asset-item id="immagine3" src="assets/31/asset.glb"></a-asset-item>
         <a-asset-item id="depth3" src="assets/31/asset.glb"></a-asset-item>
 
+        <a-asset-item id="sound" src="assets/31/PROVA-VOCE-3.mp3"></a-asset-item>
+
 
 
 
@@ -307,12 +315,13 @@ h4 {
   
 
      <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector; soundhandler>
+        
         <a-marker type="pattern" preset="custom" url="assets/27/assets/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
             <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
-                click="freezeModel('profondita')"></a-entity>
+                click="freezeModel('profondita') sound="src: #sound autoplay="false"></a-entity>
                 
         </a-marker>
          
@@ -367,7 +376,26 @@ h4 {
     </a-scene>
 -->
 
+<script>
+    AFRAME.registerComponent('soundhandler', {
+        init: function () {
+            this.soundEl = document.querySelector('[sound]');
+            this.marker = document.querySelector('a-marker');
+            this.visible = false;
+        },
+        tick: function () {
 
+            if (this.marker.object3D.visible && !this.visible) {
+                console.log("ding")
+                this.soundEl.components.sound.stopSound(); // stop if playing
+                this.soundEl.components.sound.playSound(); // play
+                this.visible = true; // make sure it plays only once per visible
+            } else if (!this.marker.object3D.visible) {
+                this.visible = false;
+            }
+        }
+    });
+</script>
 
 
     </body>
