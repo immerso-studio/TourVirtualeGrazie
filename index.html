@@ -320,7 +320,7 @@ h4 {
         <a-marker type="pattern" preset="custom" url="assets/27/assets/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
-            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" sound="src: url(PROVA-VOCE-1.mp3); on: true" click="freezeModel('profondita')"></a-entity>
+            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" sound="src: url(PROVA-VOCE-1.mp3); on: click" click="freezeModel('profondita')"></a-entity>
                 
         </a-marker>
          
