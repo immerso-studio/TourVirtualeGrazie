@@ -228,7 +228,26 @@ h4 {
 </style>
     </head>
 
-
+    <script>
+        AFRAME.registerComponent('soundhandler', {
+            init: function () {
+                this.soundEl = document.querySelector('[sound]');
+                this.marker = document.querySelector('a-marker');
+                this.visible = false;
+            },
+            tick: function () {
+    
+                if (this.marker.object3D.visible && !this.visible) {
+                    console.log("ding")
+                    this.soundEl.components.sound.stopSound(); // stop if playing
+                    this.soundEl.components.sound.playSound(); // play
+                    this.visible = true; // make sure it plays only once per visible
+                } else if (!this.marker.object3D.visible) {
+                    this.visible = false;
+                }
+            }
+        });
+    </script>
 
 <body>
  
@@ -320,7 +339,7 @@ h4 {
         <a-marker type="pattern" preset="custom" url="assets/27/assets/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
-            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" sound="src: url(PROVA-VOCE-1.mp3); on: click" click="freezeModel('profondita')"></a-entity>
+            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" sound="src: url(PROVA-VOCE-1.mp3); autoplay: true" click="freezeModel('profondita')"></a-entity>
                 
         </a-marker>
          
@@ -383,7 +402,20 @@ h4 {
     </a-scene>
 -->
 
-
+<div id="info">
+    <p>Show a HIRO marker to play a "ding" sound</p>
+    <a href="https://github.com/gftruj/webzamples/tree/master/arjs/sound/index.html">source code</a>
+</div>
+<a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false;' soundhandler>
+    <a-assets>
+        <audio id="sound" src="sound/Ding-sound-effect.mp3" preload="auto"></audio>
+    </a-assets>
+    <a-marker preset="hiro">
+        <a-box position="0 0.5 0"></a-box>
+    </a-marker>
+    <a-entity sound="src: #sound" autoplay="false"></a-entity>
+    <a-entity camera></a-entity>
+</a-scene>
 
 
     </body>
