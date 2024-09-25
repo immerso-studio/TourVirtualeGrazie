@@ -248,6 +248,8 @@ h4 {
                 </div>      
     </div>
     
+<!--
+   
 <div id="welcomeScreen">
     <video autoplay loop muted playsinline id="backgroundVideo">
         <source src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/lotus_bg.mp4" type="video/mp4">
@@ -272,7 +274,7 @@ h4 {
     </div>
 </div>
 
-
+-->
 
        <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -290,8 +292,9 @@ h4 {
 	
  <a-assets>
      
-        <a-asset-item id="immagine" src="assets/27/assets/asset.glb"></a-asset-item>
-        <a-asset-item id="depth" src="assets/27/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine" src="assets/34/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="depth" src="assets/34/assets/asset.glb"></a-asset-item>
+
         <a-asset-item id="immagine2" src="assets/28/assets/asset.glb"></a-asset-item>
         <a-asset-item id="depth2" src="assets/28/assets/asset.glb"></a-asset-item>
         <a-asset-item id="immagine3" src="assets/32/asset.glb"></a-asset-item>
@@ -317,7 +320,7 @@ h4 {
      <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
         
-        <a-marker type="pattern" preset="custom" url="assets/27/assets/marker.patt" raycaster="objects: .clickable"
+        <a-marker type="pattern" preset="custom" url="assets/34/assets/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
             <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" sound="src: url(PROVA-VOCE-1.mp3); autoplay: true" click="freezeModel('profondita')"></a-entity>
