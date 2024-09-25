@@ -346,7 +346,7 @@ animation: fadeIn 3s ease-out;
         <a-marker type="pattern" preset="custom" url="assets/35/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
-            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" animation-mixer="loop: repeat"></a-entity>
+            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" animation-mixer="loop: repeat"; click="freezeModel('profondita')"></a-entity>
                 
         </a-marker>
          
