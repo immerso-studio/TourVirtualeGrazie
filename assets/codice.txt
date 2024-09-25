@@ -310,13 +310,36 @@ animation: fadeIn 3s ease-out;
     });
 </script>
 
+<!--
 
+	<a href="https://marvelapp.com/prototype/fb33i23" target="_blank" id="actionButton">Tutte le opere</a>
+	
+    -->
  <a-assets>
      
         <a-asset-item id="immagine" src="assets/37/asset.glb"></a-asset-item>
         <a-asset-item id="depth" src="assets/37/asset.glb"></a-asset-item>
 
+        <!--
+        <a-asset-item id="immagine2" src="assets/28/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="depth2" src="assets/28/assets/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine3" src="assets/32/asset.glb"></a-asset-item>
+        <a-asset-item id="depth3" src="assets/32/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine4" src="assets/33/asset.glb"></a-asset-item>
+        <a-asset-item id="depth4" src="assets/33/asset.glb"></a-asset-item>
+        -->
 
+
+
+
+
+
+        <!--
+        <a-asset-item id="immagine" src="assets/piece22/asset.glb"></a-asset-item>
+        <a-asset-item id="depth" src="assets/piece22/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine2" src="assets/piece23/asset.glb"></a-asset-item>
+        <a-asset-item id="depth2" src="assets/piece23/asset.glb"></a-asset-item>
+        -->
     </a-assets>
 
   
@@ -332,8 +355,69 @@ animation: fadeIn 3s ease-out;
         </a-marker>
          
 
+<!--
+
+        <a-marker type="pattern" preset="custom" url="assets/28/assets/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita2')" markerlost="startFadeTimer('profondita2')">
+            <a-entity id="profondita2" scale="5 5 5" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita2')"></a-entity>
+                
+        </a-marker>
+
+        <a-marker type="pattern" preset="custom" url="assets/32/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita3')" markerlost="startFadeTimer('profondita3')">
+            <a-entity id="profondita3" scale="5 5 5" gltf-model="#depth3" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita3')"></a-entity>
+                
+        </a-marker>
+
+        <a-marker type="pattern" preset="custom" url="assets/33/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita4')" markerlost="startFadeTimer('profondita4')">
+            <a-entity id="profondita4" scale="5 5 5" gltf-model="#depth4" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita4')"></a-entity>
+                
+        </a-marker>
 
 
+        <a-entity camera></a-entity>
+    </a-scene>
+
+
+-->
+
+<!--
+ <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+        <a-marker type="pattern" preset="custom" url="assets/piece22/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
+
+
+            <a-entity id="profondita" scale="4 4 4" gltf-model="#depth" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita')"></a-entity>
+
+        </a-marker>
+
+
+        <a-marker type="pattern" preset="custom" url="assets/piece23/marker.patt" raycaster="objects: .clickable"
+            emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
+            markerfound="resetModelOpacity('profondita2')" markerlost="startFadeTimer('profondita2')">
+
+
+
+            <a-entity id="profondita2" scale="4 4 4" gltf-model="#depth2" class="clickable" gesture-handler="0 0 0"
+                click="freezeModel('profondita2')"></a-entity>
+
+        </a-marker>
+
+
+
+        <a-entity camera></a-entity>
+    </a-scene>
+-->
 
 
 
