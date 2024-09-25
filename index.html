@@ -310,7 +310,6 @@ animation: fadeIn 3s ease-out;
 	<a href="https://marvelapp.com/prototype/fb33i23" target="_blank" id="actionButton">Tutte le opere</a>
 	
     -->
-    
  <a-assets>
      
         <a-asset-item id="immagine" src="assets/35/asset.glb"></a-asset-item>
@@ -346,7 +345,7 @@ animation: fadeIn 3s ease-out;
         <a-marker type="pattern" preset="custom" url="assets/35/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
-            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" autoplay: true click="freezeModel('profondita')"></a-entity>
+            <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" click="freezeModel('profondita')"></a-entity>
                 
         </a-marker>
          
