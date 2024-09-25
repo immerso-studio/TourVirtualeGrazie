@@ -317,8 +317,8 @@ animation: fadeIn 3s ease-out;
     -->
  <a-assets>
      
-        <a-asset-item id="immagine" src="assets/36/asset.glb"></a-asset-item>
-        <a-asset-item id="depth" src="assets/36/asset.glb"></a-asset-item>
+        <a-asset-item id="immagine" src="assets/34/asset.glb"></a-asset-item>
+        <a-asset-item id="depth" src="assets/34/asset.glb"></a-asset-item>
 
         <!--
         <a-asset-item id="immagine2" src="assets/28/assets/asset.glb"></a-asset-item>
@@ -347,7 +347,7 @@ animation: fadeIn 3s ease-out;
      <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
         
-        <a-marker type="pattern" preset="custom" url="assets/36/marker.patt" raycaster="objects: .clickable"
+        <a-marker type="pattern" preset="custom" url="assets/34/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
             <a-entity id="profondita" scale="5 5 5" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" click="freezeModel('profondita')"></a-entity>
