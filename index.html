@@ -44,7 +44,8 @@
 
   
 
-     <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+     <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
         
         <a-marker type="pattern" preset="custom" url="assets/38/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
@@ -53,6 +54,11 @@
             <a-entity id="profondita" position="0 0 0" scale="1 1 1" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" animation-mixer="clip: NomeAnimazione"></a-entity>
                 
         </a-marker>
+
+
+
+        <a-entity camera></a-entity>
+    </a-scene>
          
 
 
