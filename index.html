@@ -45,13 +45,13 @@
   
 
      <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" device-orientation-permission-ui="enabled: false"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector >
         
         <a-marker type="pattern" preset="custom" url="assets/37/marker.patt" raycaster="objects: .clickable"
             emitevents="true" cursor="fuse: false; rayOrigin: mouse;" id="markerA"
             markerfound="resetModelOpacity('profondita')" markerlost="startFadeTimer('profondita')">
             
-            <a-entity id="profondita" position="0 0 0" scale="1 1 1" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" animation-mixer="clip: *; loop: once; clampWhenFinished: true;"></a-entity>
+            <a-entity id="profondita" position="0 0 0" scale="1 1 1" gltf-model="#depth" class="clickable" gesture-handler="0 0 0" animation-mixer="loop: repeat"></a-entity>
                 
         </a-marker>
 
