@@ -79,76 +79,346 @@
 
 
 <html>
-  <head>
-    <!-- A-Frame -->
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-
-    <!-- AR.js con supporto GPS -->
-    <script src="https://unpkg.com/aframe-arjs@3.3.2/aframe-ar.js"></script>
-
-    <!-- Text Geometry component -->
-    <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
-  </head>
-  
-  <body style="margin: 0; overflow: hidden;">
-    <!-- A-Frame scene with AR.js and GPS -->
-    <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: true;"
-      renderer="logarithmicDepthBuffer: true;">
-
-      <!-- Caricamento degli asset 3D -->
-      <a-assets>
-        <!-- Aggiungi il percorso al tuo file .glb -->
-        <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
-      </a-assets>
-
-      <!-- Camera con supporto GPS per movimento fisico -->
-      <a-camera gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" position="0 1.8 0"></a-camera>
-
-    </a-scene>
-
-    <script>
-      window.onload = () => {
-        let places = staticLoadPlaces();
-        renderPlaces(places);
-      };
-
-      function staticLoadPlaces() {
-        return [
-          {
-            name: 'my-3d-model',
-            location: {
-              lat: 44.496470,
-              lng: 11.320180,
-            }
-          },
-        ];
-      }
-
-      function renderPlaces(places) {
-        let scene = document.querySelector('a-scene');
-
-        places.forEach((place) => {
-          let latitude = place.location.lat;
-          let longitude = place.location.lng;
-
-          let model = document.createElement('a-entity');
-          model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-          model.setAttribute('gltf-model', './assets/GPS/PIAZZALE SANTUARIO Definitivo.glb');
-          model.setAttribute('rotation', '0 180 0');
-          model.setAttribute('animation-mixer', '');
-          model.setAttribute('scale', '0.5 0.5 0.5');
-
-          model.addEventListener('loaded', () => {
-            window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'));
+    <head>
+        <!-- A-Frame -->
+        <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    
+        <!-- AR.js con supporto GPS -->
+        <script src="https://unpkg.com/aframe-arjs@3.3.2/aframe-ar.js"></script>
+    
+        <!-- Text Geometry component -->
+        <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
+    
+        <!-- Il tuo script aggiornato per la gestione della camera GPS -->
+        <script>
+          AFRAME.registerComponent("gps-projected-camera", {
+            _watchPositionId: null,
+            originCoords: null,
+            currentCoords: null,
+            lookControls: null,
+            heading: null,
+            schema: {
+              simulateLatitude: {
+                type: "number",
+                default: 0,
+              },
+              simulateLongitude: {
+                type: "number",
+                default: 0,
+              },
+              simulateAltitude: {
+                type: "number",
+                default: 0,
+              },
+              positionMinAccuracy: {
+                type: "int",
+                default: 100,
+              },
+              alert: {
+                type: "boolean",
+                default: false,
+              },
+              minDistance: {
+                type: "int",
+                default: 0,
+              },
+              gpsMinDistance: {
+                type: "number",
+                default: 0,
+              },
+              gpsTimeInterval: {
+                type: "number",
+                default: 0,
+              },
+            },
+            update: function () {
+              if (this.data.simulateLatitude !== 0 && this.data.simulateLongitude !== 0) {
+                var localPosition = Object.assign({}, this.currentCoords || {});
+                localPosition.longitude = this.data.simulateLongitude;
+                localPosition.latitude = this.data.simulateLatitude;
+                localPosition.altitude = this.data.simulateAltitude;
+                this.currentCoords = localPosition;
+    
+                this.originCoords = null;
+                this._updatePosition();
+              }
+            },
+            init: function () {
+              if (
+                !this.el.components["arjs-look-controls"] &&
+                !this.el.components["look-controls"]
+              ) {
+                return;
+              }
+    
+              this.lastPosition = {
+                latitude: 0,
+                longitude: 0,
+              };
+    
+              this.loader = document.createElement("DIV");
+              this.loader.classList.add("arjs-loader");
+              document.body.appendChild(this.loader);
+    
+              this.onGpsEntityPlaceAdded = this._onGpsEntityPlaceAdded.bind(this);
+              window.addEventListener("gps-entity-place-added", this.onGpsEntityPlaceAdded);
+    
+              this.lookControls =
+                this.el.components["arjs-look-controls"] ||
+                this.el.components["look-controls"];
+    
+              var eventName = this._getDeviceOrientationEventName();
+              this._onDeviceOrientation = this._onDeviceOrientation.bind(this);
+    
+              if (!!navigator.userAgent.match(/Version\/[\d.]+.*Safari/)) {
+                if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                  var handler = function () {
+                    DeviceOrientationEvent.requestPermission();
+                    document.removeEventListener("touchend", handler);
+                  };
+    
+                  document.addEventListener("touchend", function () {
+                    handler();
+                  }, false);
+    
+                  this.el.sceneEl.systems["arjs"]._displayErrorPopup(
+                    "After camera permission prompt, please tap the screen to activate geolocation."
+                  );
+                } else {
+                  var timeout = setTimeout(function () {
+                    this.el.sceneEl.systems["arjs"]._displayErrorPopup(
+                      "Please enable device orientation in Settings > Safari > Motion & Orientation Access."
+                    );
+                  }, 750);
+                  window.addEventListener(eventName, function () {
+                    clearTimeout(timeout);
+                  });
+                }
+              }
+    
+              window.addEventListener(eventName, this._onDeviceOrientation, false);
+            },
+            play: function () {
+              if (this.data.simulateLatitude !== 0 && this.data.simulateLongitude !== 0) {
+                var localPosition = Object.assign({}, this.currentCoords || {});
+                localPosition.latitude = this.data.simulateLatitude;
+                localPosition.longitude = this.data.simulateLongitude;
+                if (this.data.simulateAltitude !== 0) {
+                  localPosition.altitude = this.data.simulateAltitude;
+                }
+                this.currentCoords = localPosition;
+                this._updatePosition();
+              } else {
+                this._watchPositionId = this._initWatchGPS(function (position) {
+                  var localPosition = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    altitude: position.coords.altitude,
+                    accuracy: position.coords.accuracy,
+                    altitudeAccuracy: position.coords.altitudeAccuracy,
+                  };
+    
+                  if (this.data.simulateAltitude !== 0) {
+                    localPosition.altitude = this.data.simulateAltitude;
+                  }
+    
+                  this.currentCoords = localPosition;
+                  var distMoved = this._haversineDist(this.lastPosition, this.currentCoords);
+    
+                  if (distMoved >= this.data.gpsMinDistance || !this.originCoords) {
+                    this._updatePosition();
+                    this.lastPosition = {
+                      longitude: this.currentCoords.longitude,
+                      latitude: this.currentCoords.latitude,
+                    };
+                  }
+                }.bind(this));
+              }
+            },
+            tick: function () {
+              if (this.heading === null) {
+                return;
+              }
+              this._updateRotation();
+            },
+            pause: function () {
+              if (this._watchPositionId) {
+                navigator.geolocation.clearWatch(this._watchPositionId);
+              }
+              this._watchPositionId = null;
+            },
+            remove: function () {
+              var eventName = this._getDeviceOrientationEventName();
+              window.removeEventListener(eventName, this._onDeviceOrientation, false);
+              window.removeEventListener("gps-entity-place-added", this.onGpsEntityPlaceAdded);
+            },
+            _getDeviceOrientationEventName: function () {
+              if ("ondeviceorientationabsolute" in window) {
+                return "deviceorientationabsolute";
+              } else if ("ondeviceorientation" in window) {
+                return "deviceorientation";
+              } else {
+                console.error("Compass not supported");
+                return "";
+              }
+            },
+            _initWatchGPS: function (onSuccess, onError) {
+              if (!onError) {
+                onError = function (err) {
+                  console.warn("ERROR(" + err.code + "): " + err.message);
+                  if (err.code === 1) {
+                    this.el.sceneEl.systems["arjs"]._displayErrorPopup(
+                      "Please activate Geolocation and refresh the page."
+                    );
+                    return;
+                  }
+                  if (err.code === 3) {
+                    this.el.sceneEl.systems["arjs"]._displayErrorPopup(
+                      "Cannot retrieve GPS position. Signal is absent."
+                    );
+                    return;
+                  }
+                };
+              }
+    
+              if ("geolocation" in navigator === false) {
+                onError({
+                  code: 0,
+                  message: "Geolocation is not supported by your browser",
+                });
+                return Promise.resolve();
+              }
+    
+              return navigator.geolocation.watchPosition(onSuccess, onError, {
+                enableHighAccuracy: true,
+                maximumAge: this.data.gpsTimeInterval,
+                timeout: 27000,
+              });
+            },
+            _updatePosition: function () {
+              if (this.currentCoords.accuracy > this.data.positionMinAccuracy) {
+                if (this.data.alert && !document.getElementById("alert-popup")) {
+                  var popup = document.createElement("div");
+                  popup.innerHTML = "GPS signal is very poor. Try moving to an area with a better signal.";
+                  popup.setAttribute("id", "alert-popup");
+                  document.body.appendChild(popup);
+                }
+                return;
+              }
+    
+              var alertPopup = document.getElementById("alert-popup");
+              if (this.currentCoords.accuracy <= this.data.positionMinAccuracy && alertPopup) {
+                document.body.removeChild(alertPopup);
+              }
+    
+              if (!this.originCoords) {
+                this.originCoords = this._project(this.currentCoords.latitude, this.currentCoords.longitude);
+                this._setPosition();
+    
+                var loader = document.querySelector(".arjs-loader");
+                if (loader) {
+                  loader.remove();
+                }
+                window.dispatchEvent(new CustomEvent("gps-camera-origin-coord-set"));
+              } else {
+                this._setPosition();
+              }
+            },
+            _setPosition: function () {
+              var position = this.el.getAttribute("position");
+              var worldCoords = this.latLonToWorld(this.currentCoords.latitude, this.currentCoords.longitude);
+    
+              position.x = worldCoords[0];
+              position.z = worldCoords[1];
+    
+              this.el.setAttribute("position", position);
+              window.dispatchEvent(new CustomEvent("gps-camera-update-position", {
+                detail: { position: this.currentCoords, origin: this.originCoords },
+              }));
+            },
+            latLonToWorld: function (lat, lon) {
+              var projected = this._project(lat, lon);
+              return [projected[0] - this.originCoords[0], -(projected[1] - this.originCoords[1])];
+            },
+            _project: function (lat, lon) {
+              const HALF_EARTH = 20037508.34;
+              var y = Math.log(Math.tan(((90 + lat) * Math.PI) / 360.0)) / (Math.PI / 180.0);
+              return [(lon / 180.0) * HALF_EARTH, (y * HALF_EARTH) / 180.0];
+            },
+            _haversineDist: function (src, dest) {
+              var dlongitude = THREE.MathUtils.degToRad(dest.longitude - src.longitude);
+              var dlatitude = THREE.MathUtils.degToRad(dest.latitude - src.latitude);
+              var a =
+                Math.sin(dlatitude / 2) * Math.sin(dlatitude / 2) +
+                Math.cos(THREE.MathUtils.degToRad(src.latitude)) *
+                Math.cos(THREE.MathUtils.degToRad(dest.latitude)) *
+                Math.sin(dlongitude / 2) *
+                Math.sin(dlongitude / 2);
+              var angle = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+              return angle * 6371000;
+            },
+            _onDeviceOrientation: function (event) {
+              if (event.webkitCompassHeading) {
+                this.heading = event.webkitCompassHeading;
+              } else if (event.alpha) {
+                if (window.orientation !== undefined) {
+                  this.heading = event.alpha + window.orientation;
+                } else {
+                  this.heading = event.alpha;
+                }
+              }
+            },
+            _updateRotation: function () {
+              if (this.heading === null) {
+                return;
+              }
+    
+              var heading = 360 - this.heading;
+              var cameraRotation = this.el.getAttribute("rotation").y;
+              var yawRotation = THREE.Math.radToDeg(this.lookControls.yawObject.rotation.y);
+              var offset = (heading - (cameraRotation - yawRotation)) % 360;
+    
+              if (offset < -180) {
+                offset += 360;
+              } else if (offset > 180) {
+                offset -= 360;
+              }
+    
+              var lookTarget = this.el.querySelector("[camera]");
+              if (lookTarget) {
+                lookTarget.setAttribute("rotation", { y: cameraRotation + offset });
+              }
+            },
+            _onGpsEntityPlaceAdded: function () {
+              this._updatePosition();
+            },
           });
+        </script>
+      </head>
 
-          scene.appendChild(model);
-        });
-      }
-    </script>
+
+
+      <body style="margin: 0; overflow: hidden;">
+        <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+
+            <a-assets>
+                <!-- Aggiungi il percorso al tuo file .glb -->
+                <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
+              </a-assets>
+
+          <a-camera gps-projected-camera rotation-reader></a-camera>
+        </a-scene>
+      </body>
+
+
+
+
+
+
+
+  
+
+
   </body>
 </html>
 
