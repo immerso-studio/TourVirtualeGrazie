@@ -95,7 +95,7 @@
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
-      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: false;"
+      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: true;"
       renderer="logarithmicDepthBuffer: true;">
 
       <!-- Caricamento del modello 3D -->
@@ -114,7 +114,7 @@
 
       <!-- Camera con supporto GPS per movimento fisico -->
       <a-camera 
-        gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" 
+        gps-camera="minDistance: 1; latitude: 45.464211; longitude: 9.191383" 
         position="0 1.8 0">
       </a-camera>
 
