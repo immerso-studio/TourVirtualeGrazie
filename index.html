@@ -78,78 +78,42 @@
 
 
 
+
+<!DOCTYPE html>
 <html>
-  <head>
-    <!-- A-Frame -->
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    </head>
 
-    <!-- AR.js con supporto GPS -->
-    <script src="https://unpkg.com/aframe-arjs@3.3.2/aframe-ar.js"></script>
+    <body style="margin: 0; overflow: hidden;">
+        <a-scene
+            renderer="logarithmicDepthBuffer: true;"
+            embedded
+            loading-screen="enabled: false;"
+            arjs="sourceType: webcam; debugUIEnabled: false;"
+        >
+            <a-assets>
+                <a-asset-item
+                    id="animated-asset"
+                    src="assets/asset.glb"
+                ></a-asset-item>
+            </a-assets>
 
-    <!-- Text Geometry component -->
-    <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
-  </head>
-  
-  <body style="margin: 0; overflow: hidden;">
-    <!-- A-Frame scene with AR.js and GPS -->
-    <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: true;"
-      renderer="logarithmicDepthBuffer: true;">
+                <a-entity
+                    look-at="[gps-camera]"
+                    animation-mixer="loop: repeat"
+                    gltf-model="#animated-asset"
+                    scale="0.02837174944378652 0.02837174944378652 0.02837174944378652"
+                    gps-entity-place="latitude: 45.38475931637399; longitude: -349.5032685622574;"
+                ></a-entity>
 
-      <!-- Caricamento degli asset 3D -->
-      <a-assets>
-        <!-- Aggiungi il percorso al tuo file .glb -->
-        <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
-      </a-assets>
-
-      <!-- Camera con supporto GPS per movimento fisico -->
-      <a-camera gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" position="0 1.8 0"></a-camera>
-
-    </a-scene>
-
-    <script>
-      window.onload = () => {
-        let places = staticLoadPlaces();
-        renderPlaces(places);
-      };
-
-      function staticLoadPlaces() {
-        return [
-          {
-            name: 'my-3d-model',
-            location: {
-              lat: 44.496470,
-              lng: 11.320180,
-            }
-          },
-        ];
-      }
-
-      function renderPlaces(places) {
-        let scene = document.querySelector('a-scene');
-
-        places.forEach((place) => {
-          let latitude = place.location.lat;
-          let longitude = place.location.lng;
-
-          let model = document.createElement('a-entity');
-          model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-          model.setAttribute('gltf-model', './assets/GPS/PIAZZALE SANTUARIO Definitivo.glb');
-          model.setAttribute('rotation', '0 180 0');
-          model.setAttribute('animation-mixer', '');
-          model.setAttribute('scale', '0.5 0.5 0.5');
-
-          model.addEventListener('loaded', () => {
-            window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'));
-          });
-
-          scene.appendChild(model);
-        });
-      }
-    </script>
-  </body>
+            <a-camera gps-camera rotation-reader></a-camera>
+        </a-scene>
+    </body>
 </html>
-
 
