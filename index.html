@@ -82,38 +82,52 @@
   <head>
     <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    
-    <!-- AR.js with GPS -->
+
+    <!-- AR.js con supporto GPS -->
     <script src="https://unpkg.com/aframe-arjs@3.3.2/aframe-ar.js"></script>
 
     <!-- Text Geometry component -->
     <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
   </head>
   
-  <body>
-    <!-- A-Frame scene with AR.js GPS -->
+  <body style="margin: 0; overflow: hidden;">
+    <!-- A-Frame scene with AR.js and GPS -->
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
-      arjs="sourceType: webcam; locationEnabled: true;">
+      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: false;"
+      renderer="logarithmicDepthBuffer: true;">
 
       <!-- Oggetti 3D con posizioni GPS -->
       <a-box 
-        gps-entity-place="latitude: 45.384726982647194; longitude: 10.496816832758716" 
+        gps-entity-place="latitude: 45.464211; longitude: 9.191383" 
         position="0 0 0" 
         rotation="0 45 0" 
         color="#4CC3D9">
       </a-box>
 
+      <a-sphere 
+        gps-entity-place="latitude: 45.465611; longitude: 9.192383" 
+        position="0 0 0" 
+        radius="1.25" 
+        color="#EF2D5E">
+      </a-sphere>
 
+      <a-cylinder 
+        gps-entity-place="latitude: 45.466611; longitude: 9.193383" 
+        position="0 0 0" 
+        radius="0.5" 
+        height="1.5" 
+        color="#FFC65D">
+      </a-cylinder>
 
-      <!-- Camera with GPS and movement controls -->
+      <!-- Camera con supporto GPS per movimento fisico -->
       <a-camera 
-        gps-camera="minDistance: 5; maxDistance: 10000" 
-        position="0 1.6 0" 
-        rotation-reader>
+        gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" 
+        position="0 1.6 0">
       </a-camera>
-      
+
     </a-scene>
   </body>
 </html>
+
