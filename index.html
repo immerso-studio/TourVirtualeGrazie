@@ -98,29 +98,19 @@
       arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: false;"
       renderer="logarithmicDepthBuffer: true;">
 
-      <!-- Oggetti 3D con posizioni GPS -->
-      <a-box 
+      <!-- Caricamento del modello 3D -->
+      <a-assets>
+        <!-- Aggiungi il percorso al tuo file .glb -->
+        <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- Oggetto 3D basato su posizione GPS -->
+      <a-gltf-model 
+        src="#my-3d-model" 
         gps-entity-place="latitude: 45.464211; longitude: 9.191383" 
-        position="0 0 0" 
-        rotation="0 45 0" 
-        color="#4CC3D9">
-      </a-box>
-
-      
-      <a-sphere 
-        gps-entity-place="latitude: 45.465611; longitude: 9.192383" 
-        position="0 0 0" 
-        radius="1.25" 
-        color="#EF2D5E">
-      </a-sphere>
-
-      <a-cylinder 
-        gps-entity-place="latitude: 45.466611; longitude: 9.193383" 
-        position="0 0 0" 
-        radius="0.5" 
-        height="1.5" 
-        color="#FFC65D">
-      </a-cylinder>
+        scale="2 2 2"
+        position="0 0 0">
+      </a-gltf-model>
 
       <!-- Camera con supporto GPS per movimento fisico -->
       <a-camera 
