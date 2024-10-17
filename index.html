@@ -114,9 +114,25 @@
 
       <!-- Camera con supporto GPS per movimento fisico -->
       <a-camera 
-        gps-camera="minDistance: 1; latitude: 45.464211; longitude: 9.191383" 
+        gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" 
         position="0 1.8 0">
       </a-camera>
+
+      <script>
+        // Esempio di utilizzo del metodo latLonToWorld
+        document.addEventListener('loaded', function () {
+          let gpsCamera = document.querySelector('[gps-new-camera]');
+          
+          // Converti lat/lon in coordinate del mondo
+          let lat = 45.464211;
+          let lon = 9.191383;
+          let worldCoords = gpsCamera.components['gps-new-camera'].latLonToWorld(lat, lon);
+
+          console.log(`Coordinate del mondo: X = ${worldCoords[0]}, Z = ${worldCoords[1]}`);
+          
+          // Puoi usare queste coordinate per posizionare altri oggetti o effettuare altre operazioni
+        });
+      </script>
 
     </a-scene>
   </body>
