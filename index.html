@@ -108,11 +108,10 @@
 </body>
 
 
-  <body>
-    <a-scene embedded arjs>
+<body>
+    <a-scene>
+
       
-      <!-- Camera con funzionalità GPS -->
-      <a-entity gps-projected-camera="simulateLatitude: 37.7749; simulateLongitude: -122.4194;" rotation-reader></a-entity>
 
       <!-- Oggetti 3D -->
       <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" rotation-reader></a-box>
@@ -120,6 +119,11 @@
       <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" rotation-reader></a-cylinder>
       <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
       <a-sky color="#ECECEC"></a-sky>
+
+      <!-- Camera con controlli per muoversi e guardarsi intorno -->
+      <a-entity camera look-controls wasd-controls position="0 1.6 0"></a-entity>
+
+      <a-camera-static/>
 
     </a-scene>
   </body>
