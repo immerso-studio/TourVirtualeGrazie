@@ -95,60 +95,29 @@
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
-      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: true;"
+      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: false;"
       renderer="logarithmicDepthBuffer: true;">
 
-      <!-- Caricamento degli asset 3D -->
+      <!-- Caricamento del modello 3D -->
       <a-assets>
         <!-- Aggiungi il percorso al tuo file .glb -->
         <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
       </a-assets>
 
+      <!-- Oggetto 3D basato su posizione GPS -->
+      <a-gltf-model 
+        src="#my-3d-model" 
+        gps-entity-place="latitude: 45.464211; longitude: 9.191383" 
+        scale="2 2 2"
+        position="0 0 0">
+      </a-gltf-model>
+
       <!-- Camera con supporto GPS per movimento fisico -->
-      <a-camera gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" position="0 1.8 0"></a-camera>
+      <a-camera 
+        gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" 
+        position="0 1.6 0">
+      </a-camera>
 
     </a-scene>
-
-    <script>
-      window.onload = () => {
-        let places = staticLoadPlaces();
-        renderPlaces(places);
-      };
-
-      function staticLoadPlaces() {
-        return [
-          {
-            name: 'my-3d-model',
-            location: {
-              lat: 44.496470,
-              lng: 11.320180,
-            }
-          },
-        ];
-      }
-
-      function renderPlaces(places) {
-        let scene = document.querySelector('a-scene');
-
-        places.forEach((place) => {
-          let latitude = place.location.lat;
-          let longitude = place.location.lng;
-
-          let model = document.createElement('a-entity');
-          model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-          model.setAttribute('gltf-model', './assets/GPS/PIAZZALE SANTUARIO Definitivo.glb');
-          model.setAttribute('rotation', '0 180 0');
-          model.setAttribute('animation-mixer', '');
-          model.setAttribute('scale', '0.5 0.5 0.5');
-
-          model.addEventListener('loaded', () => {
-            window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'));
-          });
-
-          scene.appendChild(model);
-        });
-      }
-    </script>
   </body>
 </html>
-
