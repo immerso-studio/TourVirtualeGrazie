@@ -78,34 +78,46 @@
 
 
 
-<!DOCTYPE html>
 <html>
   <head>
-    <title>Progetto AR con AlvaAR e SLAM</title>
     <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <!-- AR.js con supporto GPS -->
+    <script src="https://unpkg.com/aframe-arjs@3.3.2/aframe-ar.js"></script>
+    <!-- Text Geometry component -->
+    <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
     <!-- AlvaAR per SLAM -->
     <script src="https://unpkg.com/alvaar"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <!-- A-Frame scene with AlvaAR -->
-    <a-scene embedded arjs>
+    <!-- A-Frame scene with AR.js and GPS -->
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: false;"
+      renderer="logarithmicDepthBuffer: true;">
       <!-- Caricamento del modello 3D -->
       <a-assets>
         <!-- Aggiungi il percorso al tuo file .glb -->
         <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
       </a-assets>
-      <!-- Oggetto 3D -->
-      <a-gltf-model src="#my-3d-model" scale="0.5 0.5 0.5" position="0 0 -2"></a-gltf-model>
-      <!-- Camera con AlvaAR per SLAM -->
-      <a-camera gps-camera="minDistance: 1; positionMinAccuracy: 100;">
+      <!-- Oggetto 3D basato su posizione GPS -->
+      <a-gltf-model
+         src="#my-3d-model"
+         gps-entity-place="latitude: 45.464211; longitude: 9.191383"
+         scale="2 2 2"
+        position="0 0 0">
+      </a-gltf-model>
+      <!-- Camera con supporto GPS per movimento fisico -->
+      <a-camera
+         gps-camera="minDistance: 1; positionMinAccuracy: 100;"
+         position="0 1.6 0">
         <alvaar-camera></alvaar-camera>
       </a-camera>
     </a-scene>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Configura la geolocalizzazione
         if ('geolocation' in navigator) {
           navigator.geolocation.getCurrentPosition(function(position) {
             console.log('Geolocalizzazione attiva');
@@ -117,27 +129,12 @@
         } else {
           alert('Geolocalizzazione non supportata dal browser.');
         }
+      });
 
-        // Inizializza AlvaAR con opzioni GPS
-        const scene = document.querySelector('a-scene').object3D;
-        const camera = document.querySelector('a-camera').object3D;
-        const locationBased = new AlvaAR.LocationBased(scene, camera, {
-          gpsMinDistance: 10,
-          gpsMinAccuracy: 100
-        });
-
-        locationBased.startGps();
-
-        // Aggiungi un oggetto basato su GPS
-        locationBased.add(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xff0000 })), 45.464211, 9.191383, 100);
-
-        // Ascolta gli aggiornamenti GPS
-        locationBased.on('gpsupdate', function(position) {
-          console.log('Posizione aggiornata:', position);
-        });
-
-        locationBased.on('gpserror', function(error) {
-          console.log('Errore GPS:', error);
+      document.addEventListener('alvaar-ready', function() {
+        const alvaar = document.querySelector('alvaar-camera');
+        alvaar.addEventListener('pose', function(event) {
+          console.log('Posizione corrente:', event.detail.pose);
         });
       });
     </script>
