@@ -80,60 +80,47 @@
 
 <html>
   <head>
-
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-arjs@3.3.2/aframe-ar.js"></script>
-    <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
-
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-
-    <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: false;"
-      renderer="logarithmicDepthBuffer: true;">
-
-      <a-assets>
-
-        <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
-      </a-assets>
-
-      <a-gltf-model
-         src="#my-3d-model"
-
-         scale="2 2 2"
-        position="0 0 0">
-      </a-gltf-model>
-
-      <a-camera
-         gps-camera="minDistance: 1; positionMinAccuracy: 100;"
-         position="0 1.6 0">
-        <alvaar-camera></alvaar-camera>
-      </a-camera>
-    </a-scene>
-
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>GeoAR.js demo</title>
+    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        if ('geolocation' in navigator) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            console.log('Geolocalizzazione attiva');
-          }, function(error) {
-            if (error.code == error.PERMISSION_DENIED) {
-              alert('Per favore, abilita i servizi di geolocalizzazione per utilizzare questa funzionalità.');
-            }
-          });
-        } else {
-          alert('Geolocalizzazione non supportata dal browser.');
-        }
-      });
-
-      document.addEventListener('alvaar-ready', function() {
-        const alvaar = document.querySelector('alvaar-camera');
-        alvaar.addEventListener('pose', function(event) {
-          console.log('Posizione corrente:', event.detail.pose);
-        });
-      });
+        THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
+</head>
+
+
+
+<script src="./script.js"></script>
+<body style='margin: 0; overflow: hidden;'>
+    <a-scene
+       vr-mode-ui="enabled: false"
+		embedded
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+
+        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" rotation-reader></a-sphere>
+
+        <a-camera gps-camera rotation-reader>
+		</a-camera>
+	</a-scene>
+</body>
+
+
+  <body>
+    <a-scene embedded arjs>
+      
+
+      <a-entity gps-projected-camera="simulateLatitude: 37.7749; simulateLongitude: -122.4194;" rotation-reader></a-entity>
+
+
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" rotation-reader></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" rotation-reader></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" rotation-reader></a-cylinder>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
+
+    </a-scene>
   </body>
 </html>
