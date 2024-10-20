@@ -79,66 +79,131 @@
 
 
 <html>
-  <head>
+<head>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <head>
-        <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    
-      
-        <script>
-          AFRAME.registerComponent('rotation-reader', {
-   
+
+    <script>
+        AFRAME.registerComponent('rotation-reader', {
             tick: (function () {
-              var position = new THREE.Vector3();
-              var quaternion = new THREE.Quaternion();
-    
-              return function () {
-                this.el.object3D.getWorldPosition(position);
-                this.el.object3D.getWorldQuaternion(quaternion);
-    
-       
-                console.log('Posizione:', position);
-                console.log('Rotazione (quaternion):', quaternion);
-              };
+                var position = new THREE.Vector3();
+                var quaternion = new THREE.Quaternion();
+
+                return function () {
+                    this.el.object3D.getWorldPosition(position);
+                    this.el.object3D.getWorldQuaternion(quaternion);
+
+                    console.log('Posizione:', position);
+                    console.log('Rotazione (quaternion):', quaternion);
+                };
             })()
-          });
-        </script>
-      </head>
+        });
+        AFRAME.registerComponent('move-to-position', {
+            schema: {
+                target: {type: 'vec3'}
+            },
+            init: function () {
+                var el = this.el;
+                var cameraEl = document.querySelector('[camera]');
 
-      
+                el.addEventListener('click', function (evt) {
+                    // Ottieni la posizione cliccata
+                    var targetPosition = evt.detail.intersection.point;
+
+                    // Anima il movimento della camera verso la posizione cliccata
+                    cameraEl.setAttribute('animation', {
+                        property: 'position',
+                        to: targetPosition.x + ' ' + 1.6 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
+                        dur: 1000,  // Durata dell'animazione in millisecondi
+                        easing: 'easeInOutQuad'
+                    });
+                });
+            }
+        });
+        AFRAME.registerComponent('open-text-window', {
+            schema: {
+                message: {type: 'string', default: ''}
+            },
+            init: function () {
+                var el = this.el;
+                var data = this.data;
+
+                el.addEventListener('click', function () {
+                    // Rimuove il vecchio testo, se esiste
+                    var existingText = document.querySelector('#text-message');
+                    if (existingText) {
+                        existingText.parentNode.removeChild(existingText);
+                    }
+
+                    // Creiamo un nuovo elemento testo quando la forma viene cliccata
+                    var textEntity = document.createElement('a-entity');
+                    textEntity.setAttribute('id', 'text-message');
+                    textEntity.setAttribute('geometry', 'primitive: plane; height: auto; width: auto');
+                    textEntity.setAttribute('material', 'color: white');
+                    textEntity.setAttribute('text', {
+                        value: data.message,
+                        color: 'black',
+                        width: 4,
+                        align: 'center'
+                    });
+
+                    // Posiziona il testo inizialmente davanti alla camera
+                    var cameraEl = document.querySelector('[camera]');
+                    var cameraPosition = cameraEl.object3D.position;
+                    var cameraRotation = cameraEl.object3D.rotation;
+
+                    textEntity.setAttribute('position', {
+                        x: cameraPosition.x,
+                        y: cameraPosition.y + 1.6, // Altezza fissa
+                        z: cameraPosition.z - 3 // Aggiunge un po' di distanza in avanti
+                    });
+
+                    // Mantiene il testo davanti alla camera ogni frame
+                    textEntity.setAttribute('follow-camera', '');
+
+                    document.querySelector('a-scene').appendChild(textEntity);
+                });
+            }
+        });
+
+        // Componente per mantenere il testo sempre davanti alla camera
+        AFRAME.registerComponent('follow-camera', {
+            tick: function () {
+                var cameraEl = document.querySelector('[camera]');
+                var cameraPosition = cameraEl.object3D.position;
+                var cameraRotation = cameraEl.object3D.rotation;
+
+                // Posiziona il testo davanti alla camera in base alla posizione e rotazione
+                this.el.object3D.position.set(
+                    cameraPosition.x,
+                    cameraPosition.y + 1.6, // Altezza fissa per il testo
+                    cameraPosition.z - 3 // Mantieni il testo a 3 unità di distanza
+                );
+                this.el.object3D.rotation.set(
+                    cameraRotation.x,
+                    cameraRotation.y,
+                    cameraRotation.z
+                );
+            }
+        });
+    </script>
+</head>
+<body>
+<a-scene>
 
 
+    <!-- Aggiunta della classe clickable e del componente move-to-position -->
+    <a-box class="clickable" position="-1 0.5 -3" rotation="0 45 0" color="#0000C9" rotation-reader open-text-window="message: This is a blue box!"></a-box>
+    <a-sphere class="clickable" position="0 1.25 -5" radius="1.25" color="#000099" rotation-reader open-text-window="message: This is a blue sphere!"></a-sphere>
+    <a-cylinder class="clickable" position="1 0.75 -3" radius="0.5" height="1.5" color="#000082" rotation-reader open-text-window="message: This is a blue cylinder!"></a-cylinder>
+    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#000051" class="clickable" move-to-position></a-plane>
+    <a-plane position="0 0 0" rotation="-90 0 0" width="4" height="4" color="#000051" class="clickable" move-to-position></a-plane>
 
+    <a-sky color="#0000FF"></a-sky>
 
-  </head>
-  <body>
-    <a-scene>
-
-      
-
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#0000C9" rotation-reader></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#000099" rotation-reader></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#000082" rotation-reader></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#000051"></a-plane>
-      <a-sky color="#0000FF"></a-sky>
-
-      <a-entity camera look-controls wasd-controls position="0 1.6 0"></a-entity>
-
-      <a-camera id="camera" wasd-controls="fly: true" frustum>
-
-        <a-entity id="mouse-touch-controller" better-raycaster="objects: .clickable; useCursor: true; controllerType: mouse-touch"></a-entity>
-        <a-entity id="arc-dummy" position="-0.1 0 -0.25"></a-entity>
-        <a-entity id="ui-dummy" position="0 0 -1.75"></a-entity>
-        <a-entity id="ui-dummy-far" position="0 0 -6"></a-entity>
-        <a-entity id="fader" fade-to-black></a-entity>
-
-        <a-entity id="scene-label-intro" scene-intro-label scale="0.03 0.03 0.03" position="0, 0, -1">
-            <a-entity class="progress-bg" geometry="primitive: plane; height: 0.4; width: 32" position="0 -3.5 0" material="shader: flat; color: white;"></a-entity>
-            <a-entity class="progress" geometry="primitive: plane; height: 0.4; width: 32" scale="1 1 1" position="0 -3.5 0.0001" material="shader: flat; color: #133754;"></a-entity>
-        </a-entity>
-
-    </a-camera>
-
-    </a-scene>
-  </body>
+    <!-- Aggiunta del cursore -->
+    <a-entity camera look-controls wasd-controls position="0 1.6 0">
+        <a-cursor color="yellow"></a-cursor> <!-- Cursore visibile -->
+    </a-entity>
+</a-scene>
+</body>
 </html>
