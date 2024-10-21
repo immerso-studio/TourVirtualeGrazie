@@ -187,18 +187,37 @@
         });
     </script>
 </head>
-<body>
-<a-scene>
+
+<body style="margin: 0; overflow: hidden;">
+    <!-- A-Frame scene with AR.js and GPS -->
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; locationEnabled: true; debugUIEnabled: false;"
+      renderer="logarithmicDepthBuffer: true;">
+
+      <!-- Caricamento del modello 3D -->
+      <a-assets>
+        <!-- Aggiungi il percorso al tuo file .glb -->
+        <a-asset-item id="my-3d-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
+
+      </a-assets>
+
+      <!-- Oggetto 3D basato su posizione GPS -->
+      <a-gltf-model 
+        src="#my-3d-model" 
+        gps-entity-place="latitude: 45.464211; longitude: 9.191383" 
+        scale="2 2 2"
+        position="0 0 0">
+      </a-gltf-model>
+
+      <!-- Camera con supporto GPS per movimento fisico -->
+      <a-camera 
+        gps-camera="minDistance: 1; simulateLatitude: 45.464211; simulateLongitude: 9.191383" 
+        position="0 1.6 0">
+      </a-camera>
 
 
-    <!-- Aggiunta della classe clickable e del componente move-to-position -->
-    <a-box class="clickable" position="-1 0.5 -3" rotation="0 45 0" color="#0000C9" rotation-reader open-text-window="message: This is a blue box!"></a-box>
-    <a-sphere class="clickable" position="0 1.25 -5" radius="1.25" color="#000099" rotation-reader open-text-window="message: This is a blue sphere!"></a-sphere>
-    <a-cylinder class="clickable" position="1 0.75 -3" radius="0.5" height="1.5" color="#000082" rotation-reader open-text-window="message: This is a blue cylinder!"></a-cylinder>
-    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#000051" class="clickable" move-to-position></a-plane>
-    <a-plane position="0 0 0" rotation="-90 0 0" width="4" height="4" color="#000051" class="clickable" move-to-position></a-plane>
-
-    <a-sky color="#0000FF"></a-sky>
 
     <!-- Aggiunta del cursore -->
     <a-entity camera look-controls wasd-controls position="0 1.6 0">
