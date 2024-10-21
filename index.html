@@ -113,7 +113,7 @@
                     cameraEl.setAttribute('animation', {
                         property: 'position',
                         to: targetPosition.x + ' ' + 1.8 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
-                        dur: 1000,  // Durata dell'animazione in millisecondi
+                        dur: 500,  // Durata dell'animazione in millisecondi
                         easing: 'easeInOutQuad'
                     });
                 });
@@ -197,13 +197,13 @@
         </a-assets>
     
         <!-- Posizionamento del modello 3D nella scena -->
-        <a-entity class="clickable" position="0 1 0" rotation="0 0 0" scale="1 1 1" 
+        <a-entity class="clickable" position="0 1 -3" rotation="0 45 0" scale="1 1 1" 
                   gltf-model="#my-model" rotation-reader open-text-window="message: This is my GLB model!">
         </a-entity>
     
         <!-- Piano per la scena -->
-        <a-plane position="50 0 0" rotation="0 0 0" width="1000" height="500" color="#657C3D" class="clickable" move-to-position></a-plane>
-        <a-plane position="0 0 0" rotation="0 0 0" width="1000" height="500" color="#B7771A" class="clickable" move-to-position></a-plane>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="1000" height="500" color="#DE0000" class="clickable" move-to-position></a-plane>
+        <a-plane position="0 0 0" rotation="-90 0 0" width="500" height="1000" color="#DEDEDE" class="clickable" move-to-position></a-plane>
     
         <a-sky color="#0000FF"></a-sky>
     
@@ -212,5 +212,5 @@
             <a-cursor color="yellow"></a-cursor>
         </a-entity>
     </a-scene>
-</body>
+    </body>
 </html>
