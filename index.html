@@ -25,7 +25,7 @@
                 var el = this.el;
                 var cameraEl = document.querySelector('[camera]');
 
-                el.addEventListener('touchend', function (evt) {
+                el.addEventListener('touchstart', function (evt) {
                     // Ottieni la posizione cliccata
                     var targetPosition = evt.detail.intersection.point;
 
