@@ -97,8 +97,6 @@
                 };
             })()
         });
-
-        // Modifica: memorizza la posizione e sposta solo su comando
         AFRAME.registerComponent('move-to-position', {
             schema: {
                 target: {type: 'vec3'}
@@ -106,29 +104,21 @@
             init: function () {
                 var el = this.el;
                 var cameraEl = document.querySelector('[camera]');
-                var selectedPosition = null;
 
                 el.addEventListener('click', function (evt) {
-                    // Memorizza la posizione cliccata
-                    selectedPosition = evt.detail.intersection.point;
-                    console.log('Posizione selezionata:', selectedPosition);
-                });
+                    // Ottieni la posizione cliccata
+                    var targetPosition = evt.detail.intersection.point;
 
-                // Aggiungi un listener per spostarsi su comando
-                document.querySelector('#move-button').addEventListener('click', function () {
-                    if (selectedPosition) {
-                        // Sposta la telecamera alla posizione memorizzata
-                        cameraEl.setAttribute('animation', {
-                            property: 'position',
-                            to: selectedPosition.x + ' ' + 1.8 + ' ' + selectedPosition.z,
-                            dur: 1000,
-                            easing: 'easeInOutQuad'
-                        });
-                    }
+                    // Anima il movimento della camera verso la posizione cliccata
+                    cameraEl.setAttribute('animation', {
+                        property: 'position',
+                        to: targetPosition.x + ' ' + 1.8 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
+                        dur: 1000,  // Durata dell'animazione in millisecondi
+                        easing: 'easeInOutQuad'
+                    });
                 });
             }
         });
-
         AFRAME.registerComponent('open-text-window', {
             schema: {
                 message: {type: 'string', default: ''}
@@ -138,11 +128,13 @@
                 var data = this.data;
 
                 el.addEventListener('click', function () {
+                    // Rimuove il vecchio testo, se esiste
                     var existingText = document.querySelector('#text-message');
                     if (existingText) {
                         existingText.parentNode.removeChild(existingText);
                     }
 
+                    // Creiamo un nuovo elemento testo quando la forma viene cliccata
                     var textEntity = document.createElement('a-entity');
                     textEntity.setAttribute('id', 'text-message');
                     textEntity.setAttribute('geometry', 'primitive: plane; height: auto; width: auto');
@@ -154,15 +146,18 @@
                         align: 'center'
                     });
 
+                    // Posiziona il testo inizialmente davanti alla camera
                     var cameraEl = document.querySelector('[camera]');
                     var cameraPosition = cameraEl.object3D.position;
+                    var cameraRotation = cameraEl.object3D.rotation;
 
                     textEntity.setAttribute('position', {
                         x: cameraPosition.x,
-                        y: cameraPosition.y + 1.8,
-                        z: cameraPosition.z - 3
+                        y: cameraPosition.y + 1.8, // Altezza fissa
+                        z: cameraPosition.z - 3 // Aggiunge un po' di distanza in avanti
                     });
 
+                    // Mantiene il testo davanti alla camera ogni frame
                     textEntity.setAttribute('follow-camera', '');
 
                     document.querySelector('a-scene').appendChild(textEntity);
@@ -170,16 +165,18 @@
             }
         });
 
+        // Componente per mantenere il testo sempre davanti alla camera
         AFRAME.registerComponent('follow-camera', {
             tick: function () {
                 var cameraEl = document.querySelector('[camera]');
                 var cameraPosition = cameraEl.object3D.position;
                 var cameraRotation = cameraEl.object3D.rotation;
 
+                // Posiziona il testo davanti alla camera in base alla posizione e rotazione
                 this.el.object3D.position.set(
                     cameraPosition.x,
-                    cameraPosition.y + 1.8,
-                    cameraPosition.z - 3
+                    cameraPosition.y + 1.8, // Altezza fissa per il testo
+                    cameraPosition.z - 3 // Mantieni il testo a 3 unità di distanza
                 );
                 this.el.object3D.rotation.set(
                     cameraRotation.x,
@@ -195,6 +192,7 @@
     
         <!-- Caricamento degli asset -->
         <a-assets>
+            <!-- Sostituisci il percorso con quello del tuo file .glb -->
             <a-asset-item id="my-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
         </a-assets>
     
@@ -204,8 +202,8 @@
         </a-entity>
     
         <!-- Piano per la scena -->
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="1000" height="500" color="#DE0000" class="clickable" move-to-position></a-plane>
-        <a-plane position="0 0 0" rotation="-90 0 0" width="500" height="1000" color="#DE0000" class="clickable" move-to-position></a-plane>
+        <a-plane position="0 0 50" rotation="-90 0 0" width="50" height="50" color="#DE0000" class="clickable" move-to-position></a-plane>
+        <a-plane position="0 0 0" rotation="-90 0 0" width="50" height="50" color="#EC0000" class="clickable" move-to-position></a-plane>
     
         <a-sky color="#0000FF"></a-sky>
     
@@ -214,10 +212,5 @@
             <a-cursor color="yellow"></a-cursor>
         </a-entity>
     </a-scene>
-
-    <!-- Aggiungi un pulsante per spostarsi manualmente -->
-    <button id="move-button" style="position: absolute; top: 20px; left: 20px; z-index: 999;">
-        Vai alla posizione selezionata
-    </button>
-</body>
+    </body>
 </html>
