@@ -25,8 +25,9 @@
                 var el = this.el;
                 var cameraEl = document.querySelector('[camera]');
 
-                el.addEventListener('touchstart', function (evt) {
+                el.addEventListener('click', function (evt) {
                     // Ottieni la posizione cliccata
+                    alert("bella")
                     var targetPosition = evt.detail.intersection.point;
 
                     // Anima il movimento della camera verso la posizione cliccata
