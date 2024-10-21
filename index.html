@@ -27,14 +27,14 @@
 
                 el.addEventListener('click', function (evt) {
                     // Ottieni la posizione cliccata
-                    alert("bella")
+                
                     var targetPosition = evt.detail.intersection.point;
 
                     // Anima il movimento della camera verso la posizione cliccata
                     cameraEl.setAttribute('animation', {
                         property: 'position',
                         to: targetPosition.x + ' ' + 2 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
-                        dur: 3000,  // Durata dell'animazione in millisecondi
+                        dur: 1000,  // Durata dell'animazione in millisecondi
                         easing: 'easeInOutQuad'
                     });
                 });
