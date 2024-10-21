@@ -25,7 +25,7 @@
                 var el = this.el;
                 var cameraEl = document.querySelector('[camera]');
 
-                el.addEventListener('click', function (evt) {
+                el.addEventListener('touched', function (evt) {
                     // Ottieni la posizione cliccata
                     var targetPosition = evt.detail.intersection.point;
 
@@ -33,7 +33,7 @@
                     cameraEl.setAttribute('animation', {
                         property: 'position',
                         to: targetPosition.x + ' ' + 2 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
-                        dur: 5000,  // Durata dell'animazione in millisecondi
+                        dur: 3000,  // Durata dell'animazione in millisecondi
                         easing: 'easeInOutQuad'
                     });
                 });
