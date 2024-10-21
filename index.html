@@ -208,20 +208,9 @@
         <a-sky color="#0000FF"></a-sky>
     
         <!-- Camera e cursore -->
-        <a-entity id="player">
-
-            <a-camera id="camera" wasd-controls="fly: true" frustum>
-
-                <a-entity id="mouse-touch-controller" better-raycaster="objects: .clickable; useCursor: true; controllerType: mouse-touch"></a-entity>
-                <a-entity id="arc-dummy" position="-0.1 0 -0.25"></a-entity>
-                <a-entity id="ui-dummy" position="0 0 -1.75"></a-entity>
-                <a-entity id="ui-dummy-far" position="0 0 -6"></a-entity>
-                <a-entity id="fader" fade-to-black></a-entity>
-
-                <a-entity id="scene-label-intro" scene-intro-label scale="0.03 0.03 0.03" position="0, 0, -1">
-                    <a-entity class="progress-bg" geometry="primitive: plane; height: 0.4; width: 32" position="0 -3.5 0" material="shader: flat; color: white;"></a-entity>
-                    <a-entity class="progress" geometry="primitive: plane; height: 0.4; width: 32" scale="1 1 1" position="0 -3.5 0.0001" material="shader: flat; color: #133754;"></a-entity>
-                </a-entity>
+        <a-entity camera look-controls wasd-controls position="0 1.8 0">
+            <a-cursor color="yellow"></a-cursor>
+        </a-entity>
     </a-scene>
     </body>
 </html>
