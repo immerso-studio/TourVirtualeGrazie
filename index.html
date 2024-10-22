@@ -146,19 +146,11 @@
                   gltf-model="#my-model" rotation-reader open-text-window="message: This is my GLB model!" move-to-position>
         </a-entity>
     
-        <a-assets>
-            <!-- Sostituisci il percorso con quello del tuo file .glb -->
-            <a-asset-item id="my-model2" src="assets/GPS/PIAZZALE SANTUARIO Asfalto1.glb"></a-asset-item>
-        </a-assets>
-    
-        <!-- Posizionamento del modello 3D nella scena -->
-        <a-entity class="clickable" position="0 0 -3" rotation="0 90 0" scale="1 1 1" 
-                  gltf-model="#my-model2" rotation-reader move-to-position>
-        </a-entity>
-    
+        <!-- Piano per la scena -->
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
         
     
-        <a-sky src="assets/GPS/sky.png" radius="10000"></a-sky>
+        <a-sky src="assets/GPS/GRADIENTE.png" radius="5000"></a-sky>
     
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="0 2 0">
