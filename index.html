@@ -88,7 +88,7 @@
         
         AFRAME.registerComponent('hover-color', {
             schema: {
-                color: {type: 'color', default: '#FF0000'}, // Colore da cambiare quando c'è l'hover
+                color: {type: 'color', default: '#7BC8A4'}, // Colore da cambiare quando c'è l'hover
                 originalColor: {type: 'color', default: '#7BC8A4'} // Colore originale
         },
             init: function () {
@@ -147,7 +147,7 @@
         </a-entity>
     
         <!-- Piano per la scena -->
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
+        <a-plane src="assets/GPS/sky.png" position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
         
     
         <a-sky src="assets/GPS/sky.png" radius="10000"></a-sky>
