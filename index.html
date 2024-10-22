@@ -26,25 +26,7 @@
                 var cameraEl = document.querySelector('[camera]');
 
                 el.addEventListener('click', function (evt) {
-                        // Crea un nuovo elemento immagine
-                        const img = document.createElement('img');
-                        
-                        // Imposta il percorso dell'immagine (modifica con il percorso corretto)
-                        img.src = 'assets/GPS/1';
-                        
-                        // Imposta altre proprietà dell'immagine (opzionale)
-                        img.alt = 'Immagine bella';
-                        img.width = 100; // Larghezza immagine in pixel
-                        img.height = 100; // Altezza immagine in pixel
-                        
-                        // Trova un elemento in cui inserire l'immagine
-                        const container = document.getElementById('contenitoreImmagine'); // Può essere un div o qualsiasi altro contenitore
-                        
-                        // Rimuovi qualsiasi contenuto precedente del contenitore (opzionale)
-                        container.innerHTML = '';
-                        
-                        // Aggiungi l'immagine al contenitore
-                        container.appendChild(img);
+                    // Ottieni la posizione cliccata
                 
                     var targetPosition = evt.detail.intersection.point;
 
@@ -160,7 +142,7 @@
         </a-assets>
     
         <!-- Posizionamento del modello 3D nella scena -->
-        <a-entity class="clickable" position="0 0.1 -3" rotation="0 0 0" scale="1 1 1" 
+        <a-entity class="clickable" position="0 0.1 -3" rotation="90 0 0" scale="1 1 1" 
                   gltf-model="#my-model" rotation-reader open-text-window="message: This is my GLB model!" move-to-position>
         </a-entity>
     
