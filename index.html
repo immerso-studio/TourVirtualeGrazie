@@ -26,7 +26,25 @@
                 var cameraEl = document.querySelector('[camera]');
 
                 el.addEventListener('click', function (evt) {
-                    // Ottieni la posizione cliccata
+                        // Crea un nuovo elemento immagine
+                        const img = document.createElement('img');
+                        
+                        // Imposta il percorso dell'immagine (modifica con il percorso corretto)
+                        img.src = 'assets/GPS/1';
+                        
+                        // Imposta altre proprietà dell'immagine (opzionale)
+                        img.alt = 'Immagine bella';
+                        img.width = 100; // Larghezza immagine in pixel
+                        img.height = 100; // Altezza immagine in pixel
+                        
+                        // Trova un elemento in cui inserire l'immagine
+                        const container = document.getElementById('contenitoreImmagine'); // Può essere un div o qualsiasi altro contenitore
+                        
+                        // Rimuovi qualsiasi contenuto precedente del contenitore (opzionale)
+                        container.innerHTML = '';
+                        
+                        // Aggiungi l'immagine al contenitore
+                        container.appendChild(img);
                 
                     var targetPosition = evt.detail.intersection.point;
 
