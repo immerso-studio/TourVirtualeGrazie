@@ -131,6 +131,29 @@
                 );
             }
         });
+
+
+        AFRAME.registerComponent('show-image', {
+            schema: {
+                targetImage: {type: 'selector'}
+            },
+            init: function () {
+                var el = this.el;
+                var data = this.data;
+                
+                el.addEventListener('click', function () {
+                    // Nascondi tutte le immagini precedenti
+                    var images = document.querySelectorAll('.image-display');
+                    images.forEach(function (img) {
+                        img.setAttribute('visible', 'false');
+                    });
+
+                    // Mostra l'immagine selezionata
+                    data.targetImage.setAttribute('visible', 'true');
+                    data.targetImage.setAttribute('scale', '1 1 1'); // Scala l'immagine a una dimensione visibile
+                });
+            }
+        });
     </script>
 
 
@@ -142,6 +165,11 @@
 </head>
 <body>
     <a-scene>
+
+        <a-assets>
+            <!-- Immagine da visualizzare -->
+            <img id="tag" src="assets/GPS/sky.png" crossorigin="anonymous"/>
+        </a-assets>
     
         <!-- Caricamento degli asset -->
         <a-assets>
@@ -157,6 +185,10 @@
 
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#contesto" rotation-reader move-to-position>
+        </a-entity>
+
+        <a-entity id="displayedImage" geometry="primitive: plane; width: 2; height: 1.5" material="src: #tag" 
+        position="0 1.6 -2" visible="false" class="image-display">
         </a-entity>
     
         <!-- Piano per la scena -->
