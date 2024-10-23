@@ -377,6 +377,39 @@
 
 </head>
 <body>
+
+
+    <div id="header">
+        <div class="left">
+            <img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/lotus.webp" alt="Flore-Bit Logo" id="florebit">
+        </div>
+        <div class="right">
+            <div class="column">
+                <div class="logo-row">
+                    <img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/logos/grazie_logo.png" alt="Logo Grazie" id="grazie_logo">
+                    <img src="https://raw.githubusercontent.com/paolo-immerso/provaAR-1/main/logos/edizione_logo.svg" alt="Logo 50esima" id="edizione_logo">
+                </div>
+                <h1 class="h1head">FLORE-BIT</h1>
+                <h2 class="h2head">Oltre il gessetto</h2>
+            </div>
+        </div>      
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                var welcomeScreen = document.getElementById('welcomeScreen');
+                welcomeScreen.classList.add('fadeOut');
+                setTimeout(function () {
+                    welcomeScreen.style.display = 'none'; 
+                }, 1000); 
+            }, 5000);
+        });
+    </script>
+
+
+
     <a-scene>
     
         <!-- Caricamento degli asset -->
