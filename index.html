@@ -26,8 +26,12 @@
                 var cameraEl = document.querySelector('[camera]');
 
                 el.addEventListener('click', function (evt) {
-                    alert("bella")
-                    // Ottieni la posizione cliccata
+                        // Crea un nuovo elemento immagine
+                        const img = document.createElement('img');
+    
+                        // Imposta il percorso dell'immagine (modifica con il percorso corretto)
+                        img.src = 'assets/GPS/sky.png';
+                        // Ottieni la posizione cliccata
                 
                     var targetPosition = evt.detail.intersection.point;
 
