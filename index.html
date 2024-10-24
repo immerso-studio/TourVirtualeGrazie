@@ -17,6 +17,7 @@
                 };
             })()
         });
+
         AFRAME.registerComponent('move-to-position', {
             schema: {
                 target: {type: 'vec3'}
@@ -26,148 +27,49 @@
                 var cameraEl = document.querySelector('[camera]');
 
                 el.addEventListener('click', function (evt) {
-                    
-                    // Ottieni la posizione cliccata
-                
                     var targetPosition = evt.detail.intersection.point;
 
-                    // Anima il movimento della camera verso la posizione cliccata
                     cameraEl.setAttribute('animation', {
                         property: 'position',
-                        to: targetPosition.x + ' ' + 2 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
-                        dur: 1000,  // Durata dell'animazione in millisecondi
+                        to: targetPosition.x + ' 2 ' + targetPosition.z,
+                        dur: 1000,
                         easing: 'easeInOutQuad'
                     });
                 });
             }
         });
-        AFRAME.registerComponent('open-text-window', {
-            schema: {
-                message: {type: 'string', default: ''}
-            },
+
+        AFRAME.registerComponent('add-cube-on-click', {
             init: function () {
-                var el = this.el;
-                var data = this.data;
+                var cursorEl = this.el;
 
-                el.addEventListener('click', function () {
-                    // Rimuove il vecchio testo, se esiste
-                    var existingText = document.querySelector('#text-message');
-                    if (existingText) {
-                        existingText.parentNode.removeChild(existingText);
-                    }
+                cursorEl.addEventListener('click', function (evt) {
+                    var intersection = evt.detail.intersection;
+                    if (!intersection) return;
 
-                    // Creiamo un nuovo elemento testo quando la forma viene cliccata
-                    var textEntity = document.createElement('a-entity');
-                    textEntity.setAttribute('id', 'text-message');
-                    textEntity.setAttribute('geometry', 'primitive: plane; height: auto; width: auto');
-                    textEntity.setAttribute('material', 'color: white');
-                    textEntity.setAttribute('text', {
-                        value: data.message,
-                        color: 'black',
-                        width: 4,
-                        align: 'center'
-                    });
+                    // Ottieni la posizione cliccata
+                    var position = intersection.point;
 
-                    // Posiziona il testo inizialmente davanti alla camera
-                    var cameraEl = document.querySelector('[camera]');
-                    var cameraPosition = cameraEl.object3D.position;
-                    var cameraRotation = cameraEl.object3D.rotation;
+                    // Crea un nuovo cubo
+                    var cube = document.createElement('a-box');
+                    cube.setAttribute('position', position);
+                    cube.setAttribute('width', 1);
+                    cube.setAttribute('height', 1);
+                    cube.setAttribute('depth', 1);
+                    cube.setAttribute('color', '#4CC3D9');
 
-                    textEntity.setAttribute('position', {
-                        x: cameraPosition.x,
-                        y: cameraPosition.y + 2, // Altezza fissa
-                        z: cameraPosition.z - 3 // Aggiunge un po' di distanza in avanti
-                    });
-
-                    // Mantiene il testo davanti alla camera ogni frame
-                    textEntity.setAttribute('follow-camera', '');
-
-                    document.querySelector('a-scene').appendChild(textEntity);
-                });
-            }
-        });
-        
-        AFRAME.registerComponent('hover-color', {
-            schema: {
-                color: {type: 'color', default: '#7BC8A4'}, // Colore da cambiare quando c'è l'hover
-                originalColor: {type: 'color', default: '#7BC8A4'} // Colore originale
-        },
-            init: function () {
-                var el = this.el;
-                var data = this.data;
-
-                // Cambia colore quando il cursore entra nell'elemento
-                el.addEventListener('mouseenter', function () {
-                    el.setAttribute('material', 'color', data.color);
-                });
-
-                // Ritorna al colore originale quando il cursore esce dall'elemento
-                el.addEventListener('mouseleave', function () {
-                    el.setAttribute('material', 'color', data.originalColor);
+                    // Aggiungi il cubo alla scena
+                    document.querySelector('a-scene').appendChild(cube);
                 });
             }
         });
 
-
-
-
-        // Componente per mantenere il testo sempre davanti alla camera
-        AFRAME.registerComponent('follow-camera', {
-            tick: function () {
-                var cameraEl = document.querySelector('[camera]');
-                var cameraPosition = cameraEl.object3D.position;
-                var cameraRotation = cameraEl.object3D.rotation;
-
-                // Posiziona il testo davanti alla camera in base alla posizione e rotazione
-                this.el.object3D.position.set(
-                    cameraPosition.x,
-                    cameraPosition.y + 2, // Altezza fissa per il testo
-                    cameraPosition.z - 3 // Mantieni il testo a 3 unità di distanza
-                );
-                this.el.object3D.rotation.set(
-                    cameraRotation.x,
-                    cameraRotation.y,
-                    cameraRotation.z
-                );
-            }
-        });
-
-
-        AFRAME.registerComponent('show-image', {
-            schema: {
-                targetImage: {type: 'selector'}
-            },
-            init: function () {
-                var el = this.el;
-                var data = this.data;
-                
-                el.addEventListener('click', function () {
-                    // Nascondi tutte le immagini precedenti
-                    var images = document.querySelectorAll('.image-display');
-                    images.forEach(function (img) {
-                        img.setAttribute('visible', 'false');
-                    });
-
-                    // Mostra l'immagine selezionata
-                    data.targetImage.setAttribute('visible', 'true');
-                    data.targetImage.setAttribute('scale', '1 1 1'); // Scala l'immagine a una dimensione visibile
-                });
-            }
-        });
+        // Altri componenti già presenti...
     </script>
-
-
-
-
-
-
-
 </head>
 <body>
     <a-scene>
 
-
-    
         <!-- Caricamento degli asset -->
         <a-assets>
             <!-- Sostituisci il percorso con quello del tuo file .glb -->
@@ -175,7 +77,7 @@
             <a-asset-item id="asfalto" src="assets/GPS/Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="assets/GPS/Edifici.glb"></a-asset-item>
         </a-assets>
-    
+
         <!-- Posizionamento del modello 3D nella scena -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#my-model" rotation-reader open-text-window="message: This is my GLB model!" move-to-position>
@@ -192,17 +94,17 @@
         <a-entity id="displayedImage" geometry="primitive: plane; width: 2; height: 1.5" material="src: #tag" 
         position="0 1.6 -2" visible="false" class="image-display">
         </a-entity>
-    
+
         <!-- Piano per la scena -->
         <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
-        
-    
+
         <a-sky color="#079FE2"></a-sky>
-    
+
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
-            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false"></a-cursor>
+            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" add-cube-on-click></a-cursor>
         </a-entity>
+
     </a-scene>
-    </body>
+</body>
 </html>
