@@ -78,6 +78,36 @@
             }
         });
 
+        AFRAME.registerComponent('teleport-effect', {
+            init: function () {
+                const cursorEl = document.querySelector('#cursor');
+                const teleportGrid = document.querySelector('#teleport-grid');
+                const cameraEl = document.querySelector('[camera]');
+                
+                cursorEl.addEventListener('click', function (evt) {
+                    // Ottieni il punto in cui l'utente clicca
+                    const teleportPosition = evt.detail.intersection.point;
+
+                    // Posiziona la griglia nel punto di teletrasporto
+                    teleportGrid.setAttribute('position', teleportPosition);
+                    teleportGrid.setAttribute('visible', true);
+
+                    // Dopo 1 secondo, esegui il teletrasporto e nascondi la griglia
+                    setTimeout(() => {
+                        cameraEl.setAttribute('position', {
+                            x: teleportPosition.x,
+                            y: 1.6, // Mantieni altezza della camera
+                            z: teleportPosition.z
+                    });
+                    teleportGrid.setAttribute('visible', false);
+                    }, 1000); // Teletrasporto dopo 1 secondo
+                });
+                }
+            });
+  
+  // Aggiungi il componente alla scena
+  document.querySelector('a-scene').setAttribute('teleport-effect', '');
+
     </script>
 </head>
 <body>
