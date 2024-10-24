@@ -132,27 +132,59 @@
         });
 
     </script>
+
+
+
+
+
+
+
 </head>
 <body>
-<a-scene>
-    <!-- Aggiunta della classe clickable e del componente move-to-position -->
-    <a-box class="clickable" position="-1 0.5 -3" rotation="0 45 0" color="#0000C9" rotation-reader open-text-window="message: This is a blue box!"></a-box>
-    <a-sphere class="clickable" position="0 1.25 -5" radius="1.25" color="#000099" rotation-reader open-text-window="message: This is a blue sphere!"></a-sphere>
-    <a-cylinder class="clickable" position="1 0.75 -3" radius="0.5" height="1.5" color="#000082" rotation-reader open-text-window="message: This is a blue cylinder!"></a-cylinder>
+    <a-scene>
 
-    <!-- Correzione della rotazione dei piani -->
-    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#000051" class="clickable" move-to-position></a-plane>
-    <a-plane position="0 0 0" rotation="-90 0 0" width="4" height="4" color="#000051" class="clickable" move-to-position></a-plane>
+        <a-sphere class="clickable" position="0 1.25 -5" radius="1.25" color="#000099" rotation-reader open-text-window="message: This is a blue sphere!"></a-sphere>
 
-    <a-sky color="#0000FF"></a-sky>
+        <a-assets>
+            <!-- Immagine da visualizzare -->
+            <img id="tag" src="assets/GPS/sky.png" crossorigin="anonymous"/>
+        </a-assets>
+    
+        <!-- Caricamento degli asset -->
+        <a-assets>
+            <!-- Sostituisci il percorso con quello del tuo file .glb -->
+            <a-asset-item id="my-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
+            <a-asset-item id="asfalto" src="assets/GPS/Asfalto.glb"></a-asset-item>
+            <a-asset-item id="edifici" src="assets/GPS/Edifici.glb"></a-asset-item>
+        </a-assets>
+    
+        <!-- Posizionamento del modello 3D nella scena -->
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#my-model" rotation-reader open-text-window="message: This is my GLB model!" move-to-position>
+        </a-entity>
 
-    <!-- Consolidamento della camera con cursore, look-controls e raycaster -->
-    <a-entity camera look-controls wasd-controls position="0 1.6 0"
-              raycaster="objects: .clickable; far: 10" highlight-ray>
-        <a-cursor color="yellow"></a-cursor>
-    </a-entity>
-</a-scene>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#asfalto" rotation-reader move-to-position>
+        </a-entity>
 
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#edifici" rotation-reader move-to-position>
+        </a-entity>
 
-</body>
+        <a-entity id="displayedImage" geometry="primitive: plane; width: 2; height: 1.5" material="src: #tag" 
+        position="0 1.6 -2" visible="false" class="image-display">
+        </a-entity>
+    
+        <!-- Piano per la scena -->
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
+        
+    
+        <a-sky color="#079FE2"></a-sky>
+    
+        <!-- Camera e cursore -->
+        <a-entity camera look-controls wasd-controls position="-4 2 37">
+            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false"></a-cursor>
+        </a-entity>
+    </a-scene>
+    </body>
 </html>
