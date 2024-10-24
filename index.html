@@ -47,15 +47,15 @@
                     var intersection = evt.detail.intersection;
                     if (!intersection) return;
 
-                    // Ottieni la posizione cliccata
+                    // Ottieni la posizione cliccata dal cursore (intersezione)
                     var position = intersection.point;
 
-                    // Crea un cubo temporaneo
+                    // Crea un cubo temporaneo esattamente nel punto del cursore
                     var cube = document.createElement('a-box');
-                    cube.setAttribute('position', position);
-                    cube.setAttribute('width', 1);
-                    cube.setAttribute('height', 1);
-                    cube.setAttribute('depth', 1);
+                    cube.setAttribute('position', {x: position.x, y: position.y + 0.5, z: position.z}); // Eleva il cubo per evitare che scompaia nel pavimento
+                    cube.setAttribute('width', 0.5);
+                    cube.setAttribute('height', 0.5);
+                    cube.setAttribute('depth', 0.5);
                     cube.setAttribute('color', '#4CC3D9');
                     document.querySelector('a-scene').appendChild(cube);
 
