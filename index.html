@@ -39,24 +39,33 @@
             }
         });
 
-        // Component per il teletrasporto con l'effetto griglia e linea curva
-        AFRAME.registerComponent('teleport-with-grid', {
+        AFRAME.registerComponent('teleport-with-cube', {
             init: function () {
                 var cursorEl = this.el;
-                var teleportGrid = document.querySelector('#teleport-grid');
-                var cameraEl = document.querySelector('[camera]');
 
                 cursorEl.addEventListener('click', function (evt) {
                     var intersection = evt.detail.intersection;
                     if (!intersection) return;
 
+                    // Ottieni la posizione cliccata dal cursore (intersezione)
                     var position = intersection.point;
 
-                    // Posiziona la griglia nel punto del cursore
-                    teleportGrid.setAttribute('position', {x: position.x, y: 0.01, z: position.z}); // Altezza minima
-                    teleportGrid.setAttribute('visible', true);
+                    // Crea un cubo temporaneo esattamente nel punto del cursore
+                    var cube = document.createElement('a-box');
+                    cube.setAttribute('position', {x: position.x, y: position.y + 0.5, z: position.z}); // Eleva il cubo per evitare che scompaia nel pavimento
+                    cube.setAttribute('width', 0.5);
+                    cube.setAttribute('height', 0.5);
+                    cube.setAttribute('depth', 0.5);
+                    cube.setAttribute('color', '#4CC3D9');
+                    document.querySelector('a-scene').appendChild(cube);
 
-                    // Esegui il teletrasporto dopo 1 secondo
+                    // Rimuovi il cubo dopo un breve periodo (ad es. 1 secondo)
+                    setTimeout(function () {
+                        cube.parentNode.removeChild(cube);
+                    }, 1000);
+
+                    // Teletrasporta la telecamera dopo aver mostrato il cubo
+                    var cameraEl = document.querySelector('[camera]');
                     setTimeout(function () {
                         cameraEl.setAttribute('animation', {
                             property: 'position',
@@ -64,11 +73,13 @@
                             dur: 1000,
                             easing: 'easeInOutQuad'
                         });
-                        teleportGrid.setAttribute('visible', false); // Nascondi la griglia dopo il teletrasporto
-                    }, 1000); // 1 secondo prima del teletrasporto
+                    }, 500); // Ritardo di 0.5 secondi prima del teletrasporto
                 });
             }
         });
+
+        
+
     </script>
 </head>
 <body>
@@ -98,20 +109,6 @@
         position="0 1.6 -2" visible="false" class="image-display">
         </a-entity>
 
-        <!-- Griglia per mostrare il punto di teletrasporto -->
-        <a-entity id="teleport-grid" position="0 0 -4" visible="false">
-            <!-- Griglia -->
-            <a-grid width="2" height="2" color="#FFFFFF"></a-grid>
-            
-            <!-- Linea curva per rappresentare il percorso di teletrasporto -->
-            <a-curve id="teleport-curve" visible="true">
-                <a-curve-point position="0 0 0"></a-curve-point>
-                <a-curve-point position="0 1 -2"></a-curve-point>
-                <a-curve-point position="0 1.5 -3"></a-curve-point>
-            </a-curve>
-            <a-draw-curve curve="#teleport-curve" material="shader: line; color: white"></a-draw-curve>
-        </a-entity>
-
         <!-- Piano per la scena -->
         <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
 
@@ -119,7 +116,7 @@
 
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
-            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" teleport-with-grid></a-cursor>
+            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
 
     </a-scene>
