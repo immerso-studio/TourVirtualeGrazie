@@ -26,13 +26,15 @@
                 var cameraEl = document.querySelector('[camera]');
 
                 el.addEventListener('click', function (evt) {
+                    
                     // Ottieni la posizione cliccata
+                
                     var targetPosition = evt.detail.intersection.point;
 
                     // Anima il movimento della camera verso la posizione cliccata
                     cameraEl.setAttribute('animation', {
                         property: 'position',
-                        to: targetPosition.x + ' ' + 1.6 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
+                        to: targetPosition.x + ' ' + 2 + ' ' + targetPosition.z, // Mantieni l'altezza della camera a 1.6
                         dur: 1000,  // Durata dell'animazione in millisecondi
                         easing: 'easeInOutQuad'
                     });
@@ -46,7 +48,7 @@
             init: function () {
                 var el = this.el;
                 var data = this.data;
-                //click per pc o touchstart per telefono
+
                 el.addEventListener('click', function () {
                     // Rimuove il vecchio testo, se esiste
                     var existingText = document.querySelector('#text-message');
@@ -73,7 +75,7 @@
 
                     textEntity.setAttribute('position', {
                         x: cameraPosition.x,
-                        y: cameraPosition.y + 1.6, // Altezza fissa
+                        y: cameraPosition.y + 2, // Altezza fissa
                         z: cameraPosition.z - 3 // Aggiunge un po' di distanza in avanti
                     });
 
@@ -84,6 +86,30 @@
                 });
             }
         });
+        
+        AFRAME.registerComponent('hover-color', {
+            schema: {
+                color: {type: 'color', default: '#7BC8A4'}, // Colore da cambiare quando c'è l'hover
+                originalColor: {type: 'color', default: '#7BC8A4'} // Colore originale
+        },
+            init: function () {
+                var el = this.el;
+                var data = this.data;
+
+                // Cambia colore quando il cursore entra nell'elemento
+                el.addEventListener('mouseenter', function () {
+                    el.setAttribute('material', 'color', data.color);
+                });
+
+                // Ritorna al colore originale quando il cursore esce dall'elemento
+                el.addEventListener('mouseleave', function () {
+                    el.setAttribute('material', 'color', data.originalColor);
+                });
+            }
+        });
+
+
+
 
         // Componente per mantenere il testo sempre davanti alla camera
         AFRAME.registerComponent('follow-camera', {
@@ -95,7 +121,7 @@
                 // Posiziona il testo davanti alla camera in base alla posizione e rotazione
                 this.el.object3D.position.set(
                     cameraPosition.x,
-                    cameraPosition.y + 1.6, // Altezza fissa per il testo
+                    cameraPosition.y + 2, // Altezza fissa per il testo
                     cameraPosition.z - 3 // Mantieni il testo a 3 unità di distanza
                 );
                 this.el.object3D.rotation.set(
@@ -105,32 +131,29 @@
                 );
             }
         });
-        AFRAME.registerComponent("highlight-ray", {
-            init: function () {
-                // Crea una sfera per evidenziare il punto di intersezione
-                var marker = document.createElement("a-sphere");
-                marker.setAttribute("color", "yellow");
-                marker.setAttribute("radius", "10");
-                marker.setAttribute("visible", "false");
-                document.querySelector("a-scene").appendChild(marker);
 
-                // Aggiungi l'evento al raycaster per quando c'è un'intersezione
-                this.el.addEventListener("raycaster-intersection", (event) => {
-                    var intersection = event.detail.intersections[0];
-                    if (intersection) {
-                        // Mostra il marker nel punto di intersezione
-                        marker.setAttribute("position", intersection.point);
-                        marker.setAttribute("visible", "true");
-                    }
-                });
 
-                // Nascondi il marker quando il raycaster non trova nulla
-                this.el.addEventListener("raycaster-intersection-cleared", () => {
-                    marker.setAttribute("visible", "false");
-                });
+        AFRAME.registerComponent('show-image', {
+            schema: {
+                targetImage: {type: 'selector'}
             },
-        });
+            init: function () {
+                var el = this.el;
+                var data = this.data;
+                
+                el.addEventListener('click', function () {
+                    // Nascondi tutte le immagini precedenti
+                    var images = document.querySelectorAll('.image-display');
+                    images.forEach(function (img) {
+                        img.setAttribute('visible', 'false');
+                    });
 
+                    // Mostra l'immagine selezionata
+                    data.targetImage.setAttribute('visible', 'true');
+                    data.targetImage.setAttribute('scale', '1 1 1'); // Scala l'immagine a una dimensione visibile
+                });
+            }
+        });
     </script>
 
 
@@ -143,8 +166,10 @@
 <body>
     <a-scene>
 
-       
-
+        <a-assets>
+            <!-- Immagine da visualizzare -->
+            <img id="tag" src="assets/GPS/sky.png" crossorigin="anonymous"/>
+        </a-assets>
     
         <!-- Caricamento degli asset -->
         <a-assets>
@@ -152,7 +177,6 @@
             <a-asset-item id="my-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
             <a-asset-item id="asfalto" src="assets/GPS/Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="assets/GPS/Edifici.glb"></a-asset-item>
-           
         </a-assets>
     
         <!-- Posizionamento del modello 3D nella scena -->
