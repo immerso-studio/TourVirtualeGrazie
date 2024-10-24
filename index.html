@@ -41,25 +41,25 @@
 
         AFRAME.registerComponent('teleport-with-cube', {
             init: function () {
-                var cursorEl = this.el;
+                var cursorEl = this.el;  // Si riferisce all'elemento cursore
 
                 cursorEl.addEventListener('click', function (evt) {
                     var intersection = evt.detail.intersection;
-                    if (!intersection) return;
+                    if (!intersection) return;  // Se non c'è intersezione, esci
 
                     // Ottieni la posizione cliccata dal cursore (intersezione)
                     var position = intersection.point;
 
-                    // Crea un cubo temporaneo esattamente nel punto del cursore
+                    // Crea un cubo temporaneo nel punto del cursore
                     var cube = document.createElement('a-box');
-                    cube.setAttribute('position', {x: position.x, y: position.y + 0.5, z: position.z}); // Eleva il cubo per evitare che scompaia nel pavimento
+                    cube.setAttribute('position', {x: position.x, y: position.y + 0.5, z: position.z}); // Eleva il cubo di 0.5
                     cube.setAttribute('width', 0.5);
                     cube.setAttribute('height', 0.5);
                     cube.setAttribute('depth', 0.5);
                     cube.setAttribute('color', '#4CC3D9');
                     document.querySelector('a-scene').appendChild(cube);
 
-                    // Rimuovi il cubo dopo un breve periodo (ad es. 1 secondo)
+                    // Rimuovi il cubo dopo 1 secondo
                     setTimeout(function () {
                         cube.parentNode.removeChild(cube);
                     }, 1000);
@@ -69,7 +69,7 @@
                     setTimeout(function () {
                         cameraEl.setAttribute('animation', {
                             property: 'position',
-                            to: position.x + ' 2 ' + position.z,
+                            to: position.x + ' 2 ' + position.z,  // Regola l'altezza a 2 per la telecamera
                             dur: 1000,
                             easing: 'easeInOutQuad'
                         });
