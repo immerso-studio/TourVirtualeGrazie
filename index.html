@@ -39,7 +39,7 @@
             }
         });
 
-        AFRAME.registerComponent('add-cube-on-click', {
+        AFRAME.registerComponent('teleport-with-cube', {
             init: function () {
                 var cursorEl = this.el;
 
@@ -50,21 +50,34 @@
                     // Ottieni la posizione cliccata
                     var position = intersection.point;
 
-                    // Crea un nuovo cubo
+                    // Crea un cubo temporaneo
                     var cube = document.createElement('a-box');
                     cube.setAttribute('position', position);
                     cube.setAttribute('width', 1);
                     cube.setAttribute('height', 1);
                     cube.setAttribute('depth', 1);
                     cube.setAttribute('color', '#4CC3D9');
-
-                    // Aggiungi il cubo alla scena
                     document.querySelector('a-scene').appendChild(cube);
+
+                    // Rimuovi il cubo dopo un breve periodo (ad es. 1 secondo)
+                    setTimeout(function () {
+                        cube.parentNode.removeChild(cube);
+                    }, 1000);
+
+                    // Teletrasporta la telecamera dopo aver mostrato il cubo
+                    var cameraEl = document.querySelector('[camera]');
+                    setTimeout(function () {
+                        cameraEl.setAttribute('animation', {
+                            property: 'position',
+                            to: position.x + ' 2 ' + position.z,
+                            dur: 1000,
+                            easing: 'easeInOutQuad'
+                        });
+                    }, 500); // Ritardo di 0.5 secondi prima del teletrasporto
                 });
             }
         });
 
-        // Altri componenti già presenti...
     </script>
 </head>
 <body>
@@ -72,7 +85,6 @@
 
         <!-- Caricamento degli asset -->
         <a-assets>
-            <!-- Sostituisci il percorso con quello del tuo file .glb -->
             <a-asset-item id="my-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
             <a-asset-item id="asfalto" src="assets/GPS/Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="assets/GPS/Edifici.glb"></a-asset-item>
@@ -102,7 +114,7 @@
 
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
-            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" add-cube-on-click></a-cursor>
+            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
 
     </a-scene>
