@@ -79,15 +79,17 @@
             <img id="image3" src="assets/GPS/R.jpg" />
         </a-assets>
 
-        <!-- Posizionamento del modello 3D nella scena -->
+        <!-- Posizionamento del modello 3D nella scena con immagine all'apertura -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#my-model" rotation-reader move-to-position show-image-on-click="imageId: image1">
         </a-entity>
 
+        <!-- Modello "asfalto" solo con movimento attivo (non apre immagine) -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                  gltf-model="#asfalto" rotation-reader move-to-position show-image-on-click="imageId: image2">
+                  gltf-model="#asfalto" rotation-reader move-to-position>
         </a-entity>
 
+        <!-- Modello edifici con immagine all'apertura -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#edifici" rotation-reader move-to-position show-image-on-click="imageId: image3">
         </a-entity>
