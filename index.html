@@ -97,7 +97,9 @@
                     setTimeout(function () {
                         cube.parentNode.removeChild(cube);
                     }, 1000);
-
+                })
+                
+                cursorEl.addEventListener('click', function (evt) {
                     var cameraEl = document.querySelector('[camera]');
                     setTimeout(function () {
                         cameraEl.setAttribute('animation', {
