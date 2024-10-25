@@ -1,6 +1,7 @@
 <html>
 <head>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
     <style>
         /* Stile dell'immagine overlay */
         #imageOverlay {
@@ -30,7 +31,79 @@
             font-weight: bold;
         }
     </style>
+
     <script>
+        AFRAME.registerComponent('rotation-reader', {
+            tick: (function () {
+                var position = new THREE.Vector3();
+                var quaternion = new THREE.Quaternion();
+
+                return function () {
+                    this.el.object3D.getWorldPosition(position);
+                    this.el.object3D.getWorldQuaternion(quaternion);
+
+                    console.log('Posizione:', position);
+                    console.log('Rotazione (quaternion):', quaternion);
+                };
+            })()
+        });
+
+        AFRAME.registerComponent('move-to-position', {
+            schema: {
+                target: {type: 'vec3'}
+            },
+            init: function () {
+                var el = this.el;
+                var cameraEl = document.querySelector('[camera]');
+
+                el.addEventListener('click', function (evt) {
+                    var targetPosition = evt.detail.intersection.point;
+
+                    cameraEl.setAttribute('animation', {
+                        property: 'position',
+                        to: targetPosition.x + ' 2 ' + targetPosition.z,
+                        dur: 1000,
+                        easing: 'easeInOutQuad'
+                    });
+                });
+            }
+        });
+
+        AFRAME.registerComponent('teleport-with-cube', {
+            init: function () {
+                var cursorEl = this.el;
+
+                cursorEl.addEventListener('click', function (evt) {
+                    var intersection = evt.detail.intersection;
+                    if (!intersection) return;
+
+                    var position = intersection.point;
+
+                    var cube = document.createElement('a-box');
+                    cube.setAttribute('position', {x: position.x, y: position.y + 0.5, z: position.z});
+                    cube.setAttribute('width', 0.5);
+                    cube.setAttribute('height', 0.5);
+                    cube.setAttribute('depth', 0.5);
+                    cube.setAttribute('color', '#4CC3D9');
+                    document.querySelector('a-scene').appendChild(cube);
+
+                    setTimeout(function () {
+                        cube.parentNode.removeChild(cube);
+                    }, 1000);
+
+                    var cameraEl = document.querySelector('[camera]');
+                    setTimeout(function () {
+                        cameraEl.setAttribute('animation', {
+                            property: 'position',
+                            to: position.x + ' 2 ' + position.z,
+                            dur: 1000,
+                            easing: 'easeInOutQuad'
+                        });
+                    }, 500);
+                });
+            }
+        });
+
         AFRAME.registerComponent('show-image-on-click', {
             schema: {
                 imageId: {type: 'string'}
@@ -60,13 +133,16 @@
     </script>
 </head>
 <body>
-    <!-- Overlay dell'immagine -->
+
     <div id="imageOverlay">
         <img id="overlayImage" src="" alt="GLB image">
         <div id="closeButton" onclick="closeOverlay()">Chiudi</div>
     </div>
 
+
+
     <a-scene>
+
         <!-- Caricamento degli asset -->
         <a-assets>
             <a-asset-item id="my-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
@@ -74,35 +150,40 @@
             <a-asset-item id="edifici" src="assets/GPS/Edifici.glb"></a-asset-item>
 
             <!-- Le immagini da mostrare -->
-            <img id="image1" src="assets/GPS/1.jpeg" />
+            <img id="image1" src="assets/GPS/TAG-INFERNO_1.png" />
             <img id="image2" src="assets/GPS/sky2.jpg" />
             <img id="image3" src="assets/GPS/R.jpg" />
         </a-assets>
 
-        <!-- Posizionamento del modello 3D nella scena con immagine all'apertura -->
+        <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#my-model" rotation-reader move-to-position show-image-on-click="imageId: image1">
         </a-entity>
 
-        <!-- Modello "asfalto" solo con movimento attivo (non apre immagine) -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#asfalto" rotation-reader move-to-position>
         </a-entity>
 
-        <!-- Modello edifici con immagine all'apertura -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#edifici" rotation-reader move-to-position show-image-on-click="imageId: image3">
         </a-entity>
 
-        <!-- Piano per la scena -->
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
+        <!-- L'immagine fissa da mostrare nel viewport -->
+        <a-entity id="displayedImage" geometry="primitive: plane; width: 2; height: 1.5" 
+                  position="0 1.6 -2" visible="false">
+        </a-entity>
+
+        <!-- Piano per la scena; cliccando, nasconde l'immagine -->
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" 
+                 class="clickable" move-to-position hover-color hide-image-on-click></a-plane>
 
         <a-sky color="#079FE2"></a-sky>
 
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
-            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false"></a-cursor>
+            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
+
     </a-scene>
 </body>
 </html>
