@@ -80,13 +80,9 @@
             init: function () {
                 var cursorEl = this.el;
 
-                cursorEl.addEventListener('hover', function (evt) {
+                cursorEl.addEventListener('click', function (evt) {
                     var intersection = evt.detail.intersection;
                     if (!intersection) return;
-
-                    // Controlla se l'oggetto cliccato è percorribile
-                    var targetEl = evt.target;
-                    if (!targetEl.classList.contains('walkable')) return;
 
                     var position = intersection.point;
 
