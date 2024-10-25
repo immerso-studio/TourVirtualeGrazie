@@ -80,7 +80,7 @@
             init: function () {
                 var cursorEl = this.el;
 
-                cursorEl.addEventListener('raycaster-intersection', function (evt) {
+                cursorEl.addEventListener('mousemove', function (evt) {
                     var intersection = evt.detail.intersection;
                     if (!intersection) return;
 
