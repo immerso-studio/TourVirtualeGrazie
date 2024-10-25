@@ -1,111 +1,72 @@
 <html>
 <head>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-
+    <style>
+        /* Stile dell'immagine overlay */
+        #imageOverlay {
+            display: none; /* Nascosto di default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: auto;
+            z-index: 10;
+            border: 2px solid #ccc;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        #imageOverlay img {
+            width: 100%;
+            height: auto;
+        }
+        #closeButton {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #555;
+            font-weight: bold;
+        }
+    </style>
     <script>
-        AFRAME.registerComponent('rotation-reader', {
-            tick: (function () {
-                var position = new THREE.Vector3();
-                var quaternion = new THREE.Quaternion();
-
-                return function () {
-                    this.el.object3D.getWorldPosition(position);
-                    this.el.object3D.getWorldQuaternion(quaternion);
-
-                    console.log('Posizione:', position);
-                    console.log('Rotazione (quaternion):', quaternion);
-                };
-            })()
-        });
-
-        AFRAME.registerComponent('move-to-position', {
-            schema: {
-                target: {type: 'vec3'}
-            },
-            init: function () {
-                var el = this.el;
-                var cameraEl = document.querySelector('[camera]');
-
-                el.addEventListener('click', function (evt) {
-                    var targetPosition = evt.detail.intersection.point;
-
-                    cameraEl.setAttribute('animation', {
-                        property: 'position',
-                        to: targetPosition.x + ' 2 ' + targetPosition.z,
-                        dur: 1000,
-                        easing: 'easeInOutQuad'
-                    });
-                });
-            }
-        });
-
-        AFRAME.registerComponent('teleport-with-cube', {
-            init: function () {
-                var cursorEl = this.el;
-
-                cursorEl.addEventListener('click', function (evt) {
-                    var intersection = evt.detail.intersection;
-                    if (!intersection) return;
-
-                    var position = intersection.point;
-
-                    var cube = document.createElement('a-box');
-                    cube.setAttribute('position', {x: position.x, y: position.y + 0.5, z: position.z});
-                    cube.setAttribute('width', 0.5);
-                    cube.setAttribute('height', 0.5);
-                    cube.setAttribute('depth', 0.5);
-                    cube.setAttribute('color', '#4CC3D9');
-                    document.querySelector('a-scene').appendChild(cube);
-
-                    setTimeout(function () {
-                        cube.parentNode.removeChild(cube);
-                    }, 1000);
-
-                    var cameraEl = document.querySelector('[camera]');
-                    setTimeout(function () {
-                        cameraEl.setAttribute('animation', {
-                            property: 'position',
-                            to: position.x + ' 2 ' + position.z,
-                            dur: 1000,
-                            easing: 'easeInOutQuad'
-                        });
-                    }, 500);
-                });
-            }
-        });
-
-        // Componente per mostrare l'immagine fissa nel viewport quando si clicca un modello
         AFRAME.registerComponent('show-image-on-click', {
             schema: {
                 imageId: {type: 'string'}
             },
             init: function () {
                 var el = this.el;
-                var displayedImage = document.querySelector('#displayedImage');
 
                 el.addEventListener('click', function () {
-                    displayedImage.setAttribute('material', 'src', '#' + el.getAttribute('show-image-on-click').imageId);
-                    displayedImage.setAttribute('visible', true);
+                    // Ottieni l'elemento div per l'overlay
+                    var imageOverlay = document.getElementById('imageOverlay');
+                    var imageElement = document.getElementById('overlayImage');
+                    
+                    // Cambia la sorgente dell'immagine con quella corrispondente all'elemento cliccato
+                    imageElement.src = document.getElementById(el.getAttribute('show-image-on-click').imageId).src;
+
+                    // Mostra l'overlay
+                    imageOverlay.style.display = 'block';
                 });
             }
         });
 
-        // Componente per nascondere l'immagine fissa quando si clicca su un'area vuota
-        AFRAME.registerComponent('hide-image-on-click', {
-            init: function () {
-                var el = this.el;
-                var displayedImage = document.querySelector('#displayedImage');
-
-                el.addEventListener('click', function () {
-                    displayedImage.setAttribute('visible', false);
-                });
-            }
-        });
+        // Funzione per nascondere l'immagine overlay
+        function closeOverlay() {
+            var imageOverlay = document.getElementById('imageOverlay');
+            imageOverlay.style.display = 'none';
+        }
     </script>
 </head>
 <body>
-    <a-scene>
+    <!-- Overlay dell'immagine -->
+    <div id="imageOverlay">
+        <img id="overlayImage" src="" alt="GLB image">
+        <div id="closeButton" onclick="closeOverlay()">Chiudi</div>
+    </div>
 
+    <a-scene>
         <!-- Caricamento degli asset -->
         <a-assets>
             <a-asset-item id="my-model" src="assets/GPS/PIAZZALE SANTUARIO Definitivo.glb"></a-asset-item>
@@ -118,7 +79,7 @@
             <img id="image3" src="assets/GPS/R.jpg" />
         </a-assets>
 
-        <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
+        <!-- Posizionamento del modello 3D nella scena -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#my-model" rotation-reader move-to-position show-image-on-click="imageId: image1">
         </a-entity>
@@ -131,22 +92,15 @@
                   gltf-model="#edifici" rotation-reader move-to-position show-image-on-click="imageId: image3">
         </a-entity>
 
-        <!-- L'immagine fissa da mostrare nel viewport -->
-        <a-entity id="displayedImage" geometry="primitive: plane; width: 2; height: 1.5" 
-                  position="0 1.6 -2" visible="false">
-        </a-entity>
-
-        <!-- Piano per la scena; cliccando, nasconde l'immagine -->
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" 
-                 class="clickable" move-to-position hover-color hide-image-on-click></a-plane>
+        <!-- Piano per la scena -->
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="40" height="80" color="#DEDEDE" class="clickable" move-to-position hover-color></a-plane>
 
         <a-sky color="#079FE2"></a-sky>
 
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
-            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" teleport-with-cube></a-cursor>
+            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false"></a-cursor>
         </a-entity>
-
     </a-scene>
 </body>
 </html>
