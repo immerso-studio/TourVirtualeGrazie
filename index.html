@@ -79,10 +79,23 @@
         AFRAME.registerComponent('teleport-with-cube', {
             init: function () {
                 var cursorEl = this.el;
+                var marker = document.createElement("a-sphere");
+                marker.setAttribute("color", "yellow");
+                marker.setAttribute("radius", "0.1");
+                marker.setAttribute("visible", "false");
+                document.querySelector("a-scene").appendChild(marker);
 
-                cursorEl.addEventListener('mousemove', function (evt) {
+                this.el.addEventListener("craycaster-intersection-cleared", (event) => {
+                    var intersection = event.detail.intersections[0];
+                    if (intersection) {
+                        // Mostra il marker nel punto di intersezione
+                        marker.setAttribute("position", intersection.point);
+                        marker.setAttribute("visible", "true");
+                    }
+                });
+
+                cursorEl.addEventListener('mouseenter', function (evt) {
                     var intersection = evt.detail.intersection;
-                    alert("ciao")
                     if (!intersection) return;
 
                     var position = intersection.point;
@@ -155,6 +168,10 @@
 
         <!-- Caricamento degli asset -->
         <a-assets>
+            <!--<a-asset-item id="my-model" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\101.glb"></a-asset-item>
+            <a-asset-item id="asfalto" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Asfalto.glb"></a-asset-item>
+            <a-asset-item id="edifici" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Edifici.glb"></a-asset-item>-->
+            
             <a-asset-item id="my-model" src="assets/GPS/101.glb"></a-asset-item>
             <a-asset-item id="asfalto" src="assets/GPS/Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="assets/GPS/Edifici.glb"></a-asset-item>
@@ -188,7 +205,7 @@
 
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
-            <a-cursor id="cursor" raycaster="objects: .clickable" fuse="false" teleport-with-cube></a-cursor>
+            <a-cursor id="cursor" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
 
     </a-scene>
