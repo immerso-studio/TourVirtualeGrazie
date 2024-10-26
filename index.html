@@ -33,6 +33,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            font-family: sans-serif;
             font-weight: bold;
             font-size: 18px;
             line-height: 20px;
@@ -44,13 +45,31 @@
             tick: (function () {
                 var position = new THREE.Vector3();
                 var quaternion = new THREE.Quaternion();
-
                 return function () {
+
+
                     this.el.object3D.getWorldPosition(position);
                     this.el.object3D.getWorldQuaternion(quaternion);
 
-                    console.log('Posizione:', position);
-                    console.log('Rotazione (quaternion):', quaternion);
+                    //console.log('Posizione:', position);
+
+                    //console.log('Rotazione (quaternion):', quaternion);
+                    var marker = document.querySelector('#marker'); 
+                    //console.log(marker);
+                    //console.log(marker.getAttribute('position'))
+                    //smarker.setAttribute('position',{x: position.x, y: position.y, z: position.z})
+                    /*marker.setAttribute('visible', 'false');
+                    var intersection = evt.detail.intersection;
+                    if (!intersection) return;
+
+                    var position = intersection.point;
+
+                    marker.setAttribute('position', );
+                    marker.setAttribute('visible', 'true');
+                    console.log(position.x,position.y);
+                    console.log(marker)*/
+
+
                 };
             })()
         });
@@ -79,7 +98,7 @@
         AFRAME.registerComponent('teleport-with-cube', {
             init: function () {
                 var cursorEl = this.el;
-                var marker = document.createElement("a-sphere");
+                /*var marker = document.createElement("a-sphere");
                 marker.setAttribute("color", "yellow");
                 marker.setAttribute("radius", "0.1");
                 marker.setAttribute("visible", "false");
@@ -111,7 +130,7 @@
                     setTimeout(function () {
                         cube.parentNode.removeChild(cube);
                     }, 1000);
-                })
+                });*/
                 
                 cursorEl.addEventListener('click', function (evt) {
                     var cameraEl = document.querySelector('[camera]');
@@ -124,8 +143,80 @@
                         });
                     }, 500);
                 });
+            
+        }})
+
+
+        AFRAME.registerComponent('marker', {
+            tick: function () {
+                // Creazione di un marker (sfera gialla) per il puntatore
+                var marker = document.getElementById('marker');
+                //console.log(marker.getAttribute('position'))
+                marker.setAttribute('position', {x: 1, y: 2, z: 2})
+                marker.setAttribute('visible', 'true'); // Rendi visibile il marker
+                var cameraEl = document.querySelector('[camera]');
+                console.log(cameraEl.components,'ciao')
+
+                var raycaster = cameraEl.components;
+                if (!raycaster) {
+                    console.error("Raycaster component not found");
+                    return;
+                }
+                var intersections = raycaster.intersections;
+                if (intersections && intersections.length > 0) {
+                    console.log(intersections[0]); // Mostra il primo punto di intersezione
+                } else {
+                    console.log("No intersections found");
+                }
+                var pos= cameraEl.getAttribute('position');
+                //console.log(pos.x,'ciao2')
+
+                marker.setAttribute('position', {x:pos.x, y:pos.y, z: pos.z-5});
+                console.log(marker.getAttribute('visible'),'c')
+
+                
+
+            }
+
+        });
+
+        AFRAME.registerComponent('continuous-pointer', {
+            tick: function () {
+                // Creazione di un marker (sfera gialla) per il puntatore
+                var marker = document.createElement("a-sphere");
+                marker.setAttribute("color", "yellow");
+                marker.setAttribute("radius", "0.1");
+                marker.setAttribute("visible", "false");
+                document.querySelector("a-scene").appendChild(marker);
+                
+                // Ottieni la camera
+                var cameraEl = document.querySelector('[camera]');
+
+                // Funzione di aggiornamento della posizione del marker
+                var updatePointerPosition = () => {
+                    // Usa il raycaster della camera per ottenere le intersezioni
+                    var raycaster = cameraEl.components.raycaster;
+                    var intersections = raycaster.intersections;
+                    console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ")
+
+                    if (intersections.length > 0) {
+                        // Se ci sono intersezioni, aggiorna la posizione del marker al primo punto di intersezione
+                        var point = intersections[0].point;
+                        marker.setAttribute('position', point);
+                        marker.setAttribute('visible', 'true'); // Rendi visibile il marker
+                    } else {
+                        // Nascondi il marker se non ci sono intersezioni
+                        marker.setAttribute('visible', 'true');
+                    }
+                    requestAnimationFrame(updatePointerPosition);
+
+                };
+
+                // Inizia l'aggiornamento continuo
+                requestAnimationFrame(updatePointerPosition);
             }
         });
+
 
         AFRAME.registerComponent('show-image-on-click', {
             schema: {
@@ -173,18 +264,28 @@
             <a-asset-item id="edifici" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Edifici.glb"></a-asset-item>-->
             
             <a-asset-item id="my-model" src="assets/GPS/101.glb"></a-asset-item>
+            <a-asset-item id="my-model2" src="assets/GPS/102.glb"></a-asset-item>
+            <a-asset-item id="my-model3" src="assets/GPS/103.glb"></a-asset-item>
             <a-asset-item id="asfalto" src="assets/GPS/Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="assets/GPS/Edifici.glb"></a-asset-item>
 
             <!-- Le immagini da mostrare -->
-            <img id="image1" src="assets/GPS/TAG-INFERNO_1.png" style="max-width: 70%; height: auto;"/>
-            <img id="image2" src="assets/GPS/sky2.jpg" />
-            <img id="image3" src="assets/GPS/R.jpg" />
+            <img id="image1" src="assets/GPS/TAG-INFERNO_1.png" />
+            <img id="image2" src="assets/GPS/TAG-INFERNO_2.png" />
+            <img id="image3" src="assets/GPS/TAG-INFERNO_3.png" />
         </a-assets>
 
         <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#my-model" show-image-on-click="imageId: image1">
+        </a-entity>
+
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#my-model2" show-image-on-click="imageId: image2">
+        </a-entity>
+
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#my-model3" show-image-on-click="imageId: image3">
         </a-entity>
 
         <a-entity class="clickable walkable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
@@ -201,12 +302,14 @@
         </a-entity>
 
 
-        <a-sky color="#079FE2"></a-sky>
 
+        <a-sky color="#079FE2"></a-sky>
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
             <a-cursor id="cursor" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
+        <a-entity id="marker" geometry="primitive: sphere; radius: 0.1" material="color: yellow; opacity: 0.5" visible="true" marker></a-entity>
+
 
     </a-scene>
 </body>
