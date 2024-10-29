@@ -38,10 +38,6 @@
             font-size: 18px;
             line-height: 20px;
         }
-
-        .highlight {
-            outline: 3px solid yellow; /* Colore e spessore del bordo */
-        }
     </style>
 
 <script>
@@ -225,28 +221,37 @@
             requestAnimationFrame(updatePointerPosition);
         }
     });
-    
-    AFRAME.registerComponent('highlight-on-hover', {
-        schema: {
-            color: {type: 'color', default: '#FFD700'}, // Colore del bordo durante l'hover
-            scale: {type: 'vec3', default: {x: 1, y: 1.2, z: 1}} // Scala durante hover
-        },
-        init: function () {
-            const el = this.el;
-            const originalColor = el.getAttribute('material').color;
-            const originalScale = el.getAttribute('scale');
 
-        el.addEventListener('mouseenter', function () {
-            el.setAttribute('material', 'color', el.components['highlight-on-hover'].data.color);
-            el.setAttribute('scale', el.components['highlight-on-hover'].data.scale);
+        AFRAME.registerComponent('selezione_riquadro', {
+                schema: {
+                        borderColor: {type: 'color', default: '#FF0000'},  // Colore del contorno
+                        borderSize: {type: 'number', default: 0.1}         // Spessore del contorno
+                },
+
+                init: function () {
+                        const el = this.el;
+                        const width = parseFloat(el.getAttribute('width')) || 1; // Larghezza piano
+                        const height = parseFloat(el.getAttribute('height')) || 1; // Altezza piano
+
+                        // Crea il piano di contorno
+                        const borderPlane = document.createElement('a-plane');
+                        borderPlane.setAttribute('width', width + this.data.borderSize);
+                        borderPlane.setAttribute('height', height + this.data.borderSize);
+                        borderPlane.setAttribute('material', { color: this.data.borderColor, opacity: 0.8 });
+                        borderPlane.setAttribute('position', '0 0 -0.01'); // Posizionato appena dietro al piano principale
+
+                        // Aggiungi il contorno come figlio dell'elemento
+                        el.appendChild(borderPlane);
+
+                        // Aggiungi evento per mostrare/nascondere il contorno al passaggio del mouse
+                        el.addEventListener('mouseenter', () => borderPlane.setAttribute('visible', true));
+                        el.addEventListener('mouseleave', () => borderPlane.setAttribute('visible', false));
+
+                        // Nascondi il contorno inizialmente
+                        borderPlane.setAttribute('visible', false);
+                }
         });
 
-        el.addEventListener('mouseleave', function () {
-            el.setAttribute('material', 'color', originalColor);
-            el.setAttribute('scale', originalScale);
-        });
-        }
-    });
 
     AFRAME.registerComponent('show-image-on-click', {
         schema: {
@@ -269,7 +274,6 @@
         }
     });
 
-
     // Funzione per nascondere l'immagine overlay
     function closeOverlay() {
         var imageOverlay = document.getElementById('imageOverlay');
@@ -290,7 +294,6 @@
 
         <!-- Caricamento degli asset -->
         <a-assets>
-
             <!--<a-asset-item id="my-model" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\101.glb"></a-asset-item>
             <a-asset-item id="asfalto" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Edifici.glb"></a-asset-item>-->
@@ -298,8 +301,50 @@
             <a-asset-item id="my-model-101" src="assets/GPS/GLB opere singole/101.glb"></a-asset-item>
             <a-asset-item id="my-model-102" src="assets/GPS/GLB opere singole/102.glb"></a-asset-item>
             <a-asset-item id="my-model-103" src="assets/GPS/GLB opere singole/103.glb"></a-asset-item>
-
-           
+            <a-asset-item id="my-model-104" src="assets/GPS/GLB opere singole/104.glb"></a-asset-item>
+            <a-asset-item id="my-model-105" src="assets/GPS/GLB opere singole/105.glb"></a-asset-item>
+            <a-asset-item id="my-model-106" src="assets/GPS/GLB opere singole/106.glb"></a-asset-item>
+            <a-asset-item id="my-model-107" src="assets/GPS/GLB opere singole/107.glb"></a-asset-item>
+            <a-asset-item id="my-model-108" src="assets/GPS/GLB opere singole/108.glb"></a-asset-item>
+            <a-asset-item id="my-model-109" src="assets/GPS/GLB opere singole/109.glb"></a-asset-item>
+            <a-asset-item id="my-model-110" src="assets/GPS/GLB opere singole/110.glb"></a-asset-item>
+            <a-asset-item id="my-model-111" src="assets/GPS/GLB opere singole/111.glb"></a-asset-item>
+            <a-asset-item id="my-model-112" src="assets/GPS/GLB opere singole/112.glb"></a-asset-item>
+            <a-asset-item id="my-model-113" src="assets/GPS/GLB opere singole/113.glb"></a-asset-item>
+            <a-asset-item id="my-model-114" src="assets/GPS/GLB opere singole/114.glb"></a-asset-item>
+            <a-asset-item id="my-model-115" src="assets/GPS/GLB opere singole/115.glb"></a-asset-item>
+            <a-asset-item id="my-model-116" src="assets/GPS/GLB opere singole/116.glb"></a-asset-item>
+            <a-asset-item id="my-model-117" src="assets/GPS/GLB opere singole/117.glb"></a-asset-item>
+            <a-asset-item id="my-model-118" src="assets/GPS/GLB opere singole/118.glb"></a-asset-item>
+            <a-asset-item id="my-model-119" src="assets/GPS/GLB opere singole/119.glb"></a-asset-item>
+            <a-asset-item id="my-model-120" src="assets/GPS/GLB opere singole/120.glb"></a-asset-item>
+            <a-asset-item id="my-model-121" src="assets/GPS/GLB opere singole/121.glb"></a-asset-item>
+            <a-asset-item id="my-model-122" src="assets/GPS/GLB opere singole/122.glb"></a-asset-item>
+            <a-asset-item id="my-model-123" src="assets/GPS/GLB opere singole/123.glb"></a-asset-item>
+            <a-asset-item id="my-model-124" src="assets/GPS/GLB opere singole/124.glb"></a-asset-item>
+            <a-asset-item id="my-model-125" src="assets/GPS/GLB opere singole/125.glb"></a-asset-item>
+            <a-asset-item id="my-model-126" src="assets/GPS/GLB opere singole/126.glb"></a-asset-item>
+            <a-asset-item id="my-model-127" src="assets/GPS/GLB opere singole/127.glb"></a-asset-item>
+            <a-asset-item id="my-model-128" src="assets/GPS/GLB opere singole/128.glb"></a-asset-item>
+            <a-asset-item id="my-model-129" src="assets/GPS/GLB opere singole/129.glb"></a-asset-item>
+            <a-asset-item id="my-model-130" src="assets/GPS/GLB opere singole/130.glb"></a-asset-item>
+            <a-asset-item id="my-model-131" src="assets/GPS/GLB opere singole/131.glb"></a-asset-item>
+            <a-asset-item id="my-model-132" src="assets/GPS/GLB opere singole/132.glb"></a-asset-item>
+            <a-asset-item id="my-model-133" src="assets/GPS/GLB opere singole/133.glb"></a-asset-item>
+            <a-asset-item id="my-model-134" src="assets/GPS/GLB opere singole/134.glb"></a-asset-item>
+            <a-asset-item id="my-model-135" src="assets/GPS/GLB opere singole/135.glb"></a-asset-item>
+            <a-asset-item id="my-model-136" src="assets/GPS/GLB opere singole/136.glb"></a-asset-item>
+            <a-asset-item id="my-model-137" src="assets/GPS/GLB opere singole/137.glb"></a-asset-item>
+            <a-asset-item id="my-model-138" src="assets/GPS/GLB opere singole/138.glb"></a-asset-item>
+            <a-asset-item id="my-model-139" src="assets/GPS/GLB opere singole/139.glb"></a-asset-item>
+            <a-asset-item id="my-model-140" src="assets/GPS/GLB opere singole/140.glb"></a-asset-item>
+            <a-asset-item id="my-model-141" src="assets/GPS/GLB opere singole/141.glb"></a-asset-item>
+            <a-asset-item id="my-model-142" src="assets/GPS/GLB opere singole/142.glb"></a-asset-item>
+            <a-asset-item id="my-model-143" src="assets/GPS/GLB opere singole/143.glb"></a-asset-item>
+            <a-asset-item id="my-model-144" src="assets/GPS/GLB opere singole/144.glb"></a-asset-item>
+            <a-asset-item id="my-model-145" src="assets/GPS/GLB opere singole/145.glb"></a-asset-item>
+            <a-asset-item id="my-model-146" src="assets/GPS/GLB opere singole/146.glb"></a-asset-item>
+            <a-asset-item id="my-model-147" src="assets/GPS/GLB opere singole/147.glb"></a-asset-item>
 
             
             <a-asset-item id="asfalto" src="assets/GPS/GLB/Asfalto percorribile.glb"></a-asset-item>
@@ -311,16 +356,50 @@
             <img id="image1" src="assets/GPS/INFERNO/TAG-INFERNO_1.png" />
             <img id="image2" src="assets/GPS/INFERNO/TAG-INFERNO_2.png" />
             <img id="image3" src="assets/GPS/INFERNO/TAG-INFERNO_3.png" />
-
-            <img id="image-hover" src="assets/GPS/hover.png" />
-
-            <a-mixin id="highlight" 
-                 geometry="primitive: box" 
-                 animation__mouseenter="property: scale; to: 1 2 1; dur: 200; startEvents: mouseenter"
-                 animation__mouseleave="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
-                 material="color: #00aaff; opacity: 0.5;">
-            </a-mixin>
-
+            <img id="image4" src="assets/GPS/INFERNO/TAG-INFERNO_4.png" />
+            <img id="image5" src="assets/GPS/INFERNO/TAG-INFERNO_5.png" />
+            <img id="image6" src="assets/GPS/INFERNO/TAG-INFERNO_6.png" />
+            <img id="image7" src="assets/GPS/INFERNO/TAG-INFERNO_7.png" />
+            <img id="image8" src="assets/GPS/INFERNO/TAG-INFERNO_8.png" />
+            <img id="image9" src="assets/GPS/INFERNO/TAG-INFERNO_9.png" />
+            <img id="image10" src="assets/GPS/INFERNO/TAG-INFERNO_10.png" />
+            <img id="image11" src="assets/GPS/INFERNO/TAG-INFERNO_11.png" />
+            <img id="image12" src="assets/GPS/INFERNO/TAG-INFERNO_12.png" />
+            <img id="image13" src="assets/GPS/INFERNO/TAG-INFERNO_13.png" />
+            <img id="image14" src="assets/GPS/INFERNO/TAG-INFERNO_14.png" />
+            <img id="image15" src="assets/GPS/INFERNO/TAG-INFERNO_15.png" />
+            <img id="image16" src="assets/GPS/INFERNO/TAG-INFERNO_16.png" />
+            <img id="image17" src="assets/GPS/INFERNO/TAG-INFERNO_17.png" />
+            <img id="image18" src="assets/GPS/INFERNO/TAG-INFERNO_18.png" />
+            <img id="image19" src="assets/GPS/INFERNO/TAG-INFERNO_19.png" />
+            <img id="image20" src="assets/GPS/INFERNO/TAG-INFERNO_20.png" />
+            <img id="image21" src="assets/GPS/INFERNO/TAG-INFERNO_21.png" />
+            <img id="image22" src="assets/GPS/INFERNO/TAG-INFERNO_22.png" />
+            <img id="image23" src="assets/GPS/INFERNO/TAG-INFERNO_23.png" />
+            <img id="image24" src="assets/GPS/INFERNO/TAG-INFERNO_24.png" />
+            <img id="image25" src="assets/GPS/INFERNO/TAG-INFERNO_25.png" />
+            <img id="image26" src="assets/GPS/INFERNO/TAG-INFERNO_26.png" />
+            <img id="image27" src="assets/GPS/INFERNO/TAG-INFERNO_27.png" />
+            <img id="image28" src="assets/GPS/INFERNO/TAG-INFERNO_28.png" />
+            <img id="image29" src="assets/GPS/INFERNO/TAG-INFERNO_29.png" />
+            <img id="image30" src="assets/GPS/INFERNO/TAG-INFERNO_30.png" />
+            <img id="image31" src="assets/GPS/INFERNO/TAG-INFERNO_31.png" />
+            <img id="image32" src="assets/GPS/INFERNO/TAG-INFERNO_32.png" />
+            <img id="image33" src="assets/GPS/INFERNO/TAG-INFERNO_33.png" />
+            <img id="image34" src="assets/GPS/INFERNO/TAG-INFERNO_34.png" />
+            <img id="image35" src="assets/GPS/INFERNO/TAG-INFERNO_35.png" />
+            <img id="image36" src="assets/GPS/INFERNO/TAG-INFERNO_36.png" />
+            <img id="image37" src="assets/GPS/INFERNO/TAG-INFERNO_37.png" />
+            <img id="image38" src="assets/GPS/INFERNO/TAG-INFERNO_38.png" />
+            <img id="image39" src="assets/GPS/INFERNO/TAG-INFERNO_39.png" />
+            <img id="image40" src="assets/GPS/INFERNO/TAG-INFERNO_40.png" />
+            <img id="image41" src="assets/GPS/INFERNO/TAG-INFERNO_41.png" />
+            <img id="image42" src="assets/GPS/INFERNO/TAG-INFERNO_42.png" />
+            <img id="image43" src="assets/GPS/INFERNO/TAG-INFERNO_43.png" />
+            <img id="image44" src="assets/GPS/INFERNO/TAG-INFERNO_44.png" />
+            <img id="image45" src="assets/GPS/INFERNO/TAG-INFERNO_45.png" />
+            <img id="image46" src="assets/GPS/INFERNO/TAG-INFERNO_46.png" />
+            <img id="image47" src="assets/GPS/INFERNO/TAG-INFERNO_47.png" />
 
 
         </a-assets>
@@ -329,17 +408,192 @@
 
         <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
         <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-          gltf-model="#my-model-101" show-image-on-click="imageId: image1" highlight-on-hover="imageId: image-hover">
+          gltf-model="#my-model-101" show-image-on-click="imageId: image1">
         </a-entity>
 
         <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-102" show-image-on-click="imageId: image2" highlight-on-hover="imageId: image-hover">
+                gltf-model="#my-model-102" show-image-on-click="imageId: image2">
         </a-entity>
 
         <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-103" show-image-on-click="imageId: image3" highlight-on-hover="imageId: image-hover">
+                gltf-model="#my-model-103" show-image-on-click="imageId: image3">
         </a-entity>
 
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-104" show-image-on-click="imageId: image4">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-105" show-image-on-click="imageId: image5">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-106" show-image-on-click="imageId: image6">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-107" show-image-on-click="imageId: image7">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-108" show-image-on-click="imageId: image8">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-109" show-image-on-click="imageId: image9">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-110" show-image-on-click="imageId: image10">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-111" show-image-on-click="imageId: image11">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-112" show-image-on-click="imageId: image12">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-113" show-image-on-click="imageId: image13">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-114" show-image-on-click="imageId: image14">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-115" show-image-on-click="imageId: image15">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-116" show-image-on-click="imageId: image16">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-117" show-image-on-click="imageId: image17">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-118" show-image-on-click="imageId: image18">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-119" show-image-on-click="imageId: image19">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-120" show-image-on-click="imageId: image20">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-121" show-image-on-click="imageId: image21">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-122" show-image-on-click="imageId: image22">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-123" show-image-on-click="imageId: image23">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-124" show-image-on-click="imageId: image24">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-125" show-image-on-click="imageId: image25">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-126" show-image-on-click="imageId: image26">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-127" show-image-on-click="imageId: image27">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-128" show-image-on-click="imageId: image28">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-129" show-image-on-click="imageId: image29">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-130" show-image-on-click="imageId: image30">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-131" show-image-on-click="imageId: image31">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-132" show-image-on-click="imageId: image32">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-133" show-image-on-click="imageId: image33">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-134" show-image-on-click="imageId: image34">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-135" show-image-on-click="imageId: image35">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-136" show-image-on-click="imageId: image36">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-137" show-image-on-click="imageId: image37">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-138" show-image-on-click="imageId: image38">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-139" show-image-on-click="imageId: image39">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-140" show-image-on-click="imageId: image40">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-141" show-image-on-click="imageId: image41">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-142" show-image-on-click="imageId: image42">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-143" show-image-on-click="imageId: image43">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-144" show-image-on-click="imageId: image44">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-145" show-image-on-click="imageId: image45">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-146" show-image-on-click="imageId: image46">
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-147" show-image-on-click="imageId: image47">
+        </a-entity>
 
 
 
@@ -371,8 +625,11 @@
         <a-entity camera look-controls wasd-controls position="-4 2 37">
             <a-cursor id="cursor" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
-        <a-entity id="marker" geometry="primitive: sphere; radius: 0.1" material="color: yellow; opacity: 0.5" visible="true" marker></a-entity>
-
+        <a-entity id="marker" position="0 5 0"
+        rotation="-90 0 0"
+          geometry="primitive: plane; width: 1; height: 1"
+          material="src: url(assets/GPS/griglia.png); transparent: true"
+          marker></a-entity>
 
     </a-scene>
 </body>
