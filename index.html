@@ -222,7 +222,7 @@
         }
     });
 
-        AFRAME.registerComponent('selezione_riquadro', {
+    AFRAME.registerComponent('selezione_riquadro', {
                 schema: {
                         borderColor: {type: 'color', default: '#FF0000'},  // Colore del contorno
                         borderSize: {type: 'number', default: 0.1}         // Spessore del contorno
@@ -251,6 +251,8 @@
                         borderPlane.setAttribute('visible', false);
                 }
         });
+
+        
 
 
     AFRAME.registerComponent('show-image-on-click', {
@@ -297,6 +299,8 @@
             <!--<a-asset-item id="my-model" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\101.glb"></a-asset-item>
             <a-asset-item id="asfalto" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Edifici.glb"></a-asset-item>-->
+
+            <a-asset-item id="marker-glb" src="assets/GPS/Griglia teletrasporto.glb"></a-asset-item>
             
             <a-asset-item id="my-model-101" src="assets/GPS/GLB opere singole/101.glb"></a-asset-item>
             <a-asset-item id="my-model-102" src="assets/GPS/GLB opere singole/102.glb"></a-asset-item>
@@ -345,6 +349,10 @@
             <a-asset-item id="my-model-145" src="assets/GPS/GLB opere singole/145.glb"></a-asset-item>
             <a-asset-item id="my-model-146" src="assets/GPS/GLB opere singole/146.glb"></a-asset-item>
             <a-asset-item id="my-model-147" src="assets/GPS/GLB opere singole/147.glb"></a-asset-item>
+
+            <a-asset-item id="selezione-101" src="assets/GPS/00_SELEZIONE OPERE/Selezione 101.glb"></a-asset-item>
+            <a-asset-item id="selezione-102" src="assets/GPS/00_SELEZIONE OPERE/Selezione 102.glb"></a-asset-item>
+            <a-asset-item id="selezione-103" src="assets/GPS/00_SELEZIONE OPERE/Selezione 103.glb"></a-asset-item>
 
             
             <a-asset-item id="asfalto" src="assets/GPS/GLB/Asfalto percorribile.glb"></a-asset-item>
@@ -408,11 +416,15 @@
 
         <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
         <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-          gltf-model="#my-model-101" show-image-on-click="imageId: image1">
+          gltf-model="#my-model-101" show-image-on-click="imageId: image1" selezione_riquadro>
         </a-entity>
 
         <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-102" show-image-on-click="imageId: image2">
+          gltf-model="#selezione-101" selezione_riquadro>
+        </a-entity>
+
+        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                gltf-model="#my-model-102" show-image-on-click="imageId: image2" selezione_riquadro>
         </a-entity>
 
         <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
@@ -608,8 +620,8 @@
                   gltf-model="#edifici" rotation-reader move-to-position>
         </a-entity>
 
-        <a-entity class="clickable walkable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                  gltf-model="#asfalto2" rotation-reader move-to-position>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#asfalto2">
         </a-entity>
 
         <!-- L'immagine fissa da mostrare nel viewport -->
@@ -620,16 +632,19 @@
 
 
 
-        <a-sky color="#079FE2"></a-sky>
+        <a-sky color="#71AED3"></a-sky>
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
             <a-cursor id="cursor" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
-        <a-entity id="marker" position="0 5 0"
-        rotation="-90 0 0"
-          geometry="primitive: plane; width: 1; height: 1"
-          material="src: url(assets/GPS/griglia.png); transparent: true"
-          marker></a-entity>
+        <a-entity id="marker"
+          gltf-model="#marker-glb"
+          position="0 5 0"
+          rotation="0 0 0"
+          scale="1 1 1"
+          visible="false"
+          marker>
+        </a-entity>
 
     </a-scene>
 </body>
