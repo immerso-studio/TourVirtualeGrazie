@@ -1,6 +1,8 @@
 <html>
 <head>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/FBXLoader.js"></script>
 
     <style>
         /* Stile dell'immagine overlay */
@@ -300,7 +302,7 @@
             <a-asset-item id="asfalto" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Edifici.glb"></a-asset-item>-->
 
-            <a-asset-item id="marker-glb" src="assets/GPS/Griglia teletrasporto.glb"></a-asset-item>
+            <a-asset-item id="marker-glb" src="assets/GPS/Cilindro teletrasporto.glb"></a-asset-item>
             
             <a-asset-item id="my-model-101" src="assets/GPS/GLB opere singole/101.glb"></a-asset-item>
             <a-asset-item id="my-model-102" src="assets/GPS/GLB opere singole/102.glb"></a-asset-item>
@@ -628,6 +630,9 @@
         <a-entity id="displayedImage" geometry="primitive: plane; width: 2; height: 1.5" 
                   position="0 1.6 -2" visible="false">
         </a-entity>
+
+
+        
 
 
 
