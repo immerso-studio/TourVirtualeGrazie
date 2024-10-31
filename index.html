@@ -223,34 +223,27 @@
     });
 
     AFRAME.registerComponent('selezione_riquadro', {
-                schema: {
-                        borderColor: {type: 'color', default: '#FF0000'},  // Colore del contorno
-                        borderSize: {type: 'number', default: 0.1}         // Spessore del contorno
-                },
-
                 init: function () {
                         const el = this.el;
-                        const width = parseFloat(el.getAttribute('width')) || 1; // Larghezza piano
-                        const height = parseFloat(el.getAttribute('height')) || 1; // Altezza piano
 
-                        // Crea il piano di contorno
-                        const borderPlane = document.createElement('a-plane');
-                        borderPlane.setAttribute('width', width + this.data.borderSize);
-                        borderPlane.setAttribute('height', height + this.data.borderSize);
-                        borderPlane.setAttribute('material', { color: this.data.borderColor, opacity: 0.8 });
-                        borderPlane.setAttribute('position', '0 0 -0.01'); // Posizionato appena dietro al piano principale
+                        // Seleziona l'entità che mostra il modello "selezione-101"
+                        const selectionEntity = document.querySelector('#selezione');
+                        
+                        // Nascondi il modello di selezione inizialmente
+                        selectionEntity.setAttribute('visible', false);
 
-                        // Aggiungi il contorno come figlio dell'elemento
-                        el.appendChild(borderPlane);
+                        // Mostra il modello al passaggio del mouse
+                        el.addEventListener('mouseenter', () => {
+                        selectionEntity.setAttribute('visible', true);
+                        });
 
-                        // Aggiungi evento per mostrare/nascondere il contorno al passaggio del mouse
-                        el.addEventListener('mouseenter', () => borderPlane.setAttribute('visible', true));
-                        el.addEventListener('mouseleave', () => borderPlane.setAttribute('visible', false));
-
-                        // Nascondi il contorno inizialmente
-                        borderPlane.setAttribute('visible', false);
+                        // Nasconde il modello quando il mouse esce
+                        el.addEventListener('mouseleave', () => {
+                        selectionEntity.setAttribute('visible', false);
+                        });
                 }
         });
+
 
         
 
@@ -416,21 +409,18 @@
    
 
         <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-          gltf-model="#my-model-101" show-image-on-click="imageId: image1" selezione_riquadro>
-        </a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-101" selezione_riquadro show-image-on-click="imageId: image1"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-102" selezione_riquadro show-image-on-click="imageId: image2"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-103" selezione_riquadro show-image-on-click="imageId: image3"></a-entity>
 
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-          gltf-model="#selezione-101" selezione_riquadro>
-        </a-entity>
+        <a-entity id="selezione" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-101"></a-entity>
+        <a-entity id="selezione" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-102"></a-entity>
+        <a-entity id="selezione" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-103"></a-entity>
 
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-102" show-image-on-click="imageId: image2" selezione_riquadro>
-        </a-entity>
 
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-103" show-image-on-click="imageId: image3">
-        </a-entity>
+
+
+
 
         <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                 gltf-model="#my-model-104" show-image-on-click="imageId: image4">
