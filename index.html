@@ -222,12 +222,100 @@
         }
     });
 
-    AFRAME.registerComponent('selezione_riquadro', {
+    AFRAME.registerComponent('selezione_riquadro_1', {
                 init: function () {
                         const el = this.el;
 
                         // Seleziona l'entità che mostra il modello "selezione-101"
                         const selectionEntity = document.querySelector('#selezione');
+                        
+                        // Nascondi il modello di selezione inizialmente
+                        selectionEntity.setAttribute('visible', false);
+
+                        // Mostra il modello al passaggio del mouse
+                        el.addEventListener('mouseenter', () => {
+                        selectionEntity.setAttribute('visible', true);
+                        });
+
+                        // Nasconde il modello quando il mouse esce
+                        el.addEventListener('mouseleave', () => {
+                        selectionEntity.setAttribute('visible', false);
+                        });
+                }
+        });
+
+        AFRAME.registerComponent('selezione_riquadro', {
+                init: function () {
+                        const el = this.el;
+
+                        // Seleziona l'entità che mostra il modello "selezione-101"
+                        const selectionEntity = document.querySelector('#selezione');
+                        
+                        // Nascondi il modello di selezione inizialmente
+                        selectionEntity.setAttribute('visible', false);
+
+                        // Mostra il modello al passaggio del mouse
+                        el.addEventListener('mouseenter', () => {
+                        selectionEntity.setAttribute('visible', true);
+                        });
+
+                        // Nasconde il modello quando il mouse esce
+                        el.addEventListener('mouseleave', () => {
+                        selectionEntity.setAttribute('visible', false);
+                        });
+                }
+        });
+
+        AFRAME.registerComponent('selezione_riquadro_2', {
+                init: function () {
+                        const el = this.el;
+
+                        // Seleziona l'entità che mostra il modello "selezione-101"
+                        const selectionEntity = document.querySelector('#selezione_2');
+                        
+                        // Nascondi il modello di selezione inizialmente
+                        selectionEntity.setAttribute('visible', false);
+
+                        // Mostra il modello al passaggio del mouse
+                        el.addEventListener('mouseenter', () => {
+                        selectionEntity.setAttribute('visible', true);
+                        });
+
+                        // Nasconde il modello quando il mouse esce
+                        el.addEventListener('mouseleave', () => {
+                        selectionEntity.setAttribute('visible', false);
+                        });
+                }
+        });
+
+        AFRAME.registerComponent('selezione_riquadro_3', {
+                init: function () {
+                        const el = this.el;
+
+                        // Seleziona l'entità che mostra il modello "selezione-101"
+                        const selectionEntity = document.querySelector('#selezione_3');
+                        
+                        // Nascondi il modello di selezione inizialmente
+                        selectionEntity.setAttribute('visible', false);
+
+                        // Mostra il modello al passaggio del mouse
+                        el.addEventListener('mouseenter', () => {
+                        selectionEntity.setAttribute('visible', true);
+                        });
+
+                        // Nasconde il modello quando il mouse esce
+                        el.addEventListener('mouseleave', () => {
+                        selectionEntity.setAttribute('visible', false);
+                        });
+                }
+        });
+
+        AFRAME.registerComponent('selezione_riquadro_4', {
+                init: function () {
+                        const el = this.el;
+
+                        // Seleziona l'entità che mostra il modello "selezione-101"
+                        const selectionEntity = document.querySelector('#selezione_4');
                         
                         // Nascondi il modello di selezione inizialmente
                         selectionEntity.setAttribute('visible', false);
@@ -347,11 +435,13 @@
             <a-asset-item id="selezione-101" src="assets/GPS/00_SELEZIONE OPERE/Selezione 101.glb"></a-asset-item>
             <a-asset-item id="selezione-102" src="assets/GPS/00_SELEZIONE OPERE/Selezione 102.glb"></a-asset-item>
             <a-asset-item id="selezione-103" src="assets/GPS/00_SELEZIONE OPERE/Selezione 103.glb"></a-asset-item>
+            
 
             
             <a-asset-item id="asfalto" src="assets/GPS/NEW-ASFALTO/Asfalto percorribile.glb"></a-asset-item>
             <a-asset-item id="edifici" src="assets/GPS/GLB/Edifici.glb"></a-asset-item>
             <a-asset-item id="asfalto2" src="assets/GPS/NEW-ASFALTO/Asfalto.glb"></a-asset-item>
+            <a-asset-item id="frecce" src="assets/GPS/NEW-ASFALTO/Frecce.glb"></a-asset-item>
             
 
             <!-- Le immagini da mostrare -->
@@ -410,12 +500,13 @@
 
         <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-101" selezione_riquadro show-image-on-click="imageId: image1"></a-entity>
-        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-102" selezione_riquadro show-image-on-click="imageId: image2"></a-entity>
-        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-103" selezione_riquadro show-image-on-click="imageId: image3"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-102" selezione_riquadro_2 show-image-on-click="imageId: image2"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-103" selezione_riquadro_3 show-image-on-click="imageId: image3"></a-entity>
 
         <a-entity id="selezione" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-101"></a-entity>
-        <a-entity id="selezione" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-102"></a-entity>
-        <a-entity id="selezione" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-103"></a-entity>
+        <a-entity id="selezione_2" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-102"></a-entity>
+        <a-entity id="selezione_3" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-103"></a-entity>
+        
 
 
 
@@ -613,6 +704,10 @@
 
         <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#asfalto2">
+        </a-entity>
+
+        <a-entity class="clickable walkable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#frecce" rotation-reader move-to-position>
         </a-entity>
 
         <!-- L'immagine fissa da mostrare nel viewport -->
