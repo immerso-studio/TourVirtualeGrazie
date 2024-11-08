@@ -153,16 +153,14 @@
             var marker = document.getElementById('marker');
             //console.log(marker.getAttribute('position'))
             marker.setAttribute('position', {x: 1, y: 2, z: 2})
-            marker.setAttribute('visible', 'true'); // Rendi visibile il marker
             var cameraEl=document.getElementById('cursor')
-            console.log(cameraEl.components,'11111111')
 
             var intersections= cameraEl.components.raycaster.intersections;
 
             if (intersections && intersections.length > 0) {
-                console.log(intersections[0].point.x,'seeeee');
+                //console.log(intersections[0].point.x,'seeeee');
                 marker.setAttribute('position', {x: intersections[0].point.x, y:intersections[0].point.y, z: intersections[0].point.z});
-                console.log(marker.getAttribute('visible'),'c')
+                //console.log(marker.getAttribute('visible'),'c')
             } else {
                 console.log("No intersections found");
             }
@@ -202,7 +200,6 @@
                 // Usa il raycaster della camera per ottenere le intersezioni
                 var raycaster = cameraEl.components.raycaster;
                 var intersections = raycaster.intersections;
-                console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ")
 
                 if (intersections.length > 0) {
                     // Se ci sono intersezioni, aggiorna la posizione del marker al primo punto di intersezione
@@ -222,115 +219,49 @@
         }
     });
 
-    AFRAME.registerComponent('selezione_riquadro_1', {
+    AFRAME.registerComponent('selezione_riquadro_final', {
+                schema: {
+                        modelId: { type: 'string' } // Aggiunta per ricevere il valore da `modelId` se necessario
+                },
                 init: function () {
                         const el = this.el;
+                        let modelId = el.getAttribute('gltf-model').replace('#', ''); // Rimuove il '#' dal nome del modello
+                        let extractedNumber = modelId.match(/(\d+)\.glb$/)[1]; // Trova il numero prima di ".glb"
 
-                        // Seleziona l'entità che mostra il modello "selezione-101"
-                        const selectionEntity = document.querySelector('#selezione');
-                        
-                        // Nascondi il modello di selezione inizialmente
-                        selectionEntity.setAttribute('visible', false);
+                        let marker = document.querySelector('#marker');
+
+
+                        //var selectionEntity = document.createElement("a-entity");
+                        //selectionEntity.setAttribute('id', `selezione-${extractedNumber}`);
+                        //selectionEntity.setAttribute('src', modelId);
+                        //selectionEntity.setAttribute('visible', true);
+                        const selectionEntity = document.getElementById(`selezione_${extractedNumber}`);
+
 
                         // Mostra il modello al passaggio del mouse
                         el.addEventListener('mouseenter', () => {
-                        selectionEntity.setAttribute('visible', true);
+
+                                selectionEntity.setAttribute('visible', 'true');
+                                marker.setAttribute('visible', 'false');
+
                         });
 
                         // Nasconde il modello quando il mouse esce
                         el.addEventListener('mouseleave', () => {
                         selectionEntity.setAttribute('visible', false);
+                        marker.setAttribute('visible', 'true');
+
+                        console.log(selectionEntity.checkVisibility())
+
                         });
                 }
         });
 
-        AFRAME.registerComponent('selezione_riquadro', {
-                init: function () {
-                        const el = this.el;
 
-                        // Seleziona l'entità che mostra il modello "selezione-101"
-                        const selectionEntity = document.querySelector('#selezione');
-                        
-                        // Nascondi il modello di selezione inizialmente
-                        selectionEntity.setAttribute('visible', false);
 
-                        // Mostra il modello al passaggio del mouse
-                        el.addEventListener('mouseenter', () => {
-                        selectionEntity.setAttribute('visible', true);
-                        });
 
-                        // Nasconde il modello quando il mouse esce
-                        el.addEventListener('mouseleave', () => {
-                        selectionEntity.setAttribute('visible', false);
-                        });
-                }
-        });
 
-        AFRAME.registerComponent('selezione_riquadro_2', {
-                init: function () {
-                        const el = this.el;
 
-                        // Seleziona l'entità che mostra il modello "selezione-101"
-                        const selectionEntity = document.querySelector('#selezione_2');
-                        
-                        // Nascondi il modello di selezione inizialmente
-                        selectionEntity.setAttribute('visible', false);
-
-                        // Mostra il modello al passaggio del mouse
-                        el.addEventListener('mouseenter', () => {
-                        selectionEntity.setAttribute('visible', true);
-                        });
-
-                        // Nasconde il modello quando il mouse esce
-                        el.addEventListener('mouseleave', () => {
-                        selectionEntity.setAttribute('visible', false);
-                        });
-                }
-        });
-
-        AFRAME.registerComponent('selezione_riquadro_3', {
-                init: function () {
-                        const el = this.el;
-
-                        // Seleziona l'entità che mostra il modello "selezione-101"
-                        const selectionEntity = document.querySelector('#selezione_3');
-                        
-                        // Nascondi il modello di selezione inizialmente
-                        selectionEntity.setAttribute('visible', false);
-
-                        // Mostra il modello al passaggio del mouse
-                        el.addEventListener('mouseenter', () => {
-                        selectionEntity.setAttribute('visible', true);
-                        });
-
-                        // Nasconde il modello quando il mouse esce
-                        el.addEventListener('mouseleave', () => {
-                        selectionEntity.setAttribute('visible', false);
-                        });
-                }
-        });
-
-        AFRAME.registerComponent('selezione_riquadro_4', {
-                init: function () {
-                        const el = this.el;
-
-                        // Seleziona l'entità che mostra il modello "selezione-101"
-                        const selectionEntity = document.querySelector('#selezione_4');
-                        
-                        // Nascondi il modello di selezione inizialmente
-                        selectionEntity.setAttribute('visible', false);
-
-                        // Mostra il modello al passaggio del mouse
-                        el.addEventListener('mouseenter', () => {
-                        selectionEntity.setAttribute('visible', true);
-                        });
-
-                        // Nasconde il modello quando il mouse esce
-                        el.addEventListener('mouseleave', () => {
-                        selectionEntity.setAttribute('visible', false);
-                        });
-                }
-        });
 
 
         
@@ -432,9 +363,57 @@
             <a-asset-item id="my-model-146" src="assets/GPS/GLB opere singole/146.glb"></a-asset-item>
             <a-asset-item id="my-model-147" src="assets/GPS/GLB opere singole/147.glb"></a-asset-item>
 
-            <a-asset-item id="selezione-101" src="assets/GPS/00_SELEZIONE OPERE/Selezione 101.glb"></a-asset-item>
-            <a-asset-item id="selezione-102" src="assets/GPS/00_SELEZIONE OPERE/Selezione 102.glb"></a-asset-item>
-            <a-asset-item id="selezione-103" src="assets/GPS/00_SELEZIONE OPERE/Selezione 103.glb"></a-asset-item>
+
+                <a-asset-item id="selezione-101" src="assets/GPS/00_SELEZIONE OPERE/Selezione 101.glb"></a-asset-item>
+                <a-asset-item id="selezione-102" src="assets/GPS/00_SELEZIONE OPERE/Selezione 102.glb"></a-asset-item>
+                <a-asset-item id="selezione-103" src="assets/GPS/00_SELEZIONE OPERE/Selezione 103.glb"></a-asset-item>
+                <a-asset-item id="selezione-104" src="assets/GPS/00_SELEZIONE OPERE/Selezione 104.glb"></a-asset-item>
+                <a-asset-item id="selezione-105" src="assets/GPS/00_SELEZIONE OPERE/Selezione 105.glb"></a-asset-item>
+                <a-asset-item id="selezione-106" src="assets/GPS/00_SELEZIONE OPERE/Selezione 106.glb"></a-asset-item>
+                <a-asset-item id="selezione-107" src="assets/GPS/00_SELEZIONE OPERE/Selezione 107.glb"></a-asset-item>
+                <a-asset-item id="selezione-108" src="assets/GPS/00_SELEZIONE OPERE/Selezione 108.glb"></a-asset-item>
+                <a-asset-item id="selezione-109" src="assets/GPS/00_SELEZIONE OPERE/Selezione 109.glb"></a-asset-item>
+                <a-asset-item id="selezione-110" src="assets/GPS/00_SELEZIONE OPERE/Selezione 110.glb"></a-asset-item>
+                <a-asset-item id="selezione-111" src="assets/GPS/00_SELEZIONE OPERE/Selezione 111.glb"></a-asset-item>
+                <a-asset-item id="selezione-112" src="assets/GPS/00_SELEZIONE OPERE/Selezione 112.glb"></a-asset-item>
+                <a-asset-item id="selezione-113" src="assets/GPS/00_SELEZIONE OPERE/Selezione 113.glb"></a-asset-item>
+                <a-asset-item id="selezione-114" src="assets/GPS/00_SELEZIONE OPERE/Selezione 114.glb"></a-asset-item>
+                <a-asset-item id="selezione-115" src="assets/GPS/00_SELEZIONE OPERE/Selezione 115.glb"></a-asset-item>
+                <a-asset-item id="selezione-116" src="assets/GPS/00_SELEZIONE OPERE/Selezione 116.glb"></a-asset-item>
+                <a-asset-item id="selezione-117" src="assets/GPS/00_SELEZIONE OPERE/Selezione 117.glb"></a-asset-item>
+                <a-asset-item id="selezione-118" src="assets/GPS/00_SELEZIONE OPERE/Selezione 118.glb"></a-asset-item>
+                <a-asset-item id="selezione-119" src="assets/GPS/00_SELEZIONE OPERE/Selezione 119.glb"></a-asset-item>
+                <a-asset-item id="selezione-120" src="assets/GPS/00_SELEZIONE OPERE/Selezione 120.glb"></a-asset-item>
+                <a-asset-item id="selezione-121" src="assets/GPS/00_SELEZIONE OPERE/Selezione 121.glb"></a-asset-item>
+                <a-asset-item id="selezione-122" src="assets/GPS/00_SELEZIONE OPERE/Selezione 122.glb"></a-asset-item>
+                <a-asset-item id="selezione-123" src="assets/GPS/00_SELEZIONE OPERE/Selezione 123.glb"></a-asset-item>
+                <a-asset-item id="selezione-124" src="assets/GPS/00_SELEZIONE OPERE/Selezione 124.glb"></a-asset-item>
+                <a-asset-item id="selezione-125" src="assets/GPS/00_SELEZIONE OPERE/Selezione 125.glb"></a-asset-item>
+                <a-asset-item id="selezione-126" src="assets/GPS/00_SELEZIONE OPERE/Selezione 126.glb"></a-asset-item>
+                <a-asset-item id="selezione-127" src="assets/GPS/00_SELEZIONE OPERE/Selezione 127.glb"></a-asset-item>
+                <a-asset-item id="selezione-128" src="assets/GPS/00_SELEZIONE OPERE/Selezione 128.glb"></a-asset-item>
+                <a-asset-item id="selezione-129" src="assets/GPS/00_SELEZIONE OPERE/Selezione 129.glb"></a-asset-item>
+                <a-asset-item id="selezione-130" src="assets/GPS/00_SELEZIONE OPERE/Selezione 130.glb"></a-asset-item>
+                <a-asset-item id="selezione-131" src="assets/GPS/00_SELEZIONE OPERE/Selezione 131.glb"></a-asset-item>
+                <a-asset-item id="selezione-132" src="assets/GPS/00_SELEZIONE OPERE/Selezione 132.glb"></a-asset-item>
+                <a-asset-item id="selezione-133" src="assets/GPS/00_SELEZIONE OPERE/Selezione 133.glb"></a-asset-item>
+                <a-asset-item id="selezione-134" src="assets/GPS/00_SELEZIONE OPERE/Selezione 134.glb"></a-asset-item>
+                <a-asset-item id="selezione-135" src="assets/GPS/00_SELEZIONE OPERE/Selezione 135.glb"></a-asset-item>
+                <a-asset-item id="selezione-136" src="assets/GPS/00_SELEZIONE OPERE/Selezione 136.glb"></a-asset-item>
+                <a-asset-item id="selezione-137" src="assets/GPS/00_SELEZIONE OPERE/Selezione 137.glb"></a-asset-item>
+                <a-asset-item id="selezione-138" src="assets/GPS/00_SELEZIONE OPERE/Selezione 138.glb"></a-asset-item>
+                <a-asset-item id="selezione-139" src="assets/GPS/00_SELEZIONE OPERE/Selezione 139.glb"></a-asset-item>
+                <a-asset-item id="selezione-140" src="assets/GPS/00_SELEZIONE OPERE/Selezione 140.glb"></a-asset-item>
+                <a-asset-item id="selezione-141" src="assets/GPS/00_SELEZIONE OPERE/Selezione 141.glb"></a-asset-item>
+                <a-asset-item id="selezione-142" src="assets/GPS/00_SELEZIONE OPERE/Selezione 142.glb"></a-asset-item>
+                <a-asset-item id="selezione-143" src="assets/GPS/00_SELEZIONE OPERE/Selezione 143.glb"></a-asset-item>
+                <a-asset-item id="selezione-144" src="assets/GPS/00_SELEZIONE OPERE/Selezione 144.glb"></a-asset-item>
+                <a-asset-item id="selezione-145" src="assets/GPS/00_SELEZIONE OPERE/Selezione 145.glb"></a-asset-item>
+                <a-asset-item id="selezione-146" src="assets/GPS/00_SELEZIONE OPERE/Selezione 146.glb"></a-asset-item>
+                <a-asset-item id="selezione-147" src="assets/GPS/00_SELEZIONE OPERE/Selezione 147.glb"></a-asset-item>
+
+
+
             
 
             
@@ -501,198 +480,108 @@
 
         </a-assets>
 
+
+        <!-- Riquadri/selezioni -->
+        <a-entity id="selezione_101" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-101" visible="false"></a-entity>
+        <a-entity id="selezione_102" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-102" visible="false"></a-entity>
+        <a-entity id="selezione_103" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-103" visible="false"></a-entity>
+        <a-entity id="selezione_104" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-104" visible="false"></a-entity>
+        <a-entity id="selezione_105" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-105" visible="false"></a-entity>
+        <a-entity id="selezione_106" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-106" visible="false"></a-entity>
+        <a-entity id="selezione_107" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-107" visible="false"></a-entity>
+        <a-entity id="selezione_108" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-108" visible="false"></a-entity>
+        <a-entity id="selezione_109" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-109" visible="false"></a-entity>
+        <a-entity id="selezione_110" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-110" visible="false"></a-entity>
+        <a-entity id="selezione_111" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-111" visible="false"></a-entity>
+        <a-entity id="selezione_112" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-112" visible="false"></a-entity>
+        <a-entity id="selezione_113" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-113" visible="false"></a-entity>
+        <a-entity id="selezione_114" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-114" visible="false"></a-entity>
+        <a-entity id="selezione_115" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-115" visible="false"></a-entity>
+        <a-entity id="selezione_116" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-116" visible="false"></a-entity>
+        <a-entity id="selezione_117" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-117" visible="false"></a-entity>
+        <a-entity id="selezione_118" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-118" visible="false"></a-entity>
+        <a-entity id="selezione_119" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-119" visible="false"></a-entity>
+        <a-entity id="selezione_120" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-120" visible="false"></a-entity>
+        <a-entity id="selezione_121" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-121" visible="false"></a-entity>
+        <a-entity id="selezione_122" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-122" visible="false"></a-entity>
+        <a-entity id="selezione_123" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-123" visible="false"></a-entity>
+        <a-entity id="selezione_124" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-124" visible="false"></a-entity>
+        <a-entity id="selezione_125" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-125" visible="false"></a-entity>
+        <a-entity id="selezione_126" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-126" visible="false"></a-entity>
+        <a-entity id="selezione_127" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-127" visible="false"></a-entity>
+        <a-entity id="selezione_128" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-128" visible="false"></a-entity>
+        <a-entity id="selezione_129" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-129" visible="false"></a-entity>
+        <a-entity id="selezione_130" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-130" visible="false"></a-entity>
+        <a-entity id="selezione_131" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-131" visible="false"></a-entity>
+        <a-entity id="selezione_132" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-132" visible="false"></a-entity>
+        <a-entity id="selezione_133" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-133" visible="false"></a-entity>
+        <a-entity id="selezione_134" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-134" visible="false"></a-entity>
+        <a-entity id="selezione_135" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-135" visible="false"></a-entity>
+        <a-entity id="selezione_136" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-136" visible="false"></a-entity>
+        <a-entity id="selezione_137" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-137" visible="false"></a-entity>
+        <a-entity id="selezione_138" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-138" visible="false"></a-entity>
+        <a-entity id="selezione_139" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-139" visible="false"></a-entity>
+        <a-entity id="selezione_140" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-140" visible="false"></a-entity>
+        <a-entity id="selezione_141" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-141" visible="false"></a-entity>
+        <a-entity id="selezione_142" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-142" visible="false"></a-entity>
+        <a-entity id="selezione_143" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-143" visible="false"></a-entity>
+        <a-entity id="selezione_144" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-144" visible="false"></a-entity>
+        <a-entity id="selezione_145" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-145" visible="false"></a-entity>
+        <a-entity id="selezione_146" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-146" visible="false"></a-entity>
+        <a-entity id="selezione_147" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-147" visible="false"></a-entity>
+
+
    
 
-        <!-- Modelli GLB cliccabili per far apparire l'immagine nel viewport -->
-        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-101" selezione_riquadro show-image-on-click="imageId: image1"></a-entity>
-        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-102" selezione_riquadro_2 show-image-on-click="imageId: image2"></a-entity>
-        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-103" selezione_riquadro_3 show-image-on-click="imageId: image3"></a-entity>
+        <!-- TAG -->
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-101" selezione_riquadro_final="modelId:#my-model-101" show-image-on-click="imageId: image1"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-102" selezione_riquadro_final="modelId:#my-model-102" show-image-on-click="imageId: image2"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-103" selezione_riquadro_final="modelId:#my-model-103" show-image-on-click="imageId: image3"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-104" selezione_riquadro_final="modelId:#my-model-104" show-image-on-click="imageId: image4"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-105" selezione_riquadro_final="modelId:#my-model-105" show-image-on-click="imageId: image5"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-106" selezione_riquadro_final="modelId:#my-model-106" show-image-on-click="imageId: image6"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-107" selezione_riquadro_final="modelId:#my-model-107" show-image-on-click="imageId: image7"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-108" selezione_riquadro_final="modelId:#my-model-108" show-image-on-click="imageId: image8"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-109" selezione_riquadro_final="modelId:#my-model-109" show-image-on-click="imageId: image9"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-110" selezione_riquadro_final="modelId:#my-model-110" show-image-on-click="imageId: image10"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-111" selezione_riquadro_final="modelId:#my-model-111" show-image-on-click="imageId: image11"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-112" selezione_riquadro_final="modelId:#my-model-112" show-image-on-click="imageId: image12"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-113" selezione_riquadro_final="modelId:#my-model-113" show-image-on-click="imageId: image13"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-114" selezione_riquadro_final="modelId:#my-model-114" show-image-on-click="imageId: image14"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-115" selezione_riquadro_final="modelId:#my-model-115" show-image-on-click="imageId: image15"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-116" selezione_riquadro_final="modelId:#my-model-116" show-image-on-click="imageId: image16"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-117" selezione_riquadro_final="modelId:#my-model-117" show-image-on-click="imageId: image17"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-118" selezione_riquadro_final="modelId:#my-model-118" show-image-on-click="imageId: image18"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-119" selezione_riquadro_final="modelId:#my-model-119" show-image-on-click="imageId: image19"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-120" selezione_riquadro_final="modelId:#my-model-120" show-image-on-click="imageId: image20"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-121" selezione_riquadro_final="modelId:#my-model-121" show-image-on-click="imageId: image21"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-122" selezione_riquadro_final="modelId:#my-model-122" show-image-on-click="imageId: image22"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-123" selezione_riquadro_final="modelId:#my-model-123" show-image-on-click="imageId: image23"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-124" selezione_riquadro_final="modelId:#my-model-124" show-image-on-click="imageId: image24"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-125" selezione_riquadro_final="modelId:#my-model-125" show-image-on-click="imageId: image25"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-126" selezione_riquadro_final="modelId:#my-model-126" show-image-on-click="imageId: image26"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-127" selezione_riquadro_final="modelId:#my-model-127" show-image-on-click="imageId: image27"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-128" selezione_riquadro_final="modelId:#my-model-128" show-image-on-click="imageId: image28"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-129" selezione_riquadro_final="modelId:#my-model-129" show-image-on-click="imageId: image29"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-130" selezione_riquadro_final="modelId:#my-model-130" show-image-on-click="imageId: image30"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-131" selezione_riquadro_final="modelId:#my-model-131" show-image-on-click="imageId: image31"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-132" selezione_riquadro_final="modelId:#my-model-132" show-image-on-click="imageId: image32"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-133" selezione_riquadro_final="modelId:#my-model-133" show-image-on-click="imageId: image33"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-134" selezione_riquadro_final="modelId:#my-model-134" show-image-on-click="imageId: image34"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-135" selezione_riquadro_final="modelId:#my-model-135" show-image-on-click="imageId: image35"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-136" selezione_riquadro_final="modelId:#my-model-136" show-image-on-click="imageId: image36"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-137" selezione_riquadro_final="modelId:#my-model-137" show-image-on-click="imageId: image37"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-138" selezione_riquadro_final="modelId:#my-model-138" show-image-on-click="imageId: image38"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-139" selezione_riquadro_final="modelId:#my-model-139" show-image-on-click="imageId: image39"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-140" selezione_riquadro_final="modelId:#my-model-140" show-image-on-click="imageId: image40"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-141" selezione_riquadro_final="modelId:#my-model-141" show-image-on-click="imageId: image41"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-142" selezione_riquadro_final="modelId:#my-model-142" show-image-on-click="imageId: image42"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-143" selezione_riquadro_final="modelId:#my-model-143" show-image-on-click="imageId: image43"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-144" selezione_riquadro_final="modelId:#my-model-144" show-image-on-click="imageId: image44"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-145" selezione_riquadro_final="modelId:#my-model-145" show-image-on-click="imageId: image45"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-146" selezione_riquadro_final="modelId:#my-model-146" show-image-on-click="imageId: image46"></a-entity>
+        <a-entity class="clickable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-147" selezione_riquadro_final="modelId:#my-model-147" show-image-on-click="imageId: image47"></a-entity>
 
-        <a-entity id="selezione" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-101"></a-entity>
-        <a-entity id="selezione_2" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-102"></a-entity>
-        <a-entity id="selezione_3" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#selezione-103"></a-entity>
-        
-
-
-
-
-
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-104" show-image-on-click="imageId: image4">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-105" show-image-on-click="imageId: image5">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-106" show-image-on-click="imageId: image6">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-107" show-image-on-click="imageId: image7">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-108" show-image-on-click="imageId: image8">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-109" show-image-on-click="imageId: image9">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-110" show-image-on-click="imageId: image10">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-111" show-image-on-click="imageId: image11">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-112" show-image-on-click="imageId: image12">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-113" show-image-on-click="imageId: image13">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-114" show-image-on-click="imageId: image14">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-115" show-image-on-click="imageId: image15">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-116" show-image-on-click="imageId: image16">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-117" show-image-on-click="imageId: image17">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-118" show-image-on-click="imageId: image18">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-119" show-image-on-click="imageId: image19">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-120" show-image-on-click="imageId: image20">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-121" show-image-on-click="imageId: image21">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-122" show-image-on-click="imageId: image22">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-123" show-image-on-click="imageId: image23">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-124" show-image-on-click="imageId: image24">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-125" show-image-on-click="imageId: image25">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-126" show-image-on-click="imageId: image26">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-127" show-image-on-click="imageId: image27">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-128" show-image-on-click="imageId: image28">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-129" show-image-on-click="imageId: image29">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-130" show-image-on-click="imageId: image30">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-131" show-image-on-click="imageId: image31">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-132" show-image-on-click="imageId: image32">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-133" show-image-on-click="imageId: image33">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-134" show-image-on-click="imageId: image34">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-135" show-image-on-click="imageId: image35">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-136" show-image-on-click="imageId: image36">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-137" show-image-on-click="imageId: image37">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-138" show-image-on-click="imageId: image38">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-139" show-image-on-click="imageId: image39">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-140" show-image-on-click="imageId: image40">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-141" show-image-on-click="imageId: image41">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-142" show-image-on-click="imageId: image42">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-143" show-image-on-click="imageId: image43">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-144" show-image-on-click="imageId: image44">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-145" show-image-on-click="imageId: image45">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-146" show-image-on-click="imageId: image46">
-        </a-entity>
-
-        <a-entity class="clickable" mixin="highlight" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
-                gltf-model="#my-model-147" show-image-on-click="imageId: image47">
-        </a-entity>
 
 
 
@@ -736,7 +625,7 @@
           position="0 5 0"
           rotation="0 0 0"
           scale="1 1 1"
-          visible="false"
+          visible=false
           marker>
         </a-entity>
 
