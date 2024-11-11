@@ -200,6 +200,20 @@
         });
 
 
+        AFRAME.registerComponent('limited-framerate', {
+            schema: { type: 'number', default: 30 },  // Imposta il framerate desiderato
+
+            init: function () {
+                // Throttle la funzione tick per rispettare il framerate definito
+                this.tick = AFRAME.utils.throttleTick(this.tick, 1000 / this.data, this);
+            },
+
+            tick: function (time, timeDelta) {
+                // Funzione di aggiornamento della scena, eseguita in base al limite di FPS
+            }
+        });
+
+
 
 
 
@@ -246,7 +260,7 @@
 
 
 
-    <a-scene antialias="false">
+    <a-scene antialias="false" limited-framerate="30">
 
         <!-- Caricamento degli asset -->
         <a-assets>
