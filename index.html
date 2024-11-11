@@ -101,7 +101,7 @@
 
 
     AFRAME.registerComponent('marker', {
-        tick: function (el) {
+        /*tick: function (el) {
             // Creazione di un marker (sfera gialla) per il puntatore
             var marker = document.getElementById('marker');
             //console.log(marker.getAttribute('position'))
@@ -122,49 +122,11 @@
 
 
 
-        }
+        }*/
 
     });
 
-    AFRAME.registerComponent('continuous-pointer', {
-        tick: function () {
-            // Creazione di un marker (sfera gialla) per il puntatore
-            var marker = document.createElement("a-sphere");
-            marker.setAttribute("color", "yellow");
-            marker.setAttribute("radius", "0.1");
-            marker.setAttribute("visible", "false");
-            document.querySelector("a-scene").appendChild(marker);
 
-            // Ottieni la camera
-            var cameraEl = document.querySelector('[camera]');
-
-            var raycaster= cameraEl.getAttribute('raycaster');
-            console.log(raycaster,'cazzooooo')
-
-
-            // Funzione di aggiornamento della posizione del marker
-            var updatePointerPosition = () => {
-                // Usa il raycaster della camera per ottenere le intersezioni
-                var raycaster = cameraEl.components.raycaster;
-                var intersections = raycaster.intersections;
-
-                if (intersections.length > 0) {
-                    // Se ci sono intersezioni, aggiorna la posizione del marker al primo punto di intersezione
-                    var point = intersections[0].point;
-                    marker.setAttribute('position', point);
-                    marker.setAttribute('visible', 'true'); // Rendi visibile il marker
-                } else {
-                    // Nascondi il marker se non ci sono intersezioni
-                    marker.setAttribute('visible', 'true');
-                }
-                requestAnimationFrame(updatePointerPosition);
-
-            };
-
-            // Inizia l'aggiornamento continuo
-            requestAnimationFrame(updatePointerPosition);
-        }
-    });
 
     AFRAME.registerComponent('selezione_riquadro_final', {
                 schema: {
