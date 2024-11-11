@@ -200,19 +200,26 @@
         });
 
 
-        AFRAME.registerComponent('limited-framerate', {
-            schema: { type: 'number', default: 30 },  // Imposta il framerate desiderato
+        AFRAME.registerComponent('limit-fps', {
+            schema: { type: 'number', default: 1 },  // Imposta gli FPS desiderati
 
             init: function () {
-                // Throttle la funzione tick per rispettare il framerate definito
-                this.tick = AFRAME.utils.throttleTick(this.tick, 1000 / this.data, this);
+                // Calcola l'intervallo di tempo tra ogni frame in millisecondi
+                this.frameInterval = 1000 / this.data;
+                this.lastTime = 0;  // Inizializza il tempo dell'ultimo frame
             },
 
-            tick: function (time, timeDelta) {
-                // Funzione di aggiornamento della scena, eseguita in base al limite di FPS
+            tick: function (time) {
+                // Verifica se è passato abbastanza tempo dall'ultimo frame
+                if (time - this.lastTime >= this.frameInterval) {
+                // Aggiorna il tempo dell'ultimo frame per continuare il rendering
+                this.lastTime = time;
+                } else {
+                // Interrompe il rendering per limitare gli FPS
+                return;
+                }
             }
         });
-
 
 
 
@@ -260,7 +267,7 @@
 
 
 
-    <a-scene antialias="false" limited-framerate="30">
+    <a-scene antialias="false" limit-fps="1">
 
         <!-- Caricamento degli asset -->
         <a-assets>
