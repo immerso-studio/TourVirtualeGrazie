@@ -10,11 +10,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #003366; /* Sostituisci con il colore dello sfondo se necessario */
+            background-image: url('assets/GPS/SCHERMATA-INIZIALE/SFONDO.png'); /* Percorso all'immagine */
+            background-size: cover; /* L'immagine copre l'intero sfondo */
+            background-position: center; /* Centra l'immagine */
+            background-repeat: no-repeat; /* Non ripete l'immagine */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
             z-index: 1000;
         }
         #start-button {
@@ -26,9 +31,46 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
         #start-button:hover {
             background-color: #004c99;
+        }
+
+        
+        /* Immagini */
+        .logo {
+            max-width: 90%;
+            height: auto;
+        }
+        .creator-logo {
+            max-width: 50%;
+            margin-top: 20px;
+        }
+        /* Stili per il contenuto principale */
+        #main-content {
+            display: none;
+            padding: 20px;
+        }
+        /* Media query per schermi più piccoli (telefoni) */
+        @media (max-width: 600px) {
+            #start-button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+            .creator-logo {
+                max-width: 70%;
+            }
+        }
+        /* Media query per schermi più grandi (tablet e computer) */
+        @media (min-width: 601px) {
+            #splash-screen {
+                padding: 40px;
+            }
+            #start-button {
+                font-size: 24px;
+                padding: 20px 40px;
+            }
         }
 
 
@@ -258,10 +300,10 @@
 
         <!-- Schermata iniziale -->
         <div id="splash-screen">
-            <img src="assets/GPS/SCHERMATA-INIZIALE/LOGHI-GRAZIE.png" alt="Logo" style="max-width: 700px; margin-bottom: 20px;">
+            <img src="assets/GPS/SCHERMATA-INIZIALE/LOGHI-GRAZIE.png" alt="Logo" style="max-width: 500px; margin-top: 0px;">
             <button id="start-button">START TOUR</button>
-            <p style="margin-top: 20px; color: white; font-size: 14px;">Virtual Tour created by:</p>
-            <img src="assets/GPS/SCHERMATA-INIZIALE/IMMERSO.png" alt="Immerso Logo" style="max-width: 500px;">
+            
+            <img src="assets/GPS/SCHERMATA-INIZIALE/IMMERSO.png" alt="Immerso Logo" style="max-width: 400px;">
         </div>
     
         <!-- Contenuto del sito principale -->
