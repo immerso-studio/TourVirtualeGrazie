@@ -135,6 +135,38 @@
 
 
 
+    AFRAME.registerComponent('selezione_riquadro_final', {
+                schema: {
+                        modelId: { type: 'string' } // Aggiunta per ricevere il valore da `modelId` se necessario
+                },
+                init: function () {
+                        const el = this.el;
+                        let modelId = el.getAttribute('gltf-model').replace('#', ''); // Rimuove il '#' dal nome del modello
+                        let extractedNumber = modelId.match(/(\d+)\.glb$/)[1]; // Trova il numero prima di ".glb"
+
+                        let marker = document.querySelector('#marker');
+
+
+                        const selectionEntity = document.getElementById(`selezione_${extractedNumber}`);
+
+
+                        // Mostra il modello al passaggio del mouse
+                        el.addEventListener('mouseenter', () => {
+
+                                selectionEntity.setAttribute('visible', 'true');
+                                marker.setAttribute('visible', 'false');
+
+                        });
+
+                        // Nasconde il modello quando il mouse esce
+                        el.addEventListener('mouseleave', () => {
+                        selectionEntity.setAttribute('visible', false);
+                        marker.setAttribute('visible', 'true');
+
+
+                        });
+                }
+        });
 
 
         AFRAME.registerComponent('limit-fps', {
@@ -400,6 +432,14 @@
                 
 
 
+                                <!-- selezione inferno -->
+                                <a-asset-item id="selezione-101" src="assets/GPS/00_SELEZIONE OPERE/Selezione 101.glb"></a-asset-item>
+
+                                <!-- selezione purgatorio -->
+                                <a-asset-item id="selezione-201" src="assets/GPS/00_SELEZIONE OPERE/Selezione 201.glb"></a-asset-item>
+
+                                <!-- selezione paradiso -->
+                                <a-asset-item id="selezione-301" src="assets/GPS/00_SELEZIONE OPERE/Selezione 301.glb"></a-asset-item>
 
              
                 
@@ -572,8 +612,6 @@
 
 
         <!-- Riquadri/selezioni -->
-
-
 
 
 
