@@ -75,6 +75,30 @@
 
 
 
+        #play-audio-button {
+            position: fixed; /* Fissa il bottone nella finestra */
+            bottom: 20px; /* Distanza dal fondo della pagina */
+            right: 20px; /* Distanza dal lato destro della pagina */
+            padding: 15px 30px;
+            background-color: #0066cc;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Assicura che sia sopra altri elementi */
+        }
+
+        #play-audio-button img {
+            width: 30px; /* Imposta la larghezza dell'icona */
+            height: auto; /* Mantieni il rapporto di aspetto */
+        }
+
+        #play-audio-button:hover {
+            background-color: #004c99;
+        }
+
+
+
 
 
 
@@ -260,6 +284,8 @@
         });
 
 
+     
+
 
 
 
@@ -297,6 +323,31 @@
 </script>
 </head>
 <body>
+
+    <button id="play-audio-button">
+        <img src="assets//GPS/NEW-ASFALTO/AUDIO-SI.png" alt="Avvia Audio" id="audio-icon">
+    </button>
+    <audio id="background-audio" loop>
+        <source src="assets/GPS/NEW-ASFALTO/Background sound fx.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        document.getElementById('play-audio-button').addEventListener('click', function() {
+            var audio = document.getElementById('background-audio');
+            var button = document.getElementById('play-audio-button');
+            var icon = document.getElementById('audio-icon');
+
+            // Controlla se l'audio è in riproduzione
+            if (audio.muted) {
+                audio.muted = false; // Disattiva il muto
+                audio.play();
+                icon.src = "assets//GPS/NEW-ASFALTO/AUDIO-SI.png"; // Cambia l'icona quando l'audio è attivo
+            } else {
+                audio.muted = true; // Attiva il muto
+                icon.src = "assets//GPS/NEW-ASFALTO/AUDIO-NO.png"; // Cambia l'icona quando l'audio è muto
+            }
+        });
+    </script>
 
         <!-- Schermata iniziale -->
         <div id="splash-screen">
@@ -375,6 +426,10 @@
             <!--<a-asset-item id="my-model" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\101.glb"></a-asset-item>
             <a-asset-item id="asfalto" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Edifici.glb"></a-asset-item>-->
+
+            
+
+
 
             <a-asset-item id="marker-glb" src="assets/GPS/GLB/Bersaglio teletrasporto.glb"></a-asset-item>
 
@@ -681,10 +736,7 @@
             <a-asset-item id="asfalto2" src="assets/GPS/NEW-ASFALTO/Asfalto.glb"></a-asset-item>
             <a-asset-item id="frecce" src="assets/GPS/NEW-ASFALTO/Frecce.glb"></a-asset-item>
 
-            <audio controls autoplay loop>
-                <source src="assets/GPS/NEW-ASFALTO/Background sound fx.mp3" type="audio/mpeg">
-                
-            </audio>
+
 
 
             
