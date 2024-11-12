@@ -4,6 +4,33 @@
 
     <style>
 
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #003366; /* Sostituisci con il colore dello sfondo se necessario */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #start-button {
+            padding: 15px 30px;
+            font-size: 20px;
+            color: white;
+            background-color: #0066cc;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #start-button:hover {
+            background-color: #004c99;
+        }
+
 
 
 
@@ -229,6 +256,28 @@
 </head>
 <body>
 
+        <!-- Schermata iniziale -->
+        <div id="splash-screen">
+            <img src="assets/GPS/SCHERMATA-INIZIALE/LOGHI-GRAZIE.png" alt="Logo" style="max-width: 700px; margin-bottom: 20px;">
+            <button id="start-button">START TOUR</button>
+            <p style="margin-top: 20px; color: white; font-size: 14px;">Virtual Tour created by:</p>
+            <img src="assets/GPS/SCHERMATA-INIZIALE/IMMERSO.png" alt="Immerso Logo" style="max-width: 500px;">
+        </div>
+    
+        <!-- Contenuto del sito principale -->
+        <div id="main-content" style="display: none;">
+            <h1>Benvenuto nel sito!</h1>
+            <!-- Altri contenuti qui -->
+        </div>
+    
+        <script>
+            // Funzione per gestire il click sul bottone
+            document.getElementById('start-button').addEventListener('click', function () {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            });
+        </script>
+
 
 
     <div id="imageOverlay">
@@ -285,7 +334,7 @@
             <a-asset-item id="asfalto" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Asfalto.glb"></a-asset-item>
             <a-asset-item id="edifici" src="C:\Users\paolo\Desktop\REPOSITORY AR\provaAR-1\assets\GPS\Edifici.glb"></a-asset-item>-->
 
-            <a-asset-item id="marker-glb" src="assets/GPS/Griglia teletrasporto.glb"></a-asset-item>
+            <a-asset-item id="marker-glb" src="assets/GPS/GLB/Bersaglio teletrasporto.glb"></a-asset-item>
 
                 <!-- opere inferno -->
                 <a-asset-item id="my-model-101" src="assets/GPS/GLB opere singole/101.glb"></a-asset-item>
@@ -1073,7 +1122,7 @@
           gltf-model="#marker-glb"
           position="0 5 0"
           rotation="0 0 0"
-          scale="1 1 1"
+          scale="2 2 2"
           visible=true
           marker>
         </a-entity>
