@@ -390,6 +390,74 @@
 </head>
 <body>
 
+            <!-- Schermata iniziale -->
+            <div id="splash-screen">
+                <img src="assets/GPS/SCHERMATA-INIZIALE/LOGHI-GRAZIE.png" alt="Logo" style="max-width: 400px; margin-top: 0px;">
+                <button id="start-button">INIZIA TOUR</button>
+                
+                <img src="assets/GPS/SCHERMATA-INIZIALE/IMMERSO.png" alt="Immerso Logo" style="max-width: 400px;">
+            </div>
+        
+            <!-- Contenuto del sito principale -->
+            <div id="main-content" style="display: none;">
+                
+                <!-- Altri contenuti qui -->
+            </div>
+        
+            <script>
+                // Funzione per gestire il click sul bottone
+                document.getElementById('start-button').addEventListener('click', function () {
+                    document.getElementById('splash-screen').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                });
+            </script>
+    
+    
+    
+        <div id="imageOverlay">
+            <img id="overlayImage" src="" alt="GLB image">
+            <div id="closeButton" onclick="closeOverlay()">X</div>
+        </div>
+    
+        <script>
+            // Nasconde la scena finché non è completamente caricata
+            const scene = document.querySelector('#my-scene');
+            scene.style.visibility = 'hidden';
+          
+            // Usa THREE.LoadingManager per monitorare il caricamento
+            const manager = new THREE.LoadingManager();
+          
+            manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+              const progressBarFill = document.getElementById('progress-bar-fill');
+              const progress = itemsLoaded / itemsTotal;
+              console.log(progress)
+              progressBarFill.style.width = `${progress * 100}%`;
+            };
+          
+            manager.onLoad = function () {
+              // Una volta caricata la scena, rendila visibile
+              scene.style.visibility = 'visible';
+            };
+          
+            // Funzione per avviare la scena e nascondere il tutorial
+            function startScene() {
+              const overlay = document.getElementById('tutorial-overlay');
+              overlay.style.display = 'none';
+            }
+          
+            // Assegna il manager al loader per i modelli A-Frame
+            AFRAME.registerComponent('gltf-model', {
+              schema: {type: 'model'},
+          
+              init: function () {
+                const loader = new THREE.GLTFLoader(manager);
+                loader.load(this.data, (gltf) => {
+                  this.el.setObject3D('mesh', gltf.scene);
+                });
+              }
+            });
+          </script>
+
 
 
     <div id="overlayBackground2"></div>
@@ -475,73 +543,7 @@
         });
     </script>
 
-        <!-- Schermata iniziale -->
-        <div id="splash-screen">
-            <img src="assets/GPS/SCHERMATA-INIZIALE/LOGHI-GRAZIE.png" alt="Logo" style="max-width: 400px; margin-top: 0px;">
-            <button id="start-button">INIZIA TOUR</button>
-            
-            <img src="assets/GPS/SCHERMATA-INIZIALE/IMMERSO.png" alt="Immerso Logo" style="max-width: 400px;">
-        </div>
-    
-        <!-- Contenuto del sito principale -->
-        <div id="main-content" style="display: none;">
-            
-            <!-- Altri contenuti qui -->
-        </div>
-    
-        <script>
-            // Funzione per gestire il click sul bottone
-            document.getElementById('start-button').addEventListener('click', function () {
-                document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-            });
-        </script>
 
-
-
-    <div id="imageOverlay">
-        <img id="overlayImage" src="" alt="GLB image">
-        <div id="closeButton" onclick="closeOverlay()">X</div>
-    </div>
-
-    <script>
-        // Nasconde la scena finché non è completamente caricata
-        const scene = document.querySelector('#my-scene');
-        scene.style.visibility = 'hidden';
-      
-        // Usa THREE.LoadingManager per monitorare il caricamento
-        const manager = new THREE.LoadingManager();
-      
-        manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-          const progressBarFill = document.getElementById('progress-bar-fill');
-          const progress = itemsLoaded / itemsTotal;
-          console.log(progress)
-          progressBarFill.style.width = `${progress * 100}%`;
-        };
-      
-        manager.onLoad = function () {
-          // Una volta caricata la scena, rendila visibile
-          scene.style.visibility = 'visible';
-        };
-      
-        // Funzione per avviare la scena e nascondere il tutorial
-        function startScene() {
-          const overlay = document.getElementById('tutorial-overlay');
-          overlay.style.display = 'none';
-        }
-      
-        // Assegna il manager al loader per i modelli A-Frame
-        AFRAME.registerComponent('gltf-model', {
-          schema: {type: 'model'},
-      
-          init: function () {
-            const loader = new THREE.GLTFLoader(manager);
-            loader.load(this.data, (gltf) => {
-              this.el.setObject3D('mesh', gltf.scene);
-            });
-          }
-        });
-      </script>
 
 
 
