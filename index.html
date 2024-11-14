@@ -605,17 +605,26 @@
             forwardButton.addEventListener('mousedown', () => startMoving('forward'));
             forwardButton.addEventListener('mouseup', stopMoving);
             forwardButton.addEventListener('mouseleave', stopMoving);
-            forwardButton.addEventListener('touchstart', () => startMoving('forward')); // Supporto per touch
-            forwardButton.addEventListener('touchend', stopMoving); // Supporto per touch
+            forwardButton.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Previene comportamenti touch predefiniti
+                startMoving('forward');
+            });
+            forwardButton.addEventListener('touchend', stopMoving);
+            forwardButton.addEventListener('touchcancel', stopMoving);
     
             // Eventi per il pulsante "Indietro"
             backwardButton.addEventListener('mousedown', () => startMoving('backward'));
             backwardButton.addEventListener('mouseup', stopMoving);
             backwardButton.addEventListener('mouseleave', stopMoving);
-            backwardButton.addEventListener('touchstart', () => startMoving('backward')); // Supporto per touch
-            backwardButton.addEventListener('touchend', stopMoving); // Supporto per touch
+            backwardButton.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Previene comportamenti touch predefiniti
+                startMoving('backward');
+            });
+            backwardButton.addEventListener('touchend', stopMoving);
+            backwardButton.addEventListener('touchcancel', stopMoving);
         });
     </script>
+    
     
 
 
