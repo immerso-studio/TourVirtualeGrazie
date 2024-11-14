@@ -139,42 +139,47 @@
             line-height: 20px;
         }
 
-        #imageOverlay2 {
+        /* Stile comune per le immagini overlay */
+        .imageOverlay2 {
             display: none; /* Nascosto di default */
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
+            width: 400px;
             height: auto;
-            z-index: 10;
+            z-index: 11;
             padding: 10px;
             box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
         }
-        #imageOverlay2 img {
+        .imageOverlay2 img {
             width: 100%;
             height: auto;
         }
-        #closeButton2 {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 24px;
-            height: 24px;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-family: sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            line-height: 20px;
+        .nextButton2, .closeButton2 {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: blue;
+        color: white;
+        border: none; /* Nessun bordo */
+        padding: 10px;
+        cursor: pointer;
+        font-family: sans-serif;
+        font-size: 16px;
+        border-radius: 50%; /* Rende i bottoni rotondi */
+        width: 50px; /* Larghezza e altezza uguali per il cerchio */
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         }
-
-        #overlayBackground {
+        
+        .closeButton2 {
+            background-color: red;
+        }
+        /* Stile dello sfondo semi-trasparente */
+        #overlayBackground2 {
             display: none; /* Nascosto di default */
             position: fixed;
             top: 0;
@@ -184,7 +189,6 @@
             background-color: rgba(0, 0, 0, 0.5); /* Opacità scura */
             z-index: 10; /* Dietro l'overlay */
         }
-
 
 
 
@@ -386,28 +390,58 @@
 
 
 
-    <div id="overlayBackground"></div>
-    <div id="imageOverlay2">
-        <img src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL.png" alt="Intro Image">
-        <div id="closeButton2">&times;</div>
+    <div id="overlayBackground2"></div>
+
+    <!-- Serie di immagini overlay -->
+    <div class="imageOverlay2" id="imageOverlay1">
+        <img src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL-1.png" alt="Intro Image 1">
+        <button class="nextButton2" data-next="imageOverlay2">OK</button>
     </div>
+    <div class="imageOverlay2" id="imageOverlay2">
+        <img src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL-2.png" alt="Intro Image 2">
+        <button class="nextButton2" data-next="imageOverlay3">OK</button>
+    </div>
+    <div class="imageOverlay2" id="imageOverlay3">
+        <img src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL-3.png" alt="Intro Image 3">
+        <button class="closeButton2" data-next="close">X</button>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const imageOverlay = document.getElementById('imageOverlay2');
-            const overlayBackground = document.getElementById('overlayBackground');
-            const closeButton = document.getElementById('closeButton2');
+            const overlays = document.querySelectorAll('.imageOverlay2');
+            const overlayBackground = document.getElementById('overlayBackground2');
 
-            // Mostra l'overlay e lo sfondo scuro dopo un breve ritardo
-            setTimeout(() => {
-                imageOverlay.style.display = 'block';
-                overlayBackground.style.display = 'block';
-            }, 1000); // Tempo di attesa (1 secondo)
+            let currentIndex = 0;
 
-            // Aggiunge la funzionalità di chiusura al bottone
-            closeButton.addEventListener('click', () => {
-                imageOverlay.style.display = 'none';
-                overlayBackground.style.display = 'none';
+            // Funzione per mostrare un overlay specifico
+            function showOverlay(index) {
+                if (index < overlays.length) {
+                    overlays.forEach((overlay, i) => {
+                        overlay.style.display = i === index ? 'block' : 'none';
+                    });
+                    overlayBackground.style.display = 'block';
+                } else {
+                    overlayBackground.style.display = 'none'; // Nasconde lo sfondo se non ci sono più overlay
+                }
+            }
+
+            // Mostra il primo overlay all'ingresso del sito
+            showOverlay(currentIndex);
+
+            // Aggiungi eventi ai bottoni "Next" e "Close"
+            document.querySelectorAll('.nextButton2, .closeButton2').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const nextId = e.target.getAttribute('data-next');
+                    if (nextId === 'close') {
+                        overlays[currentIndex].style.display = 'none';
+                        overlayBackground.style.display = 'none';
+                    } else {
+                        overlays[currentIndex].style.display = 'none';
+                        currentIndex++;
+                        showOverlay(currentIndex);
+                    }
+                });
             });
         });
     </script>
