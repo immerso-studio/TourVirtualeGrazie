@@ -194,6 +194,43 @@
 
 
 
+        /* Stile per contenitore dei pulsanti */
+        .buttonContainer {
+            position: fixed;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column; /* Disposizione verticale */
+            align-items: center;
+            z-index: 100; /* Assicura che i pulsanti siano sopra la scena */
+        }
+
+        /* Stile per i pulsanti */
+        .controlButton {
+            width: 60px;
+            height: 60px;
+            background-color: #01446F;
+            border: none;
+            border-radius: 50%; /* Rotondi */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0; /* Spazio tra i pulsanti */
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .controlButton img {
+            width: 70%; /* Regola la dimensione dell'immagine */
+            height: 70%; /* Mantieni proporzioni */
+        }
+        
+
+
+
+
+
     </style>
 
 <script>
@@ -215,26 +252,7 @@
         })()
     });
 
-    AFRAME.registerComponent('move-to-position', {
-        schema: {
-            target: {type: 'vec3'}
-        },
-        init: function () {
-            var el = this.el;
-            var cameraEl = document.querySelector('[camera]');
 
-            el.addEventListener('click', function (evt) {
-                var targetPosition = evt.detail.intersection.point;
-
-                cameraEl.setAttribute('animation', {
-                    property: 'position',
-                    to: targetPosition.x + ' 2 ' + targetPosition.z,
-                    dur: 1000,
-                    easing: 'easeInOutQuad'
-                });
-            });
-        }
-    });
 
     AFRAME.registerComponent('teleport-with-cube', {
         init: function () {
@@ -513,6 +531,75 @@
                     }
                 });
             });
+        });
+    </script>
+
+    
+
+
+
+
+
+
+    <!-- Contenitore dei pulsanti di controllo -->
+    <div class="buttonContainer">
+
+        <button id="backwardButton" class="controlButton">
+            <img src="assets/GPS/SCHERMATA-INIZIALE/FRECCIA-AVANTI.png" alt="Indietro">
+        </button>
+        <button id="forwardButton" class="controlButton">
+            <img src="assets/GPS/SCHERMATA-INIZIALE/FRECCIA-INDIETRO.png" alt="Avanti">
+        </button>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const camera = document.querySelector('[camera]');
+            const forwardButton = document.getElementById('forwardButton');
+            const backwardButton = document.getElementById('backwardButton');
+            
+            // Distanza di movimento per frame
+            const moveSpeed = 0.05; // Imposta la velocità di movimento
+
+            let moveInterval;
+
+            // Funzione per calcolare la nuova posizione della fotocamera
+            function moveCamera(direction) {
+                const cameraEl = camera.object3D;
+                const vector = new THREE.Vector3();
+                
+                // Ottiene la direzione in cui è puntata la fotocamera
+                cameraEl.getWorldDirection(vector);
+                vector.normalize();
+
+                // Calcola la nuova posizione
+                if (direction === 'forward') {
+                    cameraEl.position.add(vector.multiplyScalar(moveSpeed));
+                } else if (direction === 'backward') {
+                    cameraEl.position.add(vector.multiplyScalar(-moveSpeed));
+                }
+            }
+
+            // Funzione per iniziare a muoversi
+            function startMoving(direction) {
+                moveInterval = setInterval(() => moveCamera(direction), 16); // ~60 fps
+            }
+
+            // Funzione per fermare il movimento
+            function stopMoving() {
+                clearInterval(moveInterval);
+            }
+
+            // Eventi per il pulsante "Avanti"
+            forwardButton.addEventListener('mousedown', () => startMoving('forward'));
+            forwardButton.addEventListener('mouseup', stopMoving);
+            forwardButton.addEventListener('mouseleave', stopMoving); // Per fermare quando il mouse esce
+
+            // Eventi per il pulsante "Indietro"
+            backwardButton.addEventListener('mousedown', () => startMoving('backward'));
+            backwardButton.addEventListener('mouseup', stopMoving);
+            backwardButton.addEventListener('mouseleave', stopMoving); // Per fermare quando il mouse esce
         });
     </script>
 
