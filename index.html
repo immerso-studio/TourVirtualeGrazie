@@ -561,47 +561,62 @@
             
             // Distanza di movimento per frame
             const moveSpeed = 0.05; // Imposta la velocità di movimento
-
+    
             let moveInterval;
-
-            // Funzione per calcolare la nuova posizione della fotocamera
+    
+            // Funzione per calcolare la nuova posizione della fotocamera mantenendo l'altezza costante
             function moveCamera(direction) {
                 const cameraEl = camera.object3D;
                 const vector = new THREE.Vector3();
-                
+                const currentPosition = cameraEl.position.clone();
+    
                 // Ottiene la direzione in cui è puntata la fotocamera
                 cameraEl.getWorldDirection(vector);
                 vector.normalize();
-
+    
+                // Mantieni l'altezza attuale (asse y)
+                const initialY = currentPosition.y;
+    
                 // Calcola la nuova posizione
                 if (direction === 'forward') {
-                    cameraEl.position.add(vector.multiplyScalar(moveSpeed));
+                    currentPosition.add(vector.multiplyScalar(moveSpeed));
                 } else if (direction === 'backward') {
-                    cameraEl.position.add(vector.multiplyScalar(-moveSpeed));
+                    currentPosition.add(vector.multiplyScalar(-moveSpeed));
                 }
+    
+                // Imposta la coordinata y originale per mantenere l'altezza costante
+                currentPosition.y = initialY;
+    
+                // Aggiorna la posizione della fotocamera
+                cameraEl.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
             }
-
+    
             // Funzione per iniziare a muoversi
             function startMoving(direction) {
                 moveInterval = setInterval(() => moveCamera(direction), 16); // ~60 fps
             }
-
+    
             // Funzione per fermare il movimento
             function stopMoving() {
                 clearInterval(moveInterval);
             }
-
+    
             // Eventi per il pulsante "Avanti"
             forwardButton.addEventListener('mousedown', () => startMoving('forward'));
             forwardButton.addEventListener('mouseup', stopMoving);
-            forwardButton.addEventListener('mouseleave', stopMoving); // Per fermare quando il mouse esce
-
+            forwardButton.addEventListener('mouseleave', stopMoving);
+            forwardButton.addEventListener('touchstart', () => startMoving('forward')); // Supporto per touch
+            forwardButton.addEventListener('touchend', stopMoving); // Supporto per touch
+    
             // Eventi per il pulsante "Indietro"
             backwardButton.addEventListener('mousedown', () => startMoving('backward'));
             backwardButton.addEventListener('mouseup', stopMoving);
-            backwardButton.addEventListener('mouseleave', stopMoving); // Per fermare quando il mouse esce
+            backwardButton.addEventListener('mouseleave', stopMoving);
+            backwardButton.addEventListener('touchstart', () => startMoving('backward')); // Supporto per touch
+            backwardButton.addEventListener('touchend', stopMoving); // Supporto per touch
         });
     </script>
+    
 
 
 
