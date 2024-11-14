@@ -197,13 +197,17 @@
         /* Stile per contenitore dei pulsanti */
         .buttonContainer {
             position: fixed;
-            top: 90%;
+            width: 80px;
+            top: 85%;
             left: 50%;
             transform: translate(-50%, -50%);
             display: flex;
             flex-direction: column; /* Disposizione verticale */
             align-items: center;
             z-index: 100; /* Assicura che i pulsanti siano sopra la scena */
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+            border-radius: 10px; /* Rotondi */
+            background-color: #002942;
         }
 
         /* Stile per i pulsanti */
@@ -670,7 +674,7 @@
 
 
 
-            <a-asset-item id="marker-glb" src="assets/GPS/GLB/Bersaglio teletrasporto.glb"></a-asset-item>
+            
 
                 <!-- opere inferno -->
                 <a-asset-item id="my-model-101" src="assets/GPS/GLB opere singole/101.glb"></a-asset-item>
