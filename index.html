@@ -516,10 +516,12 @@ function closeOverlay() {
                         const progressBar = document.querySelector('.progress');
                         const mainContent = document.getElementById('mainContent');
 
-                        // Simula l'avanzamento della barra di caricamento
                         let progress = 0;
+                        const totalDuration = 10000; // 10 secondi in millisecondi
+                        const incrementInterval = totalDuration / 100; // Intervallo per incrementare l'1%
+
                         const interval = setInterval(() => {
-                            progress += 10; // Incrementa del 10% ogni 200ms
+                            progress += 1; // Incrementa dell'1% ad ogni intervallo
                             progressBar.style.width = progress + '%';
 
                             if (progress >= 100) {
@@ -529,8 +531,9 @@ function closeOverlay() {
                                     mainContent.style.display = 'block';
                                 }, 500); // Mostra il contenuto e nasconde la schermata di caricamento
                             }
-                        }, 200); // Imposta la velocità di incremento della barra
+                        }, incrementInterval); // Incremento ad ogni intervallo calcolato per durare 10 secondi
                     });
+
                 </script>
 
 
