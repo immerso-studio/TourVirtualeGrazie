@@ -50,7 +50,9 @@
         background-color: rgb(115, 115, 115);
         color: white;
         }
-        
+
+
+
 
 
 
@@ -1647,7 +1649,7 @@ function closeOverlay() {
         <a-sky color="#71AED3"></a-sky>
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37">
-            <a-cursor id="cursor" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
+            <a-cursor id="cursor" scale="2 2 2" material="color: white; shader: flat" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
         <a-entity id="marker"
           gltf-model="#marker-glb"
