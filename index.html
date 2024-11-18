@@ -36,7 +36,21 @@
             width: 0;
             background-color: #3498db;
             border-radius: 10px;
-            transition: width 5s;
+            transition: width 3s;
+        }
+
+
+
+        .a-dialog-allow-button {
+        background-color: red;
+        }
+
+        .a-dialog-deny-button {
+        background-color: blue;
+        }
+
+        .a-dialog-ok-button {
+        background-color: green;
         }
 
 
@@ -517,7 +531,7 @@ function closeOverlay() {
                         const mainContent = document.getElementById('mainContent');
 
                         let progress = 0;
-                        const totalDuration = 10000; // 10 secondi in millisecondi
+                        const totalDuration = 20000; // 10 secondi in millisecondi
                         const incrementInterval = totalDuration / 100; // Intervallo per incrementare l'1%
 
                         const interval = setInterval(() => {
