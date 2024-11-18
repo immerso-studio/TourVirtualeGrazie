@@ -216,6 +216,19 @@
             
         }
 
+
+        #leftButton {
+            position: fixed;
+            top: 20%;
+            left: 100%;
+        }
+
+        #rightButton {
+            position: fixed;
+            top: 20%;
+            right: 100%;
+        }
+
         /* Stile per i pulsanti */
         .controlButton {
             width: 60px;
@@ -577,86 +590,126 @@ function closeOverlay() {
 
     <!-- Contenitore dei pulsanti di controllo -->
     <div class="buttonContainer">
-
         <button id="backwardButton" class="controlButton">
             <img src="assets/GPS/SCHERMATA-INIZIALE/FRECCIA-AVANTI.png" alt="Indietro">
         </button>
         <button id="forwardButton" class="controlButton">
             <img src="assets/GPS/SCHERMATA-INIZIALE/FRECCIA-INDIETRO.png" alt="Avanti">
         </button>
+        <button id="leftButton" class="controlButton">
+            <img src="assets/GPS/SCHERMATA-INIZIALE/FRECCIA-DX.png" alt="Sinistra">
+        </button>
+        <button id="rightButton" class="controlButton">
+            <img src="assets/GPS/SCHERMATA-INIZIALE/FRECCIA-SX.png" alt="Destra">
+        </button>
 
     </div>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const camera = document.querySelector('[camera]');
             const forwardButton = document.getElementById('forwardButton');
             const backwardButton = document.getElementById('backwardButton');
-            
+            const leftButton = document.getElementById('leftButton');
+            const rightButton = document.getElementById('rightButton');
+
             // Distanza di movimento per frame
             const moveSpeed = 0.05; // Imposta la velocità di movimento
-    
+
             let moveInterval;
-    
+
             // Funzione per calcolare la nuova posizione della fotocamera mantenendo l'altezza costante
             function moveCamera(direction) {
                 const cameraEl = camera.object3D;
                 const vector = new THREE.Vector3();
                 const currentPosition = cameraEl.position.clone();
-    
-                // Ottiene la direzione in cui è puntata la fotocamera
-                cameraEl.getWorldDirection(vector);
-                vector.normalize();
-    
+
+                if (direction === 'forward' || direction === 'backward') {
+                    // Ottiene la direzione in cui è puntata la fotocamera
+                    cameraEl.getWorldDirection(vector);
+                    vector.normalize();
+                    if (direction === 'backward') {
+                        vector.multiplyScalar(-1);
+                    }
+                } else if (direction === 'left' || direction === 'right') {
+                    // Calcola il vettore per movimenti laterali (destra/sinistra)
+                    cameraEl.getWorldDirection(vector);
+                    vector.cross(cameraEl.up); // Vettore laterale rispetto all'asse 'up' della fotocamera
+                    vector.normalize();
+                    if (direction === 'left') {
+                        vector.multiplyScalar(-1);
+                    }
+                }
+
                 // Mantieni l'altezza attuale (asse y)
                 const initialY = currentPosition.y;
-    
+
                 // Calcola la nuova posizione
-                if (direction === 'forward') {
-                    currentPosition.add(vector.multiplyScalar(moveSpeed));
-                } else if (direction === 'backward') {
-                    currentPosition.add(vector.multiplyScalar(-moveSpeed));
-                }
-    
+                currentPosition.add(vector.multiplyScalar(moveSpeed));
+
                 // Imposta la coordinata y originale per mantenere l'altezza costante
                 currentPosition.y = initialY;
-    
+
                 // Aggiorna la posizione della fotocamera
                 cameraEl.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
             }
-    
+
             // Funzione per iniziare a muoversi
             function startMoving(direction) {
                 moveInterval = setInterval(() => moveCamera(direction), 16); // ~60 fps
             }
-    
+
             // Funzione per fermare il movimento
             function stopMoving() {
                 clearInterval(moveInterval);
             }
-    
+
             // Eventi per il pulsante "Avanti"
             forwardButton.addEventListener('mousedown', () => startMoving('forward'));
             forwardButton.addEventListener('mouseup', stopMoving);
             forwardButton.addEventListener('mouseleave', stopMoving);
             forwardButton.addEventListener('touchstart', (e) => {
-                e.preventDefault(); // Previene comportamenti touch predefiniti
+                e.preventDefault();
                 startMoving('forward');
             });
             forwardButton.addEventListener('touchend', stopMoving);
             forwardButton.addEventListener('touchcancel', stopMoving);
-    
+
             // Eventi per il pulsante "Indietro"
             backwardButton.addEventListener('mousedown', () => startMoving('backward'));
             backwardButton.addEventListener('mouseup', stopMoving);
             backwardButton.addEventListener('mouseleave', stopMoving);
             backwardButton.addEventListener('touchstart', (e) => {
-                e.preventDefault(); // Previene comportamenti touch predefiniti
+                e.preventDefault();
                 startMoving('backward');
             });
             backwardButton.addEventListener('touchend', stopMoving);
             backwardButton.addEventListener('touchcancel', stopMoving);
+
+            // Eventi per il pulsante "Sinistra"
+            leftButton.addEventListener('mousedown', () => startMoving('left'));
+            leftButton.addEventListener('mouseup', stopMoving);
+            leftButton.addEventListener('mouseleave', stopMoving);
+            leftButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startMoving('left');
+            });
+            leftButton.addEventListener('touchend', stopMoving);
+            leftButton.addEventListener('touchcancel', stopMoving);
+
+            // Eventi per il pulsante "Destra"
+            rightButton.addEventListener('mousedown', () => startMoving('right'));
+            rightButton.addEventListener('mouseup', stopMoving);
+            rightButton.addEventListener('mouseleave', stopMoving);
+            rightButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startMoving('right');
+            });
+            rightButton.addEventListener('touchend', stopMoving);
+            rightButton.addEventListener('touchcancel', stopMoving);
         });
+
     </script>
     
     
