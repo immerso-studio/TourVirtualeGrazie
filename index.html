@@ -396,6 +396,26 @@
 
     });
 
+    AFRAME.registerComponent('limit-movement', {
+    schema: {
+        minX: {type: 'number', default: -15},
+        maxX: {type: 'number', default: 15},
+        minZ: {type: 'number', default: -40},
+        maxZ: {type: 'number', default: 40}
+    },
+    tick: function () {
+        const el = this.el;
+        const position = el.object3D.position;
+
+        if (position.x < this.data.minX) position.x = this.data.minX;
+        if (position.x > this.data.maxX) position.x = this.data.maxX;
+        if (position.z < this.data.minZ) position.z = this.data.minZ;
+        if (position.z > this.data.maxZ) position.z = this.data.maxZ;
+
+        el.object3D.position.set(position.x, position.y, position.z);
+    }
+    });
+
 
 
     AFRAME.registerComponent('selezione_riquadro_final', {
@@ -1648,7 +1668,7 @@ function closeOverlay() {
 
         <a-sky color="#71AED3"></a-sky>
         <!-- Camera e cursore -->
-        <a-entity camera look-controls wasd-controls position="-4 2 37">
+        <a-entity camera look-controls wasd-controls position="-4 2 37" limit-movement>
             <a-cursor id="cursor" scale="2 2 2" material="color: white; shader: flat" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
         <a-entity id="marker"
