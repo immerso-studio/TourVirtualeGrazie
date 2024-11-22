@@ -886,7 +886,9 @@ function closeOverlay() {
 
             
 
-
+            
+                <img id="skyTexture" src="assets/GPS/SKY/cielo360-4.jpg">
+              
 
             
 
@@ -1672,7 +1674,7 @@ function closeOverlay() {
 
 
 
-        <a-sky color="#71AED3"></a-sky>
+        <a-sky src="#skyTexture"></a-sky>
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 37" limit-movement>
             <a-cursor id="cursor" scale="2 2 2" material="color: white; shader: flat" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
