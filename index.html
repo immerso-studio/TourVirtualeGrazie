@@ -486,26 +486,40 @@
 
         AFRAME.registerComponent('show-image-on-click', {
             schema: {
-                imageId: {type: 'string'}
+                imageId: { type: 'string' }
             },
             init: function () {
                 var el = this.el;
+                var clickTimeout = null; // Variabile per rilevare il doppio click
 
                 el.addEventListener('click', function () {
-                    // Ottieni l'elemento div per l'overlay
-                    var imageOverlay = document.getElementById('imageOverlay');
-                    var imageElement = document.getElementById('overlayImage');
-                    var overlayBackground = document.getElementById('overlayBackground');
+                    if (clickTimeout) {
+                        clearTimeout(clickTimeout);
+                        clickTimeout = null;
 
-                    // Cambia la sorgente dell'immagine con quella corrispondente all'elemento cliccato
-                    imageElement.src = document.getElementById(el.getAttribute('show-image-on-click').imageId).src;
+                        // Esegui azione per doppio click: mostra l'immagine
+                        var imageOverlay = document.getElementById('imageOverlay');
+                        var imageElement = document.getElementById('overlayImage');
+                        var overlayBackground = document.getElementById('overlayBackground');
 
-                    // Mostra l'overlay e lo sfondo
-                    imageOverlay.style.display = 'block';
-                    overlayBackground.style.display = 'block';
+                        // Cambia la sorgente dell'immagine con quella corrispondente all'elemento cliccato
+                        imageElement.src = document.getElementById(el.getAttribute('show-image-on-click').imageId).src;
+
+                        // Mostra l'overlay e lo sfondo
+                        imageOverlay.style.display = 'block';
+                        overlayBackground.style.display = 'block';
+                    } else {
+                        // Imposta un timeout per rilevare se è un singolo click o un doppio click
+                        clickTimeout = setTimeout(function () {
+                            clickTimeout = null;
+                            // Azione opzionale per il singolo click (se necessario)
+                            console.log('Click singolo, nessuna azione eseguita.');
+                        }, 300); // Intervallo di tempo per rilevare il doppio click
+                    }
                 });
             }
         });
+
 
 
 // Funzione per nascondere l'immagine overlay e lo sfondo
@@ -578,7 +592,7 @@ function closeOverlay() {
 
 
 
-
+                
 
 
 
