@@ -763,10 +763,9 @@ function closeOverlay() {
 
     </div>
     
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const camera = document.querySelector('[camera]');  // Assicurati che esista un elemento <a-camera> in A-Frame
+            const camera = document.querySelector('[camera]');
             const forwardButton = document.getElementById('forwardButton');
             const backwardButton = document.getElementById('backwardButton');
             const leftButton = document.getElementById('leftButton');
@@ -779,18 +778,25 @@ function closeOverlay() {
                 const cameraEl = camera.object3D;
                 const vector = new THREE.Vector3();
                 const currentPosition = cameraEl.position.clone();
+                
+                // Salva l'altezza corrente (y)
+                const fixedY = currentPosition.y;
 
+                // Calcola la direzione del movimento
                 if (direction === 'forward' || direction === 'backward') {
                     cameraEl.getWorldDirection(vector);
                     if (direction === 'backward') vector.multiplyScalar(-1);
                 } else if (direction === 'left' || direction === 'right') {
                     cameraEl.getWorldDirection(vector);
-                    vector.cross(cameraEl.up);
+                    vector.cross(cameraEl.up); // Movimento laterale
                     if (direction === 'left') vector.multiplyScalar(-1);
                 }
 
+                // Applica il movimento mantenendo l'altezza costante
                 currentPosition.add(vector.multiplyScalar(moveSpeed));
-                cameraEl.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+                currentPosition.y = fixedY;  // Reimposta l'altezza originale
+
+                cameraEl.position.set(currentPosition.x, fixedY, currentPosition.z);
             }
 
             function startMoving(direction, button) {
