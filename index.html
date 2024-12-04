@@ -288,33 +288,35 @@
             right: 100%;
         }
 
-        /* Stile per i pulsanti */
+        /* Stile base per i pulsanti */
         .controlButton {
             width: 60px;
             height: 60px;
             background-color: #0066cc;
             border: none;
-            border-radius: 10px; /* Rotondi */
+            border-radius: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 10px 0; /* Spazio tra i pulsanti */
+            margin: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            z-index: 1; /* Assicura che sia sopra altri elementi */
-        }
-        
-        .controlButton:hover {
-            background-color: #004c99;
-            width: 57px;
-            height: 57px;
+            transition: transform 0.1s ease, background-color 0.1s ease;
         }
 
-        .controlButton img {
-            width: 70%; /* Regola la dimensione dell'immagine */
-            height: 70%; /* Mantieni proporzioni */
-            
+        /* Stile per pulsante premuto */
+        .controlButton:active,
+        .controlButton.pressed {
+            transform: scale(0.95);  /* Leggero effetto pressione */
+            background-color: #004c99; /* Cambia colore durante la pressione */
         }
+
+        /* Stile per le immagini nei pulsanti */
+        .controlButton img {
+            width: 70%;
+            height: 70%;
+        }
+
 
         
 
@@ -764,108 +766,57 @@ function closeOverlay() {
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const camera = document.querySelector('[camera]');
+            const camera = document.querySelector('[camera]');  // Assicurati che esista un elemento <a-camera> in A-Frame
             const forwardButton = document.getElementById('forwardButton');
             const backwardButton = document.getElementById('backwardButton');
             const leftButton = document.getElementById('leftButton');
             const rightButton = document.getElementById('rightButton');
 
-            // Distanza di movimento per frame
-            const moveSpeed = 0.05; // Imposta la velocità di movimento
-
+            const moveSpeed = 0.05; // Velocità di movimento
             let moveInterval;
 
-            // Funzione per calcolare la nuova posizione della fotocamera mantenendo l'altezza costante
             function moveCamera(direction) {
                 const cameraEl = camera.object3D;
                 const vector = new THREE.Vector3();
                 const currentPosition = cameraEl.position.clone();
 
                 if (direction === 'forward' || direction === 'backward') {
-                    // Ottiene la direzione in cui è puntata la fotocamera
                     cameraEl.getWorldDirection(vector);
-                    vector.normalize();
-                    if (direction === 'backward') {
-                        vector.multiplyScalar(-1);
-                    }
+                    if (direction === 'backward') vector.multiplyScalar(-1);
                 } else if (direction === 'left' || direction === 'right') {
-                    // Calcola il vettore per movimenti laterali (destra/sinistra)
                     cameraEl.getWorldDirection(vector);
-                    vector.cross(cameraEl.up); // Vettore laterale rispetto all'asse 'up' della fotocamera
-                    vector.normalize();
-                    if (direction === 'left') {
-                        vector.multiplyScalar(-1);
-                    }
+                    vector.cross(cameraEl.up);
+                    if (direction === 'left') vector.multiplyScalar(-1);
                 }
 
-                // Mantieni l'altezza attuale (asse y)
-                const initialY = currentPosition.y;
-
-                // Calcola la nuova posizione
                 currentPosition.add(vector.multiplyScalar(moveSpeed));
-
-                // Imposta la coordinata y originale per mantenere l'altezza costante
-                currentPosition.y = initialY;
-
-                // Aggiorna la posizione della fotocamera
                 cameraEl.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
             }
 
-            // Funzione per iniziare a muoversi
-            function startMoving(direction) {
+            function startMoving(direction, button) {
+                button.classList.add('pressed');
                 moveInterval = setInterval(() => moveCamera(direction), 16); // ~60 fps
             }
 
-            // Funzione per fermare il movimento
-            function stopMoving() {
+            function stopMoving(button) {
                 clearInterval(moveInterval);
+                button.classList.remove('pressed');
             }
 
-            // Eventi per il pulsante "Avanti"
-            forwardButton.addEventListener('mousedown', () => startMoving('forward'));
-            forwardButton.addEventListener('mouseup', stopMoving);
-            forwardButton.addEventListener('mouseleave', stopMoving);
-            forwardButton.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                startMoving('forward');
+            // Eventi per ogni pulsante (mouse e touch)
+            [[forwardButton, 'forward'], [backwardButton, 'backward'], [leftButton, 'left'], [rightButton, 'right']].forEach(([button, direction]) => {
+                button.addEventListener('mousedown', () => startMoving(direction, button));
+                button.addEventListener('mouseup', () => stopMoving(button));
+                button.addEventListener('mouseleave', () => stopMoving(button));
+                
+                button.addEventListener('touchstart', (e) => {
+                    e.preventDefault();  // Evita il doppio tocco su mobile
+                    startMoving(direction, button);
+                });
+                button.addEventListener('touchend', () => stopMoving(button));
+                button.addEventListener('touchcancel', () => stopMoving(button));
             });
-            forwardButton.addEventListener('touchend', stopMoving);
-            forwardButton.addEventListener('touchcancel', stopMoving);
-
-            // Eventi per il pulsante "Indietro"
-            backwardButton.addEventListener('mousedown', () => startMoving('backward'));
-            backwardButton.addEventListener('mouseup', stopMoving);
-            backwardButton.addEventListener('mouseleave', stopMoving);
-            backwardButton.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                startMoving('backward');
-            });
-            backwardButton.addEventListener('touchend', stopMoving);
-            backwardButton.addEventListener('touchcancel', stopMoving);
-
-            // Eventi per il pulsante "Sinistra"
-            leftButton.addEventListener('mousedown', () => startMoving('left'));
-            leftButton.addEventListener('mouseup', stopMoving);
-            leftButton.addEventListener('mouseleave', stopMoving);
-            leftButton.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                startMoving('left');
-            });
-            leftButton.addEventListener('touchend', stopMoving);
-            leftButton.addEventListener('touchcancel', stopMoving);
-
-            // Eventi per il pulsante "Destra"
-            rightButton.addEventListener('mousedown', () => startMoving('right'));
-            rightButton.addEventListener('mouseup', stopMoving);
-            rightButton.addEventListener('mouseleave', stopMoving);
-            rightButton.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                startMoving('right');
-            });
-            rightButton.addEventListener('touchend', stopMoving);
-            rightButton.addEventListener('touchcancel', stopMoving);
         });
-
     </script>
     
     
