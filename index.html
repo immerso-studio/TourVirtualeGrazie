@@ -235,7 +235,7 @@
         position: absolute;
         bottom: -60px;
         right: 10px;
-        background-color: #F7931E;
+        background-color: #004c99;
         color: white;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
         border: none; /* Nessun bordo */
@@ -268,11 +268,11 @@
         }
 
         .overlayHeader {
-            position: absolute;
-            top: -40px; /* Posizione sopra il video */
+            position: relative;
+            top: -10px; /* Posizione sopra il video */
             left: 50%;
             transform: translateX(-50%);
-            background-color: #F7931E; /* Colore arancione */
+            background-color: #004c99; /* Colore arancione */
             color: white;
             font-family: 'Montserrat', sans-serif;
             font-weight: bold;
@@ -280,7 +280,6 @@
             text-align: center;
             padding: 10px 20px;
             border-radius: 10px; /* Smussatura angoli */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Aggiunge ombra */
             z-index: 15; /* Sopra al video */
         }
 
@@ -720,7 +719,7 @@ function closeOverlay() {
 
     <!-- Serie di immagini overlay -->
     <div class="videoOverlay2" id="videoOverlay1">
-        <div class="overlayHeader">Tutorial 1: Introduzione</div>
+        <div class="overlayHeader">Tieni premute le frecce per spostarti nella piazza!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-1.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -728,7 +727,7 @@ function closeOverlay() {
         <button class="nextButton2" data-next="videoOverlay2">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay2">
-        <div class="overlayHeader">Tutorial 2: Funzionalità</div>
+        <div class="overlayHeader">Scorri con il dito sullo schermo per ruotare la visuale!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-2.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -736,7 +735,7 @@ function closeOverlay() {
         <button class="nextButton2" data-next="videoOverlay3">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay3">
-        <div class="overlayHeader">Tutorial 3: Conclusione</div>
+        <div class="overlayHeader">Ruota il telefono per visualizzare l'ambiente!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial PAN.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -744,7 +743,7 @@ function closeOverlay() {
         <button class="nextButton2" data-next="videoOverlay4">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay4">
-        <div class="overlayHeader">Tutorial 3: Conclusione</div>
+        <div class="overlayHeader">Con il puntatore al centro dello schermo seleziona le opere e clicca due volte per vedere le info!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-4.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
