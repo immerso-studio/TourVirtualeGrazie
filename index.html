@@ -267,6 +267,23 @@
             z-index: 10; /* Dietro l'overlay */
         }
 
+        .overlayHeader {
+            position: absolute;
+            top: -40px; /* Posizione sopra il video */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #F7931E; /* Colore arancione */
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 10px; /* Smussatura angoli */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Aggiunge ombra */
+            z-index: 15; /* Sopra al video */
+        }
+
 
 
 
@@ -703,6 +720,7 @@ function closeOverlay() {
 
     <!-- Serie di immagini overlay -->
     <div class="videoOverlay2" id="videoOverlay1">
+        <div class="overlayHeader">Tutorial 1: Introduzione</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-1.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -710,6 +728,7 @@ function closeOverlay() {
         <button class="nextButton2" data-next="videoOverlay2">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay2">
+        <div class="overlayHeader">Tutorial 2: Funzionalità</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-2.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -717,6 +736,7 @@ function closeOverlay() {
         <button class="nextButton2" data-next="videoOverlay3">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay3">
+        <div class="overlayHeader">Tutorial 3: Conclusione</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial PAN.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -724,6 +744,7 @@ function closeOverlay() {
         <button class="nextButton2" data-next="videoOverlay4">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay4">
+        <div class="overlayHeader">Tutorial 3: Conclusione</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-4.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -905,6 +926,9 @@ function closeOverlay() {
 
                 <a-asset-item id="edifici" src="assets/GPS/GLB/Edifici cucinati 2K carta.glb"></a-asset-item>
                 <a-asset-item id="asfalto" src="assets/GPS/GLB/Asfalto cucinato 2K carta.glb"></a-asset-item>
+
+
+                <a-asset-item id="loghi" src="assets/GPS/GLB/Loghi inizio percorso.glb"></a-asset-item>
               
 
             
@@ -1676,6 +1700,10 @@ function closeOverlay() {
             gltf-model="#asfalto" rotation-reader move-to-position>
         </a-entity>
 
+        <a-entity class="clickable walkable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+                  gltf-model="#loghi" rotation-reader move-to-position>
+        </a-entity>
+
 
 
 
@@ -1695,7 +1723,7 @@ function closeOverlay() {
 
         <a-sky src="#skyTexture"></a-sky>
         <!-- Camera e cursore -->
-        <a-entity camera look-controls wasd-controls position="-4 2 37" limit-movement>
+        <a-entity camera look-controls wasd-controls position="-4 2 39" limit-movement>
             <a-cursor id="cursor" scale="2 2 2" material="color: white; shader: flat" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
         </a-entity>
         <a-entity id="marker"
