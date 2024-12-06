@@ -233,7 +233,7 @@
         }
         .nextButton2, .closeButton2 {
         position: absolute;
-        bottom: 10px;
+        bottom: -60px;
         right: 10px;
         background-color: #F7931E;
         color: white;
@@ -600,7 +600,7 @@ function closeOverlay() {
                         const mainContent = document.getElementById('mainContent');
 
                         let progress = 0;
-                        const totalDuration = 5000; // 10 secondi in millisecondi
+                        const totalDuration = 10000; // 10 secondi in millisecondi
                         const incrementInterval = totalDuration / 100; // Intervallo per incrementare l'1%
 
                         const interval = setInterval(() => {
@@ -704,28 +704,28 @@ function closeOverlay() {
     <!-- Serie di immagini overlay -->
     <div class="videoOverlay2" id="videoOverlay1">
         <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/Tutorial-1.mp4" type="video/mp4">
+            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-1.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
         <button class="nextButton2" data-next="videoOverlay2">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay2">
         <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/Tutorial-2.mp4" type="video/mp4">
+            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-2.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
         <button class="nextButton2" data-next="videoOverlay3">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay3">
         <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/Tutorial PAN.mp4" type="video/mp4">
+            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial PAN.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
         <button class="nextButton2" data-next="videoOverlay4">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay4">
         <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/Tutorial-4.mp4" type="video/mp4">
+            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-4.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
         <button class="closeButton2" data-next="close">X</button>
