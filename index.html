@@ -3,6 +3,8 @@
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.151.3/examples/js/loaders/DRACOLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webvr-polyfill/0.10.12/webvr-polyfill.min.js"></script>
+
 
 
     <style>
@@ -236,8 +238,8 @@
         }
         .nextButton2, .closeButton2 {
         position: absolute;
-        bottom: -60px;
-        right: 10px;
+        bottom: 20px;
+        right: 20px;
         background-color: #004c99;
         color: white;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
@@ -272,7 +274,7 @@
 
         .overlayHeader {
             position: relative;
-            top: -10px; /* Posizione sopra il video */
+            top: 0px; /* Posizione sopra il video */
             left: 50%;
             transform: translateX(-50%);
             background-color: #004c99; /* Colore arancione */
