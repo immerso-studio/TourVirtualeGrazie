@@ -224,7 +224,7 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0);
             opacity: 0;
             visibility: hidden;
-            transition: opacity 2s ease, visibility 2s ease;
+            transition: opacity 1s ease, visibility 1s ease;
         }
 
         #imageOverlay img {
@@ -243,7 +243,7 @@
             z-index: 5;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 2s ease, visibility 2s ease;
+            transition: opacity 1s ease, visibility 1s ease;
         }
 
 
@@ -583,8 +583,6 @@
 
 
         
-
-
         AFRAME.registerComponent('show-image-on-click', {
             schema: {
                 imageId: { type: 'string' }
@@ -598,19 +596,27 @@
                         clearTimeout(clickTimeout);
                         clickTimeout = null;
 
-                        // Esegui azione per doppio click: mostra l'immagine
+                        // Seleziona gli elementi necessari
                         var imageOverlay = document.getElementById('imageOverlay');
                         var imageElement = document.getElementById('overlayImage');
                         var overlayBackground = document.getElementById('overlayBackground');
 
                         // Cambia la sorgente dell'immagine con quella corrispondente all'elemento cliccato
-                        imageElement.src = document.getElementById(el.getAttribute('show-image-on-click').imageId).src;
+                        var newImageSrc = document.getElementById(el.getAttribute('show-image-on-click').imageId).src;
 
-                        // Mostra l'overlay e lo sfondo con una transizione
-                        imageOverlay.style.visibility = 'visible';
-                        imageOverlay.style.opacity = '1';
-                        overlayBackground.style.visibility = 'visible';
-                        overlayBackground.style.opacity = '1';
+                        // Nasconde temporaneamente l'overlay per evitare di mostrare l'immagine precedente
+                        imageOverlay.style.visibility = 'hidden';
+                        overlayBackground.style.visibility = 'hidden';
+
+                        // Imposta la nuova immagine e mostra l'overlay solo dopo che è stata caricata
+                        imageElement.onload = function () {
+                            imageOverlay.style.visibility = 'visible';
+                            imageOverlay.style.opacity = '1';
+                            overlayBackground.style.visibility = 'visible';
+                            overlayBackground.style.opacity = '1';
+                        };
+
+                        imageElement.src = newImageSrc;
                     } else {
                         // Timeout per rilevare il singolo click
                         clickTimeout = setTimeout(function () {
@@ -619,11 +625,8 @@
                         }, 1000);
                     }
                 });
-
             }
         });
-
-
 
         function closeOverlay() {
             var imageOverlay = document.getElementById('imageOverlay');
@@ -635,8 +638,6 @@
             overlayBackground.style.visibility = 'hidden';
             overlayBackground.style.opacity = '0';
         }
-
-    
 
 
 
