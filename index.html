@@ -4,7 +4,6 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.151.3/examples/js/loaders/DRACOLoader.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/webxr-polyfill@latest/build/webxr-polyfill.js'></script>
-    
     <script>
         // Inizializza il polyfill per garantire il supporto WebXR
         var polyfill = new WebXRPolyfill();
@@ -189,7 +188,6 @@
 
         /* Stile dell'immagine overlay */
         #imageOverlay {
-            display: none; /* Nascosto di default */
             position: fixed;
             top: 50%;
             left: 50%;
@@ -198,13 +196,37 @@
             height: auto;
             z-index: 10;
             padding: 10px;
-            box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
-            
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
         }
+
         #imageOverlay img {
             width: 100%;
             height: auto;
         }
+
+        /* Stile dello sfondo */
+        #overlayBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 5;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+
+
+
+
+
+
         #closeButton {
             position: absolute;
             top: 0px;
@@ -363,16 +385,6 @@
         
 
 
-        #overlayBackground {
-            display: none; /* Nascosto di default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Opacità scura */
-            z-index: 9; /* Dietro l'overlay */
-        }
 
 
 
@@ -557,32 +569,35 @@
                         // Cambia la sorgente dell'immagine con quella corrispondente all'elemento cliccato
                         imageElement.src = document.getElementById(el.getAttribute('show-image-on-click').imageId).src;
 
-                        // Mostra l'overlay e lo sfondo
-                        imageOverlay.style.display = 'block';
-                        overlayBackground.style.display = 'block';
+                        // Mostra l'overlay e lo sfondo con una transizione
+                        imageOverlay.style.visibility = 'visible';
+                        imageOverlay.style.opacity = '1';
+                        overlayBackground.style.visibility = 'visible';
+                        overlayBackground.style.opacity = '1';
                     } else {
-                        // Imposta un timeout per rilevare se è un singolo click o un doppio click
+                        // Timeout per rilevare il singolo click
                         clickTimeout = setTimeout(function () {
                             clickTimeout = null;
-                            // Azione opzionale per il singolo click (se necessario)
                             console.log('Click singolo, nessuna azione eseguita.');
-                        }, 1000); // Intervallo di tempo per rilevare il doppio click
+                        }, 1000);
                     }
                 });
+
             }
         });
 
 
 
-// Funzione per nascondere l'immagine overlay e lo sfondo
-function closeOverlay() {
-    var imageOverlay = document.getElementById('imageOverlay');
-    var overlayBackground = document.getElementById('overlayBackground');
+        function closeOverlay() {
+            var imageOverlay = document.getElementById('imageOverlay');
+            var overlayBackground = document.getElementById('overlayBackground');
 
-    // Nascondi l'overlay e lo sfondo
-    imageOverlay.style.display = 'none';
-    overlayBackground.style.display = 'none';
-}
+            // Nascondi l'overlay e lo sfondo con una transizione
+            imageOverlay.style.visibility = 'hidden';
+            imageOverlay.style.opacity = '0';
+            overlayBackground.style.visibility = 'hidden';
+            overlayBackground.style.opacity = '0';
+        }
 
     
 
@@ -678,10 +693,10 @@ function closeOverlay() {
     
     
     
-        <div id="imageOverlay">
-            <img id="overlayImage" src="" alt="GLB image">
-            <div id="closeButton" onclick="closeOverlay()">X</div>
-        </div>
+    <div id="imageOverlay">
+        <img id="overlayImage" src="" alt="GLB image">
+        <div id="closeButton" onclick="closeOverlay()">X</div>
+    </div>
     
         <script>
             // Nasconde la scena finché non è completamente caricata
