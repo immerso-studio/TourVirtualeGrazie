@@ -1836,7 +1836,18 @@
         <a-sky src="#skyTexture"></a-sky>
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 39" limit-movement>
-            <a-cursor id="cursor" scale="2 2 2" material="color: white; shader: flat" raycaster="objects: .clickable; far: 100" fuse="false" teleport-with-cube></a-cursor>
+            <a-cursor id="cursor" 
+                    scale="2 2 2" 
+                    material="shader: flat; transparent: true" 
+                    raycaster="objects: .clickable; far: 100" 
+                    fuse="false" 
+                    teleport-with-cube>
+                <a-image src="assets/GPS/NEW-ASFALTO/pointer.png" 
+                        position="0 0 0.1" 
+                        width="0.05" 
+                        height="0.05"></a-image>
+            </a-cursor>
+
         </a-entity>
         <a-entity id="marker"
           gltf-model="#marker-glb"
