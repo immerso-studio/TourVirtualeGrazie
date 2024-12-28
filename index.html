@@ -582,7 +582,6 @@
 
 
 
-        
         AFRAME.registerComponent('show-image-on-click', {
             schema: {
                 imageId: { type: 'string' }
@@ -632,11 +631,21 @@
             var imageOverlay = document.getElementById('imageOverlay');
             var overlayBackground = document.getElementById('overlayBackground');
 
-            // Nascondi l'overlay e lo sfondo con una transizione
+            // Disabilita temporaneamente le transizioni
+            imageOverlay.style.transition = 'none';
+            overlayBackground.style.transition = 'none';
+
+            // Nascondi immediatamente l'overlay e lo sfondo
             imageOverlay.style.visibility = 'hidden';
             imageOverlay.style.opacity = '0';
             overlayBackground.style.visibility = 'hidden';
             overlayBackground.style.opacity = '0';
+
+            // Reimposta le transizioni dopo la chiusura
+            setTimeout(function () {
+                imageOverlay.style.transition = '';
+                overlayBackground.style.transition = '';
+            }, 0); // Reimposta subito dopo
         }
 
 
