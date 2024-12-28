@@ -208,6 +208,7 @@
             width: 100%;
             height: auto;
             border-radius: 10px; /* Angoli arrotondati per il video */
+
         }
 
 
@@ -290,19 +291,17 @@
         }
         .nextButton2, .closeButton2 {
         position: absolute;
-        bottom: 20px;
-        right: 20px;
+        bottom: -100px;
         background-color: #004c99;
         color: white;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
         border: none; /* Nessun bordo */
         padding: 10px;
         cursor: pointer;
         font-family: sans-serif;
         font-weight: bold;
         font-size: 16px;
-        border-radius: 10px; /* Rende i bottoni rotondi */
-        width: 60px; /* Larghezza e altezza uguali per il cerchio */
+        border-radius: 40px; /* Rende i bottoni rotondi */
+        width: 350px; /* Larghezza e altezza uguali per il cerchio */
         height: 60px;
         display: flex;
         align-items: center;
@@ -320,24 +319,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Opacità scura */
+            background-color: rgb(220, 220, 220); /* Opacità scura */
             z-index: 10; /* Dietro l'overlay */
         }
 
         .overlayHeader {
             position: relative;
-            top: 0px; /* Posizione sopra il video */
+            top: -50px; /* Posizione sopra il video */
             left: 50%;
             transform: translateX(-50%);
-            background-color: #004c99; /* Colore arancione */
+            background-color: #004c99;
             color: white;
             font-family: 'Montserrat', sans-serif;
             font-weight: bold;
-            font-size: 16px;
-            text-align: center;
+            font-size: 25px;
+            text-align: left;
             padding: 10px 20px;
             border-radius: 10px; /* Smussatura angoli */
             z-index: 15; /* Sopra al video */
+
         }
 
 
@@ -414,7 +414,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Opacità scura */
+            background-color: rgba(220, 220, 220); /* Opacità scura */
             z-index: 10; /* Dietro l'overlay */
         }
 
@@ -789,7 +789,7 @@
 
     <!-- Serie di immagini overlay -->
     <div class="videoOverlay2" id="videoOverlay1">
-        <div class="overlayHeader">Tieni premute le frecce per spostarti nella piazza!</div>
+        <div class="overlayHeader">1. Tieni premute le frecce per spostarti nella piazza!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-1.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -797,7 +797,7 @@
         <button class="nextButton2" data-next="videoOverlay2">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay2">
-        <div class="overlayHeader">Scorri con il dito sullo schermo per ruotare la visuale!</div>
+        <div class="overlayHeader">2. Scorri con il dito sullo schermo per ruotare la visuale!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-2.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -805,7 +805,7 @@
         <button class="nextButton2" data-next="videoOverlay3">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay3">
-        <div class="overlayHeader">Ruota il telefono per visualizzare l'ambiente!</div>
+        <div class="overlayHeader">3. Ruota il telefono per visualizzare l'ambiente!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial PAN.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -813,7 +813,7 @@
         <button class="nextButton2" data-next="videoOverlay4">OK</button>
     </div>
     <div class="videoOverlay2" id="videoOverlay4">
-        <div class="overlayHeader">Con il puntatore al centro dello schermo seleziona le opere e clicca due volte per vedere le info!</div>
+        <div class="overlayHeader">4. Con il puntatore al centro dello schermo seleziona le opere e clicca due volte per vedere le info!</div>
         <video autoplay muted playsinline loop>
             <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-4.mp4" type="video/mp4">
             Il tuo browser non supporta il video.
@@ -1035,8 +1035,8 @@
             
                 <img id="skyTexture" src="assets/GPS/SKY/cielo360-6.jpg">
 
-                <a-asset-item id="edifici" src="assets/GPS/GLB/Edifici cucinati 2K carta.glb"></a-asset-item>
-                <a-asset-item id="asfalto" src="assets/GPS/GLB/Asfalto cucinato 2K carta.glb"></a-asset-item>
+                <a-asset-item id="edifici" src="assets/GPS/GLB/Edifici cucinati 2K carta beige.glb"></a-asset-item>
+                <a-asset-item id="asfalto" src="assets/GPS/GLB/Asfalto cucinato 2K carta beige.glb"></a-asset-item>
 
 
                 <a-asset-item id="loghi" src="assets/GPS/GLB/Loghi inizio percorso.glb"></a-asset-item>
@@ -1844,8 +1844,8 @@
                     teleport-with-cube>
                 <a-image src="assets/GPS/NEW-ASFALTO/pointer.png" 
                         position="0 0 0.1" 
-                        width="0.05" 
-                        height="0.05"></a-image>
+                        width="0.03" 
+                        height="0.03"></a-image>
             </a-cursor>
 
         </a-entity>
