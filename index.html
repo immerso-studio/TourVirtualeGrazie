@@ -191,25 +191,28 @@
 
 
 
-
         .videoOverlay2 {
             display: none; /* Nascosto di default */
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 350px;
-            height: auto;
-            z-index: 11;
+            top: 50%; /* Allineamento verticale al centro */
+            left: 50%; /* Allineamento orizzontale al centro */
+            transform: translate(-50%, -50%); /* Centratura precisa */
+            width: 300px; /* Dimensione responsiva */
+            max-width: 800px; /* Limite massimo per il video */
+            height: auto; /* Altezza dinamica */
+            z-index: 11; /* Priorità su altri elementi */
             padding: 10px;
-            box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Ombra elegante */
+            border-radius: 10px; /* Angoli arrotondati per il contenitore */
+            box-sizing: border-box; /* Include padding nelle dimensioni */
         }
-        .videoOverlay2 video {
-            width: 100%;
-            height: auto;
-            border-radius: 10px; /* Angoli arrotondati per il video */
 
+        .videoOverlay2 video {
+            width: 100%; /* Adatta il video alla larghezza del contenitore */
+            height: auto; /* Mantiene proporzioni */
+            border-radius: 10px; /* Angoli arrotondati per il video */
         }
+
 
 
         /* Stile dell'immagine overlay */
@@ -290,22 +293,21 @@
             height: auto;
         }
         .nextButton2, .closeButton2 {
-        position: absolute;
-        bottom: -70px;
         background-color: #004c99;
         color: white;
         border: none; /* Nessun bordo */
         padding: 10px;
         cursor: pointer;
-        font-family: sans-serif;
+        font-family: 'Montserrat', sans-serif;
         font-weight: bold;
         font-size: 16px;
-        border-radius: 40px; /* Rende i bottoni rotondi */
-        width: 350px; /* Larghezza e altezza uguali per il cerchio */
+        border-radius: 10px; /* Rende i bottoni rotondi */
+        width: 100%; /* Larghezza e altezza uguali per il cerchio */
         height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-top: 10px;
         }
 
         .closeButton2 {
@@ -325,18 +327,18 @@
 
         .overlayHeader {
             position: relative;
-            top: -20px; /* Posizione sopra il video */
+            
             left: 50%;
             transform: translateX(-50%);
             background-color: #004c99;
             color: white;
             font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
             font-size: 25px;
             text-align: left;
             padding: 10px 20px;
             border-radius: 10px; /* Smussatura angoli */
             z-index: 15; /* Sopra al video */
+            margin-bottom: 10px;
 
         }
 
@@ -1006,7 +1008,7 @@
         <img src="assets//GPS/NEW-ASFALTO/AUDIO-NO.png" alt="Avvia Audio" id="audio-icon">
     </button>
     <audio id="background-audio" loop>
-        <source src="assets/GPS/NEW-ASFALTO/Background sound fx.mp3" type="audio/mpeg">
+        <source src="assets/GPS/MUSICA/BAckground-stock-music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
