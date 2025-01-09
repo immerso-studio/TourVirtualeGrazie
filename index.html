@@ -421,6 +421,27 @@
         }
 
 
+        /* Stile per la scheda informativa */
+        #info-card {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none; /* Nasconde la scheda inizialmente */
+            text-align: center;
+        }
+        #info-card img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+
         
 
 
@@ -1033,6 +1054,21 @@
 
 
 
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
     <a-scene device-orientation-permission-ui="allowButtonText: Consenti; denyButtonText: Nega; deviceMotionMessage: Questo sito richiede l'accesso ai sensori di movimento." antialias="false" limit-fps="1" id="my-scene">
         
@@ -1046,12 +1082,19 @@
             
                 <img id="skyTexture" src="assets/GPS/SKY/cielo360-6.jpg">
 
-                <a-asset-item id="edifici" src="assets/GPS/GLB/Edifici cucinati 2K carta beige.glb"></a-asset-item>
-                <a-asset-item id="asfalto" src="assets/GPS/GLB/Asfalto cucinato 2K carta beige.glb"></a-asset-item>
+                <a-asset-item id="edifici" src="assets/GPS/GLB/CONTESTO/Edifici cucinati 2K carta beige.glb"></a-asset-item>
+                <a-asset-item id="asfalto" src="assets/GPS/GLB/CONTESTO/Asfalto cucinato 2K carta beige.glb"></a-asset-item>
+                <a-asset-item id="alberi" src="assets/GPS/GLB/CONTESTO/Alberi.glb"></a-asset-item>
 
 
                 <a-asset-item id="loghi" src="assets/GPS/GLB/Loghi inizio percorso.glb"></a-asset-item>
-              
+
+
+                <a-asset-item id="info-card-1" src="assets/GPS/GLB/Totem info/i di Info.glb"></a-asset-item>
+                <a-asset-item id="info-card-2" src="assets/GPS/GLB/Totem info/Cerchio.glb"></a-asset-item>
+
+
+            
 
             
 
@@ -1824,8 +1867,32 @@
         </a-entity>
 
         <a-entity class="clickable walkable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
+            gltf-model="#alberi" rotation-reader move-to-position>
+        </a-entity>
+
+        <a-entity class="clickable walkable" position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" 
                   gltf-model="#loghi" rotation-reader move-to-position>
         </a-entity>
+
+
+
+
+
+         <!-- Entità per visualizzare il primo modello -->
+    <a-entity gltf-model="#info-card-1" position="7 0.1 45" rotation="0 90 0" scale="1 1 1" id="infoCardEntity" class="clickable"></a-entity>
+
+    <!-- Entità per visualizzare il secondo modello -->
+    <a-entity gltf-model="#info-card-2" position="7 0.1 45" rotation="0 90 0" scale="1 1 1" class="clickable"></a-entity>
+
+
+
+
+
+
+
+
+
+
 
 
 
