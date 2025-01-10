@@ -437,7 +437,7 @@
         background: rgb(220, 220, 220);
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 20px;
+        padding: 10px;
         text-align: center;
         z-index: 1000;
         }
@@ -447,6 +447,49 @@
         border-radius: 10px;
         margin: 10px 0;
         }
+
+        #info-card-santuario {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70%;
+        max-width: 400px;
+        background: rgb(220, 220, 220);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        text-align: center;
+        z-index: 1000;
+        }
+
+        #info-card-santuario img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 10px 0;
+        }
+
+        #info-card-riva {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70%;
+        max-width: 400px;
+        background: rgb(220, 220, 220);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        text-align: center;
+        z-index: 1000;
+        }
+
+        #info-card-riva img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 10px 0;
+        }
+
 
         .overlayHeaderInfo {
             position: relative;
@@ -494,6 +537,34 @@
         }
 
         #info-card button:hover {
+        background: #003d82;
+        }
+
+        #info-card-santuario button {
+        background: #0056b3;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        }
+
+        #info-card-santuario button:hover {
+        background: #003d82;
+        }
+
+        #info-card-riva button {
+        background: #0056b3;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        }
+
+        #info-card-riva button:hover {
         background: #003d82;
         }
 
@@ -1137,29 +1208,88 @@
         <button id="close-btn">OK</button>
     </div>
 
+    <!-- Scheda per il Santuario delle Grazie -->
+    <div id="info-card-santuario" class="hidden">
+        <div class="overlayHeaderInfo">Santuario delle Grazie</div>
+        <img src="assets/GPS/TOTEM/Santuario.jpg" alt="Santuario delle Grazie">
+        <div class="overlayHeaderTesto">
+            Il santuario della Beata Vergine delle Grazie è una chiesa di stile gotico lombardo, dedicata alla Beata Vergine Maria, e sorge nella piccola frazione di Grazie del comune di Curtatone a 9 km da Mantova. Edificata su un ampio piazzale, la basilica sovrasta e s'affaccia sulle acque palustri del Mincio creando un'atmosfera suggestiva per le numerose delegazioni di turisti e fedeli devoti alla Madonna.
+        </div>
+        <button id="close-btn-2">OK</button>
+    </div>
+
+        <!-- Scheda per il Santuario delle Grazie -->
+        <div id="info-card-riva" class="hidden">
+            <div class="overlayHeaderInfo">Riva della Madonna</div>
+            <img src="assets/GPS/TOTEM/Riva.jpg" alt="riva">
+            <div class="overlayHeaderTesto">
+                In prossimità di Rivalta, il Mincio scendendo dalle colline del Garda rallenta il suo corso: si allarga e si divide in più tronchi fino a impaludarsi a valle di Mantova. Il fiume si snoda fra canneti e praterie di carice, in una vasta zona umida estesa per circa 1450 ettari, che costituisce la Riserva Naturale Valli del Mincio.
+            </div>
+            <button id="close-btn-3">OK</button>
+        </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const infoCard = document.getElementById('info-card');
+            // Elementi per la scheda e il pulsante chiusura
+            const infoCard1 = document.getElementById('info-card'); // Scheda Museo
+            const infoCard2 = document.getElementById('info-card-santuario'); // Scheda Santuario
+            const infoCard3 = document.getElementById('info-card-riva'); // Scheda Santuario
             const overlay = document.getElementById('overlayBackground5');
-            const closeBtn = document.getElementById('close-btn');
-            const model = document.getElementById('model');
+            const closeBtn1 = document.getElementById('close-btn'); // Bottone chiusura scheda Museo
+            const closeBtn2 = document.getElementById('close-btn-2'); // Bottone chiusura scheda Santuario
+            const closeBtn3 = document.getElementById('close-btn-3'); // Bottone chiusura scheda Santuario
+            const model1 = document.getElementById('model'); // Primo modello
+            const model2 = document.getElementById('model-2'); // Secondo modello
+            const model3 = document.getElementById('model-3'); // Secondo modello
 
-            // Show the card and overlay on model click
-            model.addEventListener('click', () => {
-                infoCard.classList.remove('hidden');
+            // Funzione per mostrare una scheda
+            function showCard(card) {
+                card.classList.remove('hidden');
                 overlay.classList.add('visible');
+            }
+
+            // Funzione per nascondere una scheda
+            function hideCard(card) {
+                card.classList.add('hidden');
+                overlay.classList.remove('visible');
+            }
+
+            // Event listener per il primo modello (Museo)
+            model1.addEventListener('click', () => {
+                showCard(infoCard1);
             });
 
-            // Hide the card and overlay on button click
-            closeBtn.addEventListener('click', () => {
-                infoCard.classList.add('hidden');
-                overlay.classList.remove('visible');
+            // Event listener per il secondo modello (Santuario)
+            model2.addEventListener('click', () => {
+                showCard(infoCard2);
+            });
+
+            // Event listener per il secondo modello (Santuario)
+            model3.addEventListener('click', () => {
+                showCard(infoCard3);
+            });
+
+            // Event listener per chiudere la scheda Museo
+            closeBtn1.addEventListener('click', () => {
+                hideCard(infoCard1);
+            });
+
+            // Event listener per chiudere la scheda Santuario
+            closeBtn2.addEventListener('click', () => {
+                hideCard(infoCard2);
+            });
+            // Event listener per chiudere la scheda Santuario
+            closeBtn3.addEventListener('click', () => {
+                hideCard(infoCard3);
             });
         });
 
 
 
+
     </script>
+
+    
 
 
 
@@ -1196,6 +1326,9 @@
 
                 <a-asset-item id="info-card-1" src="assets/GPS/GLB/Totem info/i di Info.glb"></a-asset-item>
                 <a-asset-item id="info-card-2" src="assets/GPS/GLB/Totem info/Cerchio.glb"></a-asset-item>
+
+                <a-asset-item id="info-card-3" src="assets/GPS/GLB/Totem info/i di Info.glb"></a-asset-item>
+                <a-asset-item id="info-card-4" src="assets/GPS/GLB/Totem info/Cerchio.glb"></a-asset-item>
 
 
             
@@ -1984,6 +2117,17 @@
 
     <!-- Entità per visualizzare il secondo modello -->
     <a-entity gltf-model="#info-card-2" position="7 0.1 45" rotation="0 90 0" scale="1 1 1" class="clickable"></a-entity>
+
+
+
+    <a-entity gltf-model="#info-card-1" position="-10 0.1 -47" rotation="0 90 0" scale="1 1 1" id="model-2" class="clickable"></a-entity>
+    <a-entity gltf-model="#info-card-2" position="-10 0.1 -47" rotation="0 90 0" scale="1 1 1" class="clickable"></a-entity>
+
+    <a-entity gltf-model="#info-card-1" position="5 0.1 -47" rotation="0 90 0" scale="1 1 1" id="model-3" class="clickable"></a-entity>
+    <a-entity gltf-model="#info-card-2" position="5 0.1 -47" rotation="0 90 0" scale="1 1 1" class="clickable"></a-entity>
+
+
+    
 
 
 
