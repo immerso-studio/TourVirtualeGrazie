@@ -1220,7 +1220,7 @@
         <img src="assets//GPS/NEW-ASFALTO/AUDIO-NO.png" alt="Avvia Audio" id="audio-icon">
     </button>
     <audio id="background-audio" loop>
-        <source src="assets/GPS/MUSICA/BAckground-stock-music.mp3" type="audio/mpeg">
+        <source src="assets/GPS/MUSICA/Background medieval song.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -1284,79 +1284,73 @@
                     <button id="close-btn-4">OK</button>
                 </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Elementi per la scheda e il pulsante chiusura
-            const infoCard1 = document.getElementById('info-card'); // Scheda Museo
-            const infoCard2 = document.getElementById('info-card-santuario'); // Scheda Santuario
-            const infoCard3 = document.getElementById('info-card-riva'); // Scheda Santuario
-            const infoCard4 = document.getElementById('info-card-firma'); // Scheda Santuario
-            const overlay = document.getElementById('overlayBackground5');
-            const closeBtn1 = document.getElementById('close-btn'); // Bottone chiusura scheda Museo
-            const closeBtn2 = document.getElementById('close-btn-2'); // Bottone chiusura scheda Santuario
-            const closeBtn3 = document.getElementById('close-btn-3'); // Bottone chiusura scheda Santuario
-            const closeBtn4 = document.getElementById('close-btn-4'); // Bottone chiusura scheda Santuario
-            const model1 = document.getElementById('model'); // Primo modello
-            const model2 = document.getElementById('model-2'); // Secondo modello
-            const model3 = document.getElementById('model-3'); // Secondo modello
-            const model4 = document.getElementById('model-4'); // Secondo modello
-
-            // Funzione per mostrare una scheda
-            function showCard(card) {
-                card.classList.remove('hidden');
-                overlay.classList.add('visible');
-            }
-
-            // Funzione per nascondere una scheda
-            function hideCard(card) {
-                card.classList.add('hidden');
-                overlay.classList.remove('visible');
-            }
-
-            // Event listener per il primo modello (Museo)
-            model1.addEventListener('click', () => {
-                showCard(infoCard1);
-            });
-
-            // Event listener per il secondo modello (Santuario)
-            model2.addEventListener('click', () => {
-                showCard(infoCard2);
-            });
-
-            // Event listener per il secondo modello (Santuario)
-            model3.addEventListener('click', () => {
-                showCard(infoCard3);
-            });
-
-            // Event listener per il secondo modello (Santuario)
-            model4.addEventListener('click', () => {
-                showCard(infoCard4);
-            });
-
-            // Event listener per chiudere la scheda Museo
-            closeBtn1.addEventListener('click', () => {
-                hideCard(infoCard1);
-            });
-
-            // Event listener per chiudere la scheda Santuario
-            closeBtn2.addEventListener('click', () => {
-                hideCard(infoCard2);
-            });
-            // Event listener per chiudere la scheda Santuario
-            closeBtn3.addEventListener('click', () => {
-                hideCard(infoCard3);
-            });
-
-            // Event listener per chiudere la scheda Santuario
-            closeBtn4.addEventListener('click', () => {
-                hideCard(infoCard4);
-            });
-        });
-
-
-
-
-    </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        // Elementi per la scheda e il pulsante chiusura
+                        const infoCards = {
+                            model1: document.getElementById('info-card'), // Scheda Museo
+                            model2: document.getElementById('info-card-santuario'), // Scheda Santuario
+                            model3: document.getElementById('info-card-riva'), // Scheda Riva
+                            model4: document.getElementById('info-card-firma') // Scheda Firma
+                        };
+                
+                        const overlay = document.getElementById('overlayBackground5');
+                        const closeButtons = {
+                            model1: document.getElementById('close-btn'),
+                            model2: document.getElementById('close-btn-2'),
+                            model3: document.getElementById('close-btn-3'),
+                            model4: document.getElementById('close-btn-4')
+                        };
+                
+                        const models = {
+                            model1: document.getElementById('model'),
+                            model2: document.getElementById('model-2'),
+                            model3: document.getElementById('model-3'),
+                            model4: document.getElementById('model-4')
+                        };
+                
+                        // Variabili per il conteggio dei click
+                        let clickCounts = {
+                            model1: 0,
+                            model2: 0,
+                            model3: 0,
+                            model4: 0
+                        };
+                
+                        // Funzione per mostrare una scheda dopo due clic
+                        function showCard(modelKey) {
+                            clickCounts[modelKey]++;
+                
+                            if (clickCounts[modelKey] === 2) {
+                                infoCards[modelKey].classList.remove('hidden');
+                                overlay.classList.add('visible');
+                                clickCounts[modelKey] = 0; // Resetta il conteggio
+                            }
+                
+                            // Resetta il conteggio se il secondo click non avviene entro 1 secondo
+                            setTimeout(() => {
+                                clickCounts[modelKey] = 0;
+                            }, 1000);
+                        }
+                
+                        // Funzione per nascondere una scheda
+                        function hideCard(modelKey) {
+                            infoCards[modelKey].classList.add('hidden');
+                            overlay.classList.remove('visible');
+                        }
+                
+                        // Event listener per i modelli
+                        Object.keys(models).forEach(modelKey => {
+                            models[modelKey].addEventListener('click', () => showCard(modelKey));
+                        });
+                
+                        // Event listener per chiudere le schede
+                        Object.keys(closeButtons).forEach(modelKey => {
+                            closeButtons[modelKey].addEventListener('click', () => hideCard(modelKey));
+                        });
+                    });
+                </script>
+                
 
     
 
