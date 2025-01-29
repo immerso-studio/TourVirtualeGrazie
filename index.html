@@ -552,6 +552,18 @@
 
         }
 
+        .overlayHeader strong {
+            color: #004c99; /* Colore del testo blu */
+            background-color: white; /* Sfondo bianco */
+            padding: 2px 5px; /* Padding per creare spazio attorno al testo */
+            border-radius: 3px; /* Bordi arrotondati (opzionale) */
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.2); /* Ombreggiatura leggera (opzionale) */
+            margin-top: 10px; /* Margine superiore di 10px */
+            margin-bottom: 10px; /* Margine inferiore di 10px */
+            display: inline-block; /* Assicura che il margine sia applicato correttamente */
+            font-size: 14px;
+        }
+
         #info-card button {
         background: #0056b3;
         color: white;
@@ -1012,120 +1024,125 @@
 
 
 
+<!-- Serie di immagini overlay -->
+<div class="videoOverlay2" id="videoOverlay1">
+    
+    <div class="overlayHeader"><strong>TUTORIAL 1.</strong><br> Tieni premute le frecce per spostarti nella piazza!</div>
+    <video autoplay muted playsinline loop>
+        <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/T-1.mp4" type="video/mp4">
+        Il tuo browser non supporta il video.
+    </video>
+    <button class="nextButton2" data-next="videoOverlay2">OK</button>
+</div>
+<div class="videoOverlay2" id="videoOverlay2">
+    
+    <div class="overlayHeader"><strong>TUTORIAL 2.</strong><br> Scorri con il dito sullo schermo per ruotare la visuale!</div>
+    <video autoplay muted playsinline loop>
+        <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/T-2.mp4" type="video/mp4">
+        Il tuo browser non supporta il video.
+    </video>
+    <button class="nextButton2" data-next="videoOverlay3">OK</button>
+</div>
+<div class="videoOverlay2" id="videoOverlay3">
+    
+    <div class="overlayHeader"><strong>TUTORIAL 3.</strong><br> Ruota il telefono per visualizzare l'ambiente!</div>
+    <video autoplay muted playsinline loop>
+        <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/T-3 da C4D.mp4" type="video/mp4">
+        Il tuo browser non supporta il video.
+    </video>
+    <button class="nextButton2" data-next="videoOverlay4">OK</button>
+</div>
+<div class="videoOverlay2" id="videoOverlay4">
+    
+    <div class="overlayHeader"><strong>TUTORIAL 4.</strong><br> Con il puntatore al centro dello schermo seleziona le opere e clicca due volte per vedere le info!</div>
+    <video autoplay muted playsinline loop>
+        <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/T-4.mp4" type="video/mp4">
+        Il tuo browser non supporta il video.
+    </video>
+    <button class="nextButton2" data-next="videoOverlay5">OK</button>
+</div>
+<div class="videoOverlay2" id="videoOverlay5">
+    
+    <div class="overlayHeader"><strong>TUTORIAL 5.</strong><br> Seleziona i totem e clicca due volte per leggere le info!</div>
+    <video autoplay muted playsinline loop>
+        <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/T-5.mp4" type="video/mp4">
+        Il tuo browser non supporta il video.
+    </video>
+    <button class="closeButton2" data-next="close">FINE TUTORIAL</button>
+</div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const overlays = document.querySelectorAll('.videoOverlay2');
+        const overlayBackground = document.getElementById('overlayBackground2');
 
-    <!-- Serie di immagini overlay -->
-    <div class="videoOverlay2" id="videoOverlay1">
-        <div class="overlayHeader">1. Tieni premute le frecce per spostarti nella piazza!</div>
-        <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-1.mp4" type="video/mp4">
-            Il tuo browser non supporta il video.
-        </video>
-        <button class="nextButton2" data-next="videoOverlay2">OK</button>
-    </div>
-    <div class="videoOverlay2" id="videoOverlay2">
-        <div class="overlayHeader">2. Scorri con il dito sullo schermo per ruotare la visuale!</div>
-        <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-2.mp4" type="video/mp4">
-            Il tuo browser non supporta il video.
-        </video>
-        <button class="nextButton2" data-next="videoOverlay3">OK</button>
-    </div>
-    <div class="videoOverlay2" id="videoOverlay3">
-        <div class="overlayHeader">3. Ruota il telefono per visualizzare l'ambiente!</div>
-        <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial PAN.mp4" type="video/mp4">
-            Il tuo browser non supporta il video.
-        </video>
-        <button class="nextButton2" data-next="videoOverlay4">OK</button>
-    </div>
-    <div class="videoOverlay2" id="videoOverlay4">
-        <div class="overlayHeader">4. Con il puntatore al centro dello schermo seleziona le opere e clicca due volte per vedere le info!</div>
-        <video autoplay muted playsinline loop>
-            <source src="assets/GPS/SCHERMATA-INIZIALE/TUTORIAL/Tutorial-4.mp4" type="video/mp4">
-            Il tuo browser non supporta il video.
-        </video>
-        <button class="closeButton2" data-next="close">X</button>
-    </div>
+        let currentIndex = 0;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const overlays = document.querySelectorAll('.videoOverlay2');
-            const overlayBackground = document.getElementById('overlayBackground2');
-
-            let currentIndex = 0;
-
-            // Funzione per mostrare un overlay specifico
-            function showOverlay(index) {
-                if (index < overlays.length) {
-                    overlays.forEach((overlay, i) => {
-                        overlay.style.display = i === index ? 'block' : 'none';
-                    });
-                    overlayBackground.style.display = 'block';
-                } else {
-                    overlayBackground.style.display = 'none'; // Nasconde lo sfondo se non ci sono più overlay
-                }
-            }
-
-            // Mostra il primo overlay all'ingresso del sito
-            showOverlay(currentIndex);
-
-            // Aggiungi eventi ai bottoni "Next" e "Close"
-            document.querySelectorAll('.nextButton2, .closeButton2').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const nextId = e.target.getAttribute('data-next');
-                    if (nextId === 'close') {
-                        overlays[currentIndex].style.display = 'none';
-                        overlayBackground.style.display = 'none';
-                    } else {
-                        overlays[currentIndex].style.display = 'none';
-                        currentIndex++;
-                        showOverlay(currentIndex);
-                    }
+        // Funzione per mostrare un overlay specifico
+        function showOverlay(index) {
+            if (index < overlays.length) {
+                overlays.forEach((overlay, i) => {
+                    overlay.style.display = i === index ? 'block' : 'none';
                 });
-            });
-        });
+                overlayBackground.style.display = 'block';
+            } else {
+                overlayBackground.style.display = 'none'; // Nasconde lo sfondo se non ci sono più overlay
+            }
+        }
 
-    </script>
+        // Mostra il primo overlay all'ingresso del sito
+        showOverlay(currentIndex);
 
-
-
-
-    <button id="startTutorialButton"><img src="assets//GPS/NEW-ASFALTO/TUTORIAL.png"></button>
-    <div id="overlayBackground3"></div>
-
-    <script>
-        // Funzione per aprire il primo overlay del tutorial
-        document.getElementById('startTutorialButton').addEventListener('click', function () {
-            document.getElementById('overlayBackground3').style.display = 'block';
-            document.getElementById('videoOverlay1').style.display = 'block';
-        });
-
-        // Gestione dei pulsanti "OK" per passare al prossimo overlay
-        document.querySelectorAll('.nextButton2').forEach(function (button) {
-            button.addEventListener('click', function () {
-                // Nasconde l'overlay corrente
-                var currentOverlay = button.parentElement;
-                currentOverlay.style.display = 'none';
-
-                // Mostra l'overlay successivo
-                var nextOverlayId = button.getAttribute('data-next');
-                var nextOverlay = document.getElementById(nextOverlayId);
-                if (nextOverlay) {
-                    nextOverlay.style.display = 'block';
+        // Aggiungi eventi ai bottoni "Next" e "Close"
+        document.querySelectorAll('.nextButton2, .closeButton2').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const nextId = e.target.getAttribute('data-next');
+                if (nextId === 'close') {
+                    overlays[currentIndex].style.display = 'none';
+                    overlayBackground.style.display = 'none';
+                } else {
+                    overlays[currentIndex].style.display = 'none';
+                    currentIndex++;
+                    showOverlay(currentIndex);
                 }
             });
         });
+    });
+</script>
 
-        // Funzione per chiudere l'overlay finale e nascondere lo sfondo
-        document.querySelector('.closeButton2').addEventListener('click', function () {
-            document.getElementById('overlayBackground3').style.display = 'none';
-            var currentOverlay = this.parentElement;
+<button id="startTutorialButton"><img src="assets//GPS/NEW-ASFALTO/TUTORIAL.png"></button>
+<div id="overlayBackground3"></div>
+
+<script>
+    // Funzione per aprire il primo overlay del tutorial
+    document.getElementById('startTutorialButton').addEventListener('click', function () {
+        document.getElementById('overlayBackground3').style.display = 'block';
+        document.getElementById('videoOverlay1').style.display = 'block';
+    });
+
+    // Gestione dei pulsanti "OK" per passare al prossimo overlay
+    document.querySelectorAll('.nextButton2').forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Nasconde l'overlay corrente
+            var currentOverlay = button.parentElement;
             currentOverlay.style.display = 'none';
+
+            // Mostra l'overlay successivo
+            var nextOverlayId = button.getAttribute('data-next');
+            var nextOverlay = document.getElementById(nextOverlayId);
+            if (nextOverlay) {
+                nextOverlay.style.display = 'block';
+            }
         });
+    });
 
-    </script>
-
+    // Funzione per chiudere l'overlay finale e nascondere lo sfondo
+    document.querySelector('.closeButton2').addEventListener('click', function () {
+        document.getElementById('overlayBackground3').style.display = 'none';
+        var currentOverlay = this.parentElement;
+        currentOverlay.style.display = 'none';
+    });
+</script>
     
 
 
