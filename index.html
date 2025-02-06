@@ -1385,7 +1385,7 @@
 
 
     <a-scene device-orientation-permission-ui="allowButtonText: Consenti; denyButtonText: Nega; deviceMotionMessage: Questo sito richiede l'accesso ai sensori di movimento." 
-    antialias="false" limit-fps="1" id="my-scene" >
+    antialias="false" limit-fps="1" id="my-scene" vr-mode-ui="enabled: true" xr-mode-ui="enabled: true">
         
 
         <!-- Caricamento degli asset -->
@@ -1394,7 +1394,8 @@
 
 
             
-
+                <a-entity hand-tracking-controls="hand: left"></a-entity>
+                <a-entity hand-tracking-controls="hand: right"></a-entity>
             
                 <img id="skyTexture" src="assets/GPS/SKY/cielo360-10.jpg">
 
