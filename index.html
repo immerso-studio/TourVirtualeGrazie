@@ -1368,7 +1368,46 @@
                         });
                     });
                 </script>
-                
+
+
+
+                <script>
+                    AFRAME.registerComponent('double-click-vr', {
+                        init: function () {
+                            const el = this.el;
+                            let clickTimeout = null;
+
+                            el.addEventListener('click', () => {
+                            if (clickTimeout) {
+                                clearTimeout(clickTimeout);
+                                clickTimeout = null;
+                                // Esegui l'azione del doppio click
+                                this.handleDoubleClick();
+                            } else {
+                                clickTimeout = setTimeout(() => {
+                                clickTimeout = null;
+                                }, 300); // Tempo massimo tra i due click (300ms)
+                            }
+                            });
+
+                            // Gestione del click prolungato per VR
+                            el.addEventListener('gripdown', () => {
+                            this.handleDoubleClick();
+                            });
+                        },
+
+                        handleDoubleClick: function () {
+                            // Logica per mostrare la scheda dell'opera
+                            const imageOverlay = document.getElementById('imageOverlay');
+                            const overlayBackground = document.getElementById('overlayBackground');
+
+                            imageOverlay.style.visibility = 'visible';
+                            imageOverlay.style.opacity = '1';
+                            overlayBackground.style.visibility = 'visible';
+                            overlayBackground.style.opacity = '1';
+                        }
+                        });
+                </script>
 
     
 
@@ -1386,7 +1425,7 @@
 
 
     <a-scene device-orientation-permission-ui="allowButtonText: Consenti; denyButtonText: Nega; deviceMotionMessage: Questo sito richiede l'accesso ai sensori di movimento." 
-    antialias="false" limit-fps="1" id="my-scene" vr-mode-ui="enabled: true" xr-mode-ui="enabled: true">
+    antialias="false" limit-fps="1" id="my-scene" vr-mode-ui="enabled: true" xr-mode-ui="enabled: true" webxr>
         
 
         <!-- Caricamento degli asset -->
@@ -1394,9 +1433,10 @@
 
 
 
-            
+                <a-entity class="clickable" double-click-vr></a-entity>
                 <a-entity hand-tracking-controls="hand: left"></a-entity>
                 <a-entity hand-tracking-controls="hand: right"></a-entity>
+
             
                 <img id="skyTexture" src="assets/GPS/SKY/cielo360-10.jpg">
 
@@ -2439,6 +2479,22 @@
         <a-sky src="#skyTexture"></a-sky>
         <!-- Camera e cursore -->
         <a-entity camera look-controls wasd-controls position="-4 2 39" limit-movement>
+            <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-entity>
+            <a-entity teleport-controls="cameraRig: #cameraRig; teleportOrigin: #cameraRig; button: trigger; type: parabolic"></a-entity>
+          </a-entity>
+          
+          <a-entity id="cameraRig">
+            <a-entity id="head" camera position="0 1.6 0"></a-entity>
+          </a-entity>
+
+          <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
+          <a-entity hand-tracking-controls="hand: left"></a-entity>
+          <a-entity hand-tracking-controls="hand: right"></a-entity>
+
+          <a-entity class="clickable" double-click-vr position="0 0.1 -3" rotation="0 90 0" scale="1 1 1" gltf-model="#my-model-101"></a-entity>
+
+
+
             <a-cursor id="cursor" 
                     scale="2 2 2" 
                     material="shader: flat; transparent: true" 
