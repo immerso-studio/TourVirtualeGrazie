@@ -1,0 +1,7 @@
+# Questo è un esempio di base del file _config.yml per un sito Jekyll
+
+title: "Tour Virtuale Grazie"
+description: "Tour Virtuale Grazie"
+url: "https://<immerso-studio>.github.io/<TourVirtualeGrazie>"
+baseurl: "/<TourVirtualeGrazie>"  # Rimuovi questa riga se non usi un repository non root
+theme: jekyll-theme-cayman   # Puoi usare un altro tema Jekyll se desideri
