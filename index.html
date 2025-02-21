@@ -1314,69 +1314,77 @@
 
                 <script>
                     document.addEventListener('DOMContentLoaded', () => {
-                        // Elementi per la scheda e il pulsante chiusura
+                        // Elementi per le schede informative
                         const infoCards = {
-                            model1: document.getElementById('info-card'), // Scheda Museo
-                            model2: document.getElementById('info-card-santuario'), // Scheda Santuario
-                            model3: document.getElementById('info-card-riva'), // Scheda Riva
-                            model4: document.getElementById('info-card-firma') // Scheda Firma
+                            model1: document.getElementById('info-card'), // Museo
+                            model2: document.getElementById('info-card-santuario'), // Santuario
+                            model3: document.getElementById('info-card-riva'), // Riva
+                            model4: document.getElementById('info-card-firma') // Firma
                         };
-                
+
                         const overlay = document.getElementById('overlayBackground5');
+                        
+                        // Pulsanti di chiusura
                         const closeButtons = {
                             model1: document.getElementById('close-btn'),
                             model2: document.getElementById('close-btn-2'),
                             model3: document.getElementById('close-btn-3'),
                             model4: document.getElementById('close-btn-4')
                         };
-                
+
+                        // Modelli A-Frame (sia `info-card-1` che `info-card-2`)
                         const models = {
-                            model1: document.getElementById('model'),
-                            model2: document.getElementById('model-2'),
-                            model3: document.getElementById('model-3'),
-                            model4: document.getElementById('model-4')
+                            model1: [document.getElementById('model'), document.querySelector('[gltf-model="#info-card-2"]')],
+                            model2: [document.getElementById('model-2'), document.querySelector('[position="-14.1 0.1 -42"][gltf-model="#info-card-2"]')],
+                            model3: [document.getElementById('model-3'), document.querySelector('[position="3.5 0.1 -42"][gltf-model="#info-card-2"]')],
+                            model4: [document.getElementById('model-4'), document.querySelector('[position="-5.8 0.1 -42"][gltf-model="#info-card-2"]')]
                         };
-                
-                        // Variabili per il conteggio dei click
+
+                        // Contatore dei click per ogni modello
                         let clickCounts = {
                             model1: 0,
                             model2: 0,
                             model3: 0,
                             model4: 0
                         };
-                
+
                         // Funzione per mostrare una scheda dopo due clic
                         function showCard(modelKey) {
                             clickCounts[modelKey]++;
-                
+
                             if (clickCounts[modelKey] === 2) {
                                 infoCards[modelKey].classList.remove('hidden');
                                 overlay.classList.add('visible');
                                 clickCounts[modelKey] = 0; // Resetta il conteggio
                             }
-                
+
                             // Resetta il conteggio se il secondo click non avviene entro 1 secondo
                             setTimeout(() => {
                                 clickCounts[modelKey] = 0;
                             }, 1000);
                         }
-                
+
                         // Funzione per nascondere una scheda
                         function hideCard(modelKey) {
                             infoCards[modelKey].classList.add('hidden');
                             overlay.classList.remove('visible');
                         }
-                
-                        // Event listener per i modelli
+
+                        // Aggiunge event listener sia a `info-card-1` che `info-card-2`
                         Object.keys(models).forEach(modelKey => {
-                            models[modelKey].addEventListener('click', () => showCard(modelKey));
+                            models[modelKey].forEach(model => {
+                                if (model) {
+                                    model.addEventListener('click', () => showCard(modelKey));
+                                }
+                            });
                         });
-                
+
                         // Event listener per chiudere le schede
                         Object.keys(closeButtons).forEach(modelKey => {
                             closeButtons[modelKey].addEventListener('click', () => hideCard(modelKey));
                         });
                     });
+
                 </script>
                 
 
@@ -2256,6 +2264,13 @@
         rotation="-90 0 0" 
         scale="3 1.5 1"
         material="src: url(assets/GPS/GLB/LOGHI/LOGHI-02.png); transparent: true; opacity: 1; alphaTest: 0.5;">
+    </a-plane>
+
+    <a-plane 
+        position="-4 0.15 38.5" 
+        rotation="-90 0 0" 
+        scale="3 3 1"
+        material="src: url(assets/GPS/GLB/LOGHI/SCRITTA.png); transparent: true; opacity: 1; alphaTest: 0.5;">
     </a-plane>
 
     <a-plane 
