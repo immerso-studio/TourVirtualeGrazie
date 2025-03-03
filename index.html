@@ -50,6 +50,36 @@
             transition: width 3s;
         }
 
+        /* Stile del loader */
+        #loader {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: white;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+        }
+        
+        .spinner {
+            border: 6px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
 
 
         .a-dialog-allow-button {
@@ -750,6 +780,28 @@
 
 
 
+    //loader
+    document.addEventListener("DOMContentLoaded", function () {
+        // Controlla quando la scena è completamente caricata
+        const scene = document.querySelector("a-scene");
+        
+        if (scene.hasLoaded) {
+            hideLoader();
+        } else {
+            scene.addEventListener("loaded", hideLoader);
+        }
+    });
+    
+    function hideLoader() {
+        const loader = document.getElementById("loader");
+        if (loader) {
+            loader.style.display = "none";
+        }
+    }
+
+
+
+
     AFRAME.registerComponent('selezione_riquadro_final', {
                 schema: {
                         modelId: { type: 'string' } // Aggiunta per ricevere il valore da `modelId` se necessario
@@ -907,13 +959,11 @@
 
 
 
-                
-                <!-- Schermata di caricamento con barra -->
-                <div id="loadingScreen">
-                    <div class="progressBar">
-                        <div class="progress"></div>
-                    </div>
-                </div>
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Caricamento...</p>
+    </div>
 
                 <!-- Contenuto del sito -->
                 <div id="mainContent" style="display: none;">
