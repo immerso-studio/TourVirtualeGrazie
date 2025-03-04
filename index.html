@@ -1288,6 +1288,11 @@
                 button.addEventListener('touchcancel', () => stopMoving(button));
             });
         });
+
+        document.querySelectorAll(".no-select").forEach(img => {
+            img.addEventListener("contextmenu", (e) => e.preventDefault()); // Impedisce il menu del tocco prolungato
+        });
+
     </script>
     
     
